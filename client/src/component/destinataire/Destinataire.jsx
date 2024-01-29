@@ -86,32 +86,28 @@ const Destinataire = ({ lightMode }) => {
       const content = event.target.result;
       console.log('CSV Content:', content);
   
-     
       const parsedData = parseCSV(content);
-      if (!file) {
-      
-        console.log('No file selected');
+      if (!file || !parsedData || parsedData.length <= 1) {
+        console.log('Invalid file or no data found');
         return;
       }
-      if (parsedData && parsedData.length > 1) {
-        const dataArray = parsedData.slice(0);
-        console.log('Parsed Data:', dataArray);
   
-        for (const row of dataArray) {
-          const { Grp_code, Ben_Nom, Ben_Addresse, Ben_code } = row;
+      const dataArray = parsedData.slice(0);
+      console.log('Parsed Data:', dataArray);
   
-          if (Grp_code || Ben_Nom || Ben_Addresse || Ben_code) {
-            
-            await sendToServer(Grp_code, Ben_Nom, Ben_Addresse, Ben_code);
-          }
-        }
-        setFormData((prevData) => ({ ...prevData, csvData: parsedData }));
-  
-      }
+      // Extract relevant fields for display
+      const extractedData = dataArray.map((row) => ({
+        Grp_code: row.Grp_code,
+        Ben_Nom: row.Ben_Nom,
+        Ben_Addresse: row.Ben_Addresse,
+        Ben_code: row.Ben_code,
+      }));
+      setMappedData(extractedData);
     };
   
     reader.readAsText(file);
   };
+  
   
   
   const sendToServer = async (Grp_code, Ben_Nom, Ben_Addresse, Ben_code) => {
@@ -141,53 +137,81 @@ const Destinataire = ({ lightMode }) => {
     });
   };
 
-  const handleSendDataButtonClick = (e) => {
-    e.preventDefault(); 
+  // ...
 
-    console.log('Sending data:', formData);
+// ...
 
-    handleSubmit(e);
-  };
+const handleSendDataButtonClick = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  try {
+    if (mappedData.length > 0) {
+      for (const entry of mappedData) {
+        const { Grp_code, Ben_Nom, Ben_Addresse, Ben_code } = entry;
+        await sendToServer(Grp_code, Ben_Nom, Ben_Addresse, Ben_code);
+      }
 
-    try {
+      setSuccessPopup(true);
+
+      setMappedData([]);  
+
+      setTimeout(() => {
+        setSuccessPopup(false);
+      }, 3000);
+    } else {
+      console.log('No data to send');
+    }
+  } catch (error) {
+    console.error('Error adding beneficiaries:', error);
+
+    setErrorPopup(true);
+
+    setTimeout(() => {
+      setErrorPopup(false);
+    }, 3000);
+  }
+};
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    // Assuming mappedData is an array of objects with keys Grp_code, Ben_Nom, Ben_Addresse, Ben_code
+    for (const data of mappedData) {
+      const { Grp_code, Ben_Nom, Ben_Addresse, Ben_code } = data;
+
       const response = await fetch('http://localhost:8081/benefs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ Grp_code, Ben_Nom, Ben_Addresse, Ben_code }),
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
-      } else {
-        console.log('Beneficiary added successfully!');
-        setSuccessPopup(true);
       }
-
-      setFormData({
-        Grp_code: '',
-        Ben_Nom: '',
-        Ben_Addresse: '',
-        Ben_code: '',
-      });
-
-      setTimeout(() => {
-        setSuccessPopup(false);
-      }, 3000); 
-    } catch (error) {
-      console.error('Error adding beneficiary:', error);
-
-      setErrorPopup(true);
-
-      setTimeout(() => {
-        setErrorPopup(false);
-      }, 3000);
+      console.log('Beneficiary added successfully!');
     }
-  };
+
+    setSuccessPopup(true);
+  } catch (error) {
+    console.error('Error adding beneficiary:', error);
+
+    setErrorPopup(true);
+  } finally {
+    setFormData({
+      Grp_code: '',
+      Ben_Nom: '',
+      Ben_Addresse: '',
+      Ben_code: '',
+    });
+
+    setTimeout(() => {
+      setSuccessPopup(false);
+      setErrorPopup(false);
+    }, 3000);
+  }
+};
 
   
   return (
@@ -270,7 +294,7 @@ const Destinataire = ({ lightMode }) => {
               onChange={handleChange}
             />
   
-            <button className="ajouter-button" type='submit'>Ajouter</button>
+            <button className="ajouter-button" onClick={sendToServer} type='submit'>Ajouter</button>
           </form>
           
         </div>

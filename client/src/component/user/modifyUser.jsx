@@ -7,8 +7,11 @@ import axios from 'axios';
 
 const ModifyUser = (props) => {
   const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate()
-
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const [userData, setUserData] = useState({
     Us_nom: '',
     Us_matricule: '',
@@ -85,7 +88,7 @@ const ModifyUser = (props) => {
           <h2>{userData.Us_nom}</h2>
 
           <form>
-            <label htmlFor="Us_nom"></label>
+            <label htmlFor="Us_nom">Nom:</label>
             <input
               type="text"
               id="Us_nom"
@@ -93,6 +96,7 @@ const ModifyUser = (props) => {
               value={userData.Us_nom}
               onChange={handleInputChange}
             />
+            <label>Matricule:</label>
             <input
             type='text'
             id='Us_matricule'
@@ -100,6 +104,7 @@ const ModifyUser = (props) => {
             value={userData.Us_matricule}
             onChange={handleInputChange}
             />
+            <label > Login:</label>
               <input
             type='text'
             id='Us_login'
@@ -107,6 +112,7 @@ const ModifyUser = (props) => {
             value={userData.Us_login}
             onChange={handleInputChange}
             />
+            <label > mail:</label>
               <input
             type='text'
             id='Us_mail'
@@ -114,13 +120,20 @@ const ModifyUser = (props) => {
             value={userData.Us_mail}
             onChange={handleInputChange}
             />
+            <label > password:</label>
               <input
-            type='password'
             id='Us_pwd'
             name='Us_pwd'
             value={userData.Us_pwd}
+            type={showPassword ? 'text' : 'password'}
             onChange={handleInputChange}
             />
+             <p className='hide-show' type='button' onClick={togglePasswordVisibility}>
+            {showPassword ? 'Hide Password' : 'Show Password'}
+          </p>
+            <br></br>
+            <br></br>
+            <br></br>
             <button type="button" onClick={handleSubmit}>
               Update User Information
             </button>

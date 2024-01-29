@@ -235,7 +235,24 @@
 .label-file:hover p {
   display: block;
 }
+.mapped-data-container{
+  position: absolute;
+  z-index: 20200;
+  background-color: rgb(255, 255, 255,0.2);
+  color: black;
+  right: 25%;
+  padding: 20px;
+}
 
+.mapped-data-container table{
+  padding: 10px;
+  border-collapse: collapse;
+}
+
+.mapped-data-container td,th{
+  padding: 10px;
+  border-bottom: 1px solid white;
+}
 .ajouter-button{
   background-color: #2C333A;
 }
