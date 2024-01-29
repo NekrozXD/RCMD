@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Depot.css';
 
 const Depot = ({ onHistoryClick, lightMode }) => {
@@ -171,9 +173,11 @@ const Depot = ({ onHistoryClick, lightMode }) => {
 
       if (!response.ok) {
         throw new Error(`Failed to send envoi data: ${responseData.message}`);
+        
       }
 
       console.log('Envoi data sent successfully', responseData);
+      toast.success('data sent succesfully')
       return responseData;
     } catch (error) {
       console.error('Error sending envoi data', error);
@@ -287,6 +291,7 @@ const Depot = ({ onHistoryClick, lightMode }) => {
           </div>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

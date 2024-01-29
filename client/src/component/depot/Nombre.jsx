@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Depot.css';
 
 const Nombre = ({ onHistoryClick, lightMode }) => {
   const [csvData, setCSVData] = useState([]);
   const [verificationStatus, setVerificationStatus] = useState([]);
   const [envAgenceDepotData, setEnvAgenceDepotData] = useState([]);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
 
   //import et lecture de fichier sous format csv(comma delimited)
   const handleFileUpload = async (event) => {
@@ -171,14 +173,12 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
         console.error('Failed to send some envoi data:', errors);
       } else {
         console.log('All envoi data sent successfully!');
+        toast.success('data sent succesfully')
       }
     } catch (error) {
       console.error('Error sending envoi data', error);
     } finally {
-      setShowSuccessPopup(true);
-  
       setTimeout(() => {
-        setShowSuccessPopup(false);
       }, 3000);
     }
   };
@@ -281,12 +281,7 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
           ))}
         </tbody>
       </table>
-
-      {showSuccessPopup && (
-        <div className='success-popup-success'>
-          <p>Envoi added successfully!</p>
-        </div>
-      )}
+      <ToastContainer />
     </div>
   );
 };
