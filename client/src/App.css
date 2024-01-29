@@ -1,0 +1,13 @@
+#light{}
+#dark{}
+
+body {
+  background-image: url('assets/bg-design.png');
+    padding: 0;
+    margin: 0;
+  }
+  
+
+#dark.container header{
+    background-color: #fff;
+}

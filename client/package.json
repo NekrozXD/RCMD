@@ -1,0 +1,43 @@
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run electron:start\"",
+    "electron:build": "",
+    "electron:start": "wait-on tcp:5173 && electron main.js"
+  },
+  "dependencies": {
+    "@types/csv-parse": "^1.2.2",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "csv-parse": "^5.5.3",
+    "date-fns": "^3.0.6",
+    "electron": "^28.2.0",
+    "glamor": "^2.20.40",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.1",
+    "papaparse": "^5.4.1",
+    "prettier": "^3.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.1",
+    "react-toastify": "^10.0.4",
+    "wait-on": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.2.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.4",
+    "vite": "^5.0.0"
+  }
+}

@@ -1,0 +1,294 @@
+.destinataire-container {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    align-items: flex-start;
+    animation: none;
+  }
+
+  
+/* .light-mode .input-first{
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 0;
+}
+.light-mode .input-destinataire-group{
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 0;
+} */
+
+.light-mode .side-dest{
+  top : 5%
+}
+  .input-container {
+    display: flex;
+    width: fit-content;
+  }
+  .input-first{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-evenly; 
+    padding: 10px;
+    margin: 10px;
+    margin-left: 4vw;
+    border-radius: 10px;
+    width: 15vw;
+  }
+  .input-destinataire-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: none;
+    padding: 10px;
+    margin: 10px;
+    /* border: 1px solid white; */
+    border-radius: 10px;
+    width: fit-content;
+    animation: none;
+  }
+  
+  .input-destinataire-group input {
+    background-color: rgb(255, 255, 255, 0.5);
+    color: rgb(0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    caret-color: white;
+    font-size: 14px;
+    margin: 10px;
+    border: 1px solid black;
+    padding: 5px;
+  }
+  .input-destinataire-group button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+  }
+  .input-destinataire-group input::placeholder {
+    color: rgb(65, 61, 61, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: lighter;
+    font-style: italic;
+    font-size: 12px;
+  }
+  
+  .send-button-container {
+    display: flex;
+    margin-top: 5vh;
+  }
+  
+  .bottom-input {
+    margin-bottom: 5vh;
+  }
+  
+  .input-first {
+    display: flex;
+    align-items: center;
+  }
+  
+  #fileInput {
+    display: none; /* Hide the default file input */
+  }
+  
+  .label-file {
+    cursor: pointer;
+    padding: 8px;
+    background-color: #b4b4b4;
+    color: rgb(0, 0, 0);
+    border-radius: 10px;
+    margin-right: 10px;
+    font-weight: bolder;
+    font-size: 22px;
+    font-family:'Times New Roman', Times, serif;
+  }
+  
+  #fileInputLabel {
+    cursor: pointer;
+    padding: 8px;
+    background-color: #868686;
+    color: white;
+    border-radius: 10px;
+    margin-right: 10px;
+  }
+  
+  #fileInput::file-selector-button {
+    display: inline-block;
+    background: #b4b4b4;
+    color: rgb(0, 0, 0);
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  #fileInput::file-selector-button:hover {
+    background: #2980b9;
+  }
+  
+  .button-select {
+    background: #b4b4b4;
+    color: rgb(0, 0, 0);
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width : 15vw;
+  }
+  
+  .button-send {
+    background: #b4b4b4;
+    color: rgb(0, 0, 0);
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .label-file:hover{
+    background-color: #48434e;
+    color: white;
+    transform : scale(0.9);
+    transition: 0.5s;
+  }
+
+  .popup-success-popup,
+.popup-error-popup {
+  position: absolute;
+  margin-left: 10vw;
+  z-index: 9999;
+  border: none;
+}
+
+.popup-success-popup {
+  background-color: #173b0d;
+  color: white;
+  font-size: 25px;
+  padding: 10px;
+  margin: 20px;
+  margin-top: 20vh;
+  margin-left: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  position: absolute;
+}
+
+.popup-error-popup {
+  /* Add styling for error popup */
+  background-color: #ff0000; /* Change the color as needed */
+  color: white;
+  font-size: 25px;
+  padding: 10px;
+  margin: 20px;
+  margin-top: 20vh;
+  margin-left: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  position: absolute;
+}
+
+.popup-success-popup::before,
+.popup-error-popup::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  height: 0;
+  width: 0;
+  pointer-events: none;
+  border-color: rgba(23, 59, 13, 0);
+  border-bottom-color: #173b0d;
+  border-width: 10px;
+  margin-left: -10px;
+}
+
+.label-file {
+  position: relative;
+  cursor: pointer;
+}
+
+.label-file p {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+  padding: 5px;
+  background-color: #636363;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.label-file:hover p {
+  display: block;
+}
+
+.ajouter-button{
+  background-color: #2C333A;
+}
+
+.ajouter-button:hover{
+  color: white;
+}
+
+.side-dest{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  height: 90vh;
+  width: fit-content;
+  right: 0;
+  top : 5%;
+  align-items: center;
+  background-color: #2e2e2e;
+  animation: none;
+}
+
+.light-mode .side-dest{
+  background-color: #c4c4c4;
+}
+
+.side-dest div{
+  flex-direction: column;
+}
+
+.light-mode .main-dest{
+  margin-left : -45vw;
+}
+
+.light-mode h1{
+  margin-left : -45vw;
+}
+.main-dest table {
+  border-collapse: collapse;
+}
+.light-mode .main-dest td,th{
+  border: 1px solid black;
+  border-right: none;
+  border-left: none;
+}
+
+.light-mode th{
+  border-bottom: 1px solid black;
+}
+.main-dest td,th{
+  border: 1px solid rgb(255, 255, 255);
+  padding : 25px;
+  border-left: none;
+  border-top: none;
+  border-right: none ;
+  margin: 0;
+}

@@ -1,0 +1,213 @@
+.custom-config-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin-right: 20vw;
+    animation : groupement 1s ease-in
+  
+  }
+
+ .cls-button{
+  position: absolute;
+  margin-top: -7vh;
+  width : 5vw;
+  margin-left: 15vw;
+ }
+
+  .title{
+    margin-top: -5vh;
+    position: fixed;
+  }
+  .custom-form-container {
+    width: 30vw;
+    margin-left: -10vw;
+    margin-right: 100px;
+  }
+
+  .light-mode .detail-button{
+    background-color: #3c3d55;
+  }
+  .detail-button{
+    background-color: rgb(50, 59, 71);
+  }
+  .light-mode .custom-delete-button {
+    background-color: rgb(105, 0, 0);
+  }
+  .custom-list-container {
+
+    margin-right: -35vw;
+    overflow-y: auto;
+    width: min-content;
+    max-height: 70vh;
+    /* background-color: #717579; */
+  }
+  
+  .custom-form-element {
+    margin-bottom: 15px;
+  }
+  
+  .custom-label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .custom-input {
+    width: 100%;
+    padding: 8px;
+  }
+  
+  .custom-table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .custom-table th,
+  .custom-table td {
+    border: 1px solid grey;
+    border-left: none;
+    border-right: none;
+    margin: 5px;
+    padding: 5px;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    width : 12vw;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  td button {
+    margin : 5px;
+    padding: 5px;
+  }
+  
+  .change {
+    padding: 5px;
+    margin : 5px;
+    font-size: 14px;
+  }
+  
+  @keyframes groupement {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .custom-delete-button{
+    background-color: rgb(90, 0, 0);
+    color: white;
+    width: 8vw;
+    height: 5vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+  }
+
+  .custom-delete-button:hover{
+    background-color: rgb(90, 0, 0);
+  }
+  .main-agence-container input{
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid black;
+  }
+
+  .agence-container{
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+
+  .agence-container::-webkit-scrollbar{
+    width : 0;
+  }
+
+  .main-agence-container h2{
+    position: fixed;
+    margin-top: -7vh;
+  }
+  .main-agence-container {
+    display: flex;
+    width: 85vw;
+  }
+  .main-agence-container button{
+    margin-top: 15px;
+  }
+  .input-agence-container {
+    flex: 1;
+    padding: 20px;
+   
+  }
+  
+  .agence-list-container {
+    flex: 2;
+    padding: 20px;
+    margin-right: auto;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 30vw;
+    max-height: 71vh;
+    margin-top: -10vh;
+    overflow-y: auto;
+    font-size: 17px;
+  }
+  .agence-list-container::-webkit-scrollbar{
+    width: 0;
+  }
+
+  .agence-list-container table {
+    table-layout: fixed;
+    border-left: none;
+    border-right:none ;
+    margin: 0;
+    border-collapse: collapse;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .custom-form-container h2 {
+    font-size: 35 px;
+  }
+  
+  .agence-list-container td, .agence-list-container th {
+    border: 1px solid grey;
+    border-left: none;
+    border-right:none ;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    border-top: none;
+    width : 12vw;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin : 0;
+  }
+
+  .td-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .button-container button {
+    margin: 5px; 
+  }
+  @media only screen and (max-width: 1360px) {
+  }

@@ -1,0 +1,330 @@
+.main-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient( to right , black, orange, rgb(0, 0, 0));
+  background-repeat: repeat;
+  background-size: contain;
+}
+
+.main-container::before {
+  content: ''; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; 
+}
+
+
+  .login-container {
+    display: flex;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35vw;
+    height: 50vh;
+    border-radius: 20px;
+    border: none;
+    background-color: rgb(54, 54, 54); 
+    z-index: 55;
+  }
+  
+  .login-section {
+    flex: 1; 
+    padding: 20px;  
+    color : white;
+    z-index: 56;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50vh;
+    margin-top: -15vh;
+  }
+  
+  .login-section h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bolder;
+    color: #ffffff;
+    
+  }
+
+  .login-section button {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  button{
+    height : 5vh;
+    width : 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius:10px;
+    background-color: #2C333A;
+    color: #ffffff;
+    font-weight: bolder;
+    font-size: 20px;
+    transition: 0.3s ease;
+    
+  }
+  .custom-button {
+    font-family: inherit;
+    font-size: 20px;
+    background-color: #2C333A;
+    color: rgb(255, 255, 255);
+    padding: 0.7em 1em;
+    padding-left: 0.9em;
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  
+  .custom-button span {
+    display: block;
+    margin-left: 0.3em;
+    transition: all 0.3s ease-in-out;
+  }
+  .custom-button .svg-wrapper {
+    display: block;
+    transform-origin: center center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .custom-button:hover .svg-wrapper {
+    animation: fly-1 0.6s ease-in-out infinite alternate;
+  }
+  
+  .custom-button:hover svg {
+    transform: translateX(1.6em) rotate(45deg) scale(1.1);
+    color: rgb(238, 255, 0);
+  }
+  
+  .custom-button:hover span {
+    transform: translateX(9em);
+  }
+  
+  .custom-button:active {
+    transform: scale(0.95);
+  }
+ 
+  input{
+    background-color: rgb(255, 255, 255,0.5);
+    border: none;
+    border-radius: 5px;
+    height : 5vh;
+    width : 20vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    text-align: center;
+    font-size: 15.5px;
+  }
+  
+  button:hover{
+    cursor: pointer;   
+    transform: scale(0.9);
+    color: rgb(0, 0, 0);
+  }
+
+  .about-section {
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-size: contain;
+    position : 50% -50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-position: 50% 0;
+  }
+  
+  .hide-show{
+    font-style: italic;
+    font-weight: lighter;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .login-section p {
+    left:0;
+  }
+
+  .login-section input::placeholder {
+    text-align: center;
+    font-style: italic;
+    color: white;
+  }
+ 
+  .login-section input{
+    padding: 5px;
+    margin: 0;
+  }
+  .about-image{
+    background-image: url('../../assets/poste.png');
+    height: 15vh;
+    width: 15vw;
+    z-index: 2;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50% 50%;
+    margin-top: 0vh;
+  }
+  .error {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; /* Ensure it's above other elements */
+  }
+  
+  .popup {
+    background: #a7a7a7; /* White background */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle effect */
+    text-align: center;
+    opacity: 1; /* Set opacity to 1 */
+    color: #fd0000;
+  }
+  
+  .popup-p {
+    margin-bottom: 15px;
+    color: #fd0000;
+  }
+  
+  .popup button {
+    padding: 10px 20px;
+    background: #007BFF; /* Button color */
+    color: #fd0000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .popup button:hover {
+    background: #0056b3; /* Hover color */
+  }
+  
+  
+  .popup button:hover {
+    background: #0056b3; /* Hover color */
+  }
+  .input-error {
+    border: 1px solid red;
+  }
+  
+  .input-error::placeholder {
+    color: red;
+  }
+  
+  .success-login {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(36, 34, 34, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index:99999;
+  }
+
+  .success-login-content{
+    background-color: rgb(4, 100, 4);
+    padding: 10px;
+    border-radius: 25px;
+    font-weight: bolder;
+  }
+
+  .login-btn{
+    background-color: rgb(238, 155, 1);
+  }
+
+  .login-btn:hover{
+    background-color: rgb(238, 155, 1);
+  }
+  .button {
+  position: relative;
+  background-color: transparent;
+  color: #e8e8e8;
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: 10px;
+  width: 150px;
+  height: 60px;
+  border: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(51, 51, 51, 0.2);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.button::before {
+  content: "Hello!";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(135deg,#7b4397,#dc2430 );
+  transform: translate(0%,90%);
+  z-index: 99;
+  position: relative;
+  transform-origin: bottom;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.button::after {
+  content: "Hover me";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform-origin: top;
+  transform: translate(0%,-100%);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.button:hover::before {
+  transform: translate(0%,0%);
+}
+
+.button:hover::after {
+  transform: translate(0%,-200%);
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:active {
+  scale: 0.95;
+}
+
+
