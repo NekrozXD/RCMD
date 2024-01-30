@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import './Config.css'; 
 
-function Configuration({onDetailClick}) {
+function Configuration(props) {
   const [groups, setGroups] = useState([]);
   const [selectedGroupId, setSelectedGroupId] = useState(null);
-  
-
 
   const [formData, setFormData] = useState({
     Grp_nom: "",
@@ -15,7 +15,7 @@ function Configuration({onDetailClick}) {
     Grp_responsable: "",
     Grp_contact: "",
     Grp_type: "",
-    Grp_mail :"",
+    Grp_mail: "",
   }); 
 
   const handleInputChange = (e) => {
@@ -36,12 +36,33 @@ function Configuration({onDetailClick}) {
       Grp_type: "",
       Grp_mail: "",
     });
+    toast.info('cleared')
   }
+
   const fetchData = () => {
-    axios
-      .get("http://localhost:8081/groupement")
-      .then((res) => setGroups(res.data))
-      .catch((err) => console.log("Error fetching data:", err));
+    const userFromStorage = localStorage.getItem('loggedInUser');
+    if (userFromStorage) {
+      const loggedInUser = JSON.parse(userFromStorage);
+      console.log('Logged In User:', loggedInUser);
+
+      const userGrpCode = loggedInUser.Grp_code;
+      console.log('User Grp_code:', userGrpCode);
+
+      axios
+        .get("http://localhost:8081/groupement")
+        .then((res) => {
+          console.log('All Groups:', res.data);
+
+          const userGroups = res.data.filter((group) => {
+            console.log('Group Grp_code:', group.Grp_code);
+            return group.Grp_code === userGrpCode.toString();  // Convert to string for consistent comparison
+          });
+
+          console.log('User Groups:', userGroups);
+          setGroups(userGroups);
+        })
+        .catch((err) => console.log("Error fetching data:", err));
+    }
   };
 
   const handleAddGroup = () => {
@@ -49,7 +70,6 @@ function Configuration({onDetailClick}) {
       .then((res) => {
         console.log("Group added successfully:", res.data);
         setGroups((prevGroups) => [...prevGroups, res.data]);
-  
         setFormData({
           Grp_nom: "",
           Grp_code: "",
@@ -59,15 +79,16 @@ function Configuration({onDetailClick}) {
           Grp_type: "",
           Grp_mail: "",
         });
-  
+        toast.success('group added succesfully')
       })
       .catch((err) => {
         console.error("Error adding group:", err);
       });
   };
+
   useEffect(() => {
     fetchData();
-  }, [groups]); 
+  }, []); 
   
   const handleDeleteGroup = (id) => {
     axios
@@ -75,17 +96,10 @@ function Configuration({onDetailClick}) {
       .then(() => {
         const updatedGroups = groups.filter((group) => group.Grp_id !== id);
         setGroups(updatedGroups);
+        toast.error('group deleted succesfully')
       })
       .catch((err) => console.log("Error deleting group:", err));
   };
-  
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8081/groupement")
-      .then((res) => setGroups(res.data))
-      .catch((err) => console.log("Error fetching data:", err));
-  }, []);
 
   const handleUpdateGroup = () => {
     if (!selectedGroupId) {
@@ -123,23 +137,22 @@ function Configuration({onDetailClick}) {
       Grp_type: group.Grp_type,
       Grp_mail: group.Grp_mail,
     });
+    toast.info('group info updated')
     setSelectedGroupId(group.Grp_id);
   };
 
   const showDetail = (group) => {
-    onDetailClick(group);
+    props.onDetailClick(group);
   };
-  
   
   return (
     <div className="custom-config-container">
       <div className="custom-form-container"> 
         <form>
           <h2>Nouveau groupe</h2>
-          <button className = "cls-button" type="button" onClick={handleClear}>clear</button>
+          <button className="cls-button" type="button" onClick={handleClear}>clear</button>
           <div className="custom-form-element">
-            <label htmlFor="Grp_nom" className="custom-label">
-            </label>
+            <label htmlFor="Grp_nom" className="custom-label"></label>
             <input
               placeholder="group-name"
               type="text"
@@ -152,8 +165,7 @@ function Configuration({onDetailClick}) {
           </div>
 
           <div className="custom-form-element">
-            <label htmlFor="Grp_code" className="custom-label">
-            </label>
+            <label htmlFor="Grp_code" className="custom-label"></label>
             <input
               placeholder="code"
               type="text"
@@ -165,8 +177,7 @@ function Configuration({onDetailClick}) {
             />
           </div>
           <div className="custom-form-element">
-            <label htmlFor="Grp_mail" className="custom-label">
-            </label>
+            <label htmlFor="Grp_mail" className="custom-label"></label>
             <input
               placeholder="Grp_mail"
               type="text"
@@ -178,8 +189,7 @@ function Configuration({onDetailClick}) {
             />
           </div>
           <div className="custom-form-element">
-            <label htmlFor="Grp_adresse" className="custom-label">  
-            </label>
+            <label htmlFor="Grp_adresse" className="custom-label"></label>
             <input
               placeholder="adresse"
               type="text"
@@ -191,8 +201,7 @@ function Configuration({onDetailClick}) {
             />
           </div>
           <div className="custom-form-element">
-            <label htmlFor="Grp_responsable" className="custom-label">
-            </label>
+            <label htmlFor="Grp_responsable" className="custom-label"></label>
             <input
               placeholder="responsable"
               type="text"
@@ -204,8 +213,7 @@ function Configuration({onDetailClick}) {
             />
           </div>
           <div className="custom-form-element">
-            <label htmlFor="Grp_contact" className="custom-label">
-            </label>
+            <label htmlFor="Grp_contact" className="custom-label"></label>
             <input
               placeholder="contact"
               type="text"
@@ -217,8 +225,7 @@ function Configuration({onDetailClick}) {
             />
           </div>
           <div className="custom-form-element">
-            <label htmlFor="Grp_type" className="custom-label">
-            </label>
+            <label htmlFor="Grp_type" className="custom-label"></label>
             <input
               placeholder="type"
               type="text"
@@ -231,10 +238,10 @@ function Configuration({onDetailClick}) {
           </div>
 
           <button type="button" className="change" onClick={handleAddGroup}>
-            Add Group
+            Ajouter
           </button>
           <button type="button" className="change" onClick={handleUpdateGroup}>
-            Update Group
+            Mettre à jour
           </button>
         </form>
       </div>
@@ -262,31 +269,34 @@ function Configuration({onDetailClick}) {
                 <td>{group.Grp_responsable}</td>
                 <td>{group.Grp_type}</td>
                 <td>
-                <div className="button-container">
-                  <button
-                    className="custom-delete-button"
-                    onClick={() => handleDeleteGroup(group.Grp_id)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="custom-edit-button"
-                    onClick={() => handleEditGroup(group)}
-                  >
-                    Edit
-                  </button>
-                </div>
+                  <div className="button-container">
+                    <button
+                      className="custom-delete-button"
+                      onClick={() => handleDeleteGroup(group.Grp_id)}
+                    >
+                      Supprimer
+                    </button>
+                    <button
+                      className="custom-edit-button"
+                      onClick={() => handleEditGroup(group)}
+                    >
+                      Modifier
+                    </button>
+                  </div>
                 </td>
                 <td>
-                <div className="button-container">
-                <button className= "detail-button" onClick={() => showDetail(group)}>Beneficiaries list</button>
-                </div>
+                  <div className="button-container">
+                    <button className="detail-button" onClick={() => showDetail(group)}>
+                      Voir liste
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   );
 }

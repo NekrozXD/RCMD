@@ -15,7 +15,7 @@ function User({ lightMode })  {
     Us_mail: "",
     Us_pwd: "",
     Fo_id: 0,
-    Grp_id: 0,
+    Grp_code: 0,
   });
 
   const fetchData = () => {
@@ -61,7 +61,7 @@ function User({ lightMode })  {
         Us_mail: "",
         Us_pwd: "",
         Fo_id: "" ,
-        Grp_id: "" ,
+        Grp_code: "" ,
       });
      
       fetchData(); 
@@ -221,15 +221,15 @@ function User({ lightMode })  {
 </div>
 
 <div className="custom-form-element">
-  <label htmlFor="Grp_id" className="custom-label">
+  <label htmlFor="Grp_code" className="custom-label">
     Group_code
   </label>
   <input
     type="text"
     className="custom-input"
-    id="Grp_id"
-    name="Grp_id"
-    value={formData.Grp_id}
+    id="Grp_code"
+    name="Grp_code"
+    value={formData.Grp_code}
     onChange={handleInputChange}
   />
 </div>
@@ -263,7 +263,7 @@ function User({ lightMode })  {
                 <td>{user.Us_login}</td>
                 <td>{user.Us_mail}</td>
                 <td>{mapFoIdToText(user.Fo_id)}</td>
-                <td>{user.Grp_id}</td>
+                <td>{user.Grp_code}</td>
                 <td>
                   {loggedInUser && user.Us_id === loggedInUser.Us_id ? (
                     <span>Logged In</span>

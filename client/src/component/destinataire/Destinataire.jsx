@@ -1,6 +1,9 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Destinataire.css';
 import Papa from 'papaparse';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ReactPaginate from 'react-paginate';
 
 const Destinataire = ({ lightMode }) => {
   const [formData, setFormData] = useState({
@@ -11,11 +14,11 @@ const Destinataire = ({ lightMode }) => {
     file: null,
   });
   const [groupList, setGroupList] = useState([]);
-  const [successPopup, setSuccessPopup] = useState(false);
-  const [errorPopup, setErrorPopup] = useState(false);
   const [fileName, setFileName] = useState('');
   const [mappedData, setMappedData] = useState([]);
-  
+  const [pageNumber, setPageNumber] = useState(0);
+  const itemsPerPage = 9;
+
   useEffect(() => {
     fetchGroupList();
   }, []);
@@ -42,20 +45,16 @@ const Destinataire = ({ lightMode }) => {
 
       const data = await response.json();
 
-      // Assuming 'data' is an array of objects with the given structure
-      const mappedData = data.map((beneficiary) => {
-        return {
-          Ben_id: beneficiary.Ben_id,
-          Grp_code: beneficiary.Grp_code,
-          Ben_Nom: beneficiary.Ben_Nom,
-          Ben_Addresse: beneficiary.Ben_Addresse,
-          Ben_code: beneficiary.Ben_code,
-          Ben_nom: beneficiary.Agence_nom || '', // Assuming Agence_nom may be undefined
-        };
-      });
+      const mappedData = data.map((beneficiary) => ({
+        Ben_id: beneficiary.Ben_id,
+        Grp_code: beneficiary.Grp_code,
+        Ben_Nom: beneficiary.Ben_Nom,
+        Ben_Addresse: beneficiary.Ben_Addresse,
+        Ben_code: beneficiary.Ben_code,
+        Ben_nom: beneficiary.Agence_nom || '',
+      }));
 
       setMappedData(mappedData);
-
     } catch (error) {
       console.error('Error fetching data:', error.message);
     }
@@ -64,16 +63,39 @@ const Destinataire = ({ lightMode }) => {
   useEffect(() => {
     fetchBenefs();
   }, []);
-//import et lecture de fichier csv 
-  const parseCSV = (content) => {
-    try {
-      const parsedData = Papa.parse(content, { header: true }).data;
-      return parsedData;
-    } catch (error) {
-      console.error('Error parsing CSV:', error);
-      return null;
-    }
+
+  const handlePageChange = ({ selected }) => {
+    setPageNumber(selected);
   };
+
+  const displayMappedData = mappedData
+    .slice(pageNumber * itemsPerPage, (pageNumber + 1) * itemsPerPage)
+    .map((beneficiary) => (
+      <tr key={beneficiary.Ben_id}>
+        <td>{beneficiary.Ben_Nom}</td>
+        <td>{beneficiary.Grp_code}</td>
+        <td>{beneficiary.Ben_Addresse}</td>
+        <td>{beneficiary.Ben_code}</td>
+      </tr>
+    ));
+
+    const parseCSV = (content) => {
+      try {
+        const parsedData = Papa.parse(content, { header: true }).data;
+    
+        // Filter out empty lines
+        const filteredData = parsedData.filter((row) => {
+          // Check if any value in the row is not empty
+          return Object.values(row).some((value) => value !== '');
+        });
+    
+        return filteredData;
+      } catch (error) {
+        console.error('Error parsing CSV:', error);
+        return null;
+      }
+    };
+    
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -95,7 +117,6 @@ const Destinataire = ({ lightMode }) => {
       const dataArray = parsedData.slice(0);
       console.log('Parsed Data:', dataArray);
   
-      // Extract relevant fields for display
       const extractedData = dataArray.map((row) => ({
         Grp_code: row.Grp_code,
         Ben_Nom: row.Ben_Nom,
@@ -140,7 +161,6 @@ const Destinataire = ({ lightMode }) => {
   // ...
 
 // ...
-
 const handleSendDataButtonClick = async (e) => {
   e.preventDefault();
 
@@ -151,31 +171,55 @@ const handleSendDataButtonClick = async (e) => {
         await sendToServer(Grp_code, Ben_Nom, Ben_Addresse, Ben_code);
       }
 
-      setSuccessPopup(true);
+      toast.success('Data sent successfully'); // Use toast for success message
 
-      setMappedData([]);  
+      setMappedData([]);
 
       setTimeout(() => {
-        setSuccessPopup(false);
+        // Reset the success message after 3 seconds
+        toast.dismiss(); // Close the toast manually
       }, 3000);
     } else {
-      console.log('No data to send');
+      console.log('No data to send from mappedData');
+    }
+
+    // Send data from input fields
+    const { Grp_code, Ben_Nom, Ben_Addresse, Ben_code } = formData;
+    if (Grp_code && Ben_Nom && Ben_Addresse && Ben_code) {
+      await sendToServer(Grp_code, Ben_Nom, Ben_Addresse, Ben_code);
+
+      toast.success('Data sent successfully'); // Use toast for success message
+
+      setFormData({
+        Grp_code: '',
+        Ben_Nom: '',
+        Ben_Addresse: '',
+        Ben_code: '',
+      });
+
+      setTimeout(() => {
+        // Reset the success message after 3 seconds
+        toast.dismiss(); // Close the toast manually
+      }, 3000);
+    } else {
+      console.log('No data to send from formData');
     }
   } catch (error) {
     console.error('Error adding beneficiaries:', error);
 
-    setErrorPopup(true);
+    toast.error('Error adding beneficiary'); // Use toast for error message
 
     setTimeout(() => {
-      setErrorPopup(false);
+      // Reset the error message after 3 seconds
+      toast.dismiss(); // Close the toast manually
     }, 3000);
   }
 };
+
 const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    // Assuming mappedData is an array of objects with keys Grp_code, Ben_Nom, Ben_Addresse, Ben_code
     for (const data of mappedData) {
       const { Grp_code, Ben_Nom, Ben_Addresse, Ben_code } = data;
 
@@ -193,11 +237,10 @@ const handleSubmit = async (e) => {
       console.log('Beneficiary added successfully!');
     }
 
-    setSuccessPopup(true);
+    toast.success('Beneficiary added succesfully')
   } catch (error) {
     console.error('Error adding beneficiary:', error);
-
-    setErrorPopup(true);
+    toast.warning('error sendind data')
   } finally {
     setFormData({
       Grp_code: '',
@@ -206,10 +249,6 @@ const handleSubmit = async (e) => {
       Ben_code: '',
     });
 
-    setTimeout(() => {
-      setSuccessPopup(false);
-      setErrorPopup(false);
-    }, 3000);
   }
 };
 
@@ -227,17 +266,17 @@ const handleSubmit = async (e) => {
               <th>Matricule</th>
             </tr>
           </thead>
-          <tbody>
-            {mappedData.map((beneficiary) => (
-              <tr key={beneficiary.Ben_id}>
-                <td>{beneficiary.Ben_Nom}</td>
-                <td>{beneficiary.Grp_code}</td>
-                <td>{beneficiary.Ben_Addresse}</td>
-                <td>{beneficiary.Ben_code}</td>
-              </tr>
-            ))}
-          </tbody>
+          <tbody>{displayMappedData}</tbody>
         </table>
+        <ReactPaginate
+          pageCount={Math.ceil(mappedData.length / itemsPerPage)}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={1}
+          onPageChange={handlePageChange}
+          containerClassName={'pagination'}
+          activeClassName={'active'}
+          pageClassName={'page-item'} 
+        />
       </div>
 
   <div className='side-dest'> 
@@ -294,23 +333,13 @@ const handleSubmit = async (e) => {
               onChange={handleChange}
             />
   
-            <button className="ajouter-button" onClick={sendToServer} type='submit'>Ajouter</button>
+            <button className="ajouter-button" onClick={handleSendDataButtonClick} type='submit'>Ajouter</button>
           </form>
           
         </div>
-        
-  
-        {successPopup && (
-          <div className='popup-success-popup'>Beneficiary added successfully!</div>
-        )}
-  
-        {errorPopup && (
-          <div className='popup-error-popup'>
-            Error adding beneficiary. Please try again.
-          </div>
-        )}
       </div>
     </div>
+    <ToastContainer />
     </div>
   );
   

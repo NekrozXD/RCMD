@@ -502,3 +502,8 @@
     font-size: 12px;
   }
 }
+
+@media screen and (min-width: 1920px) {}
+.user-dropdown{
+  background-size: cover;
+}

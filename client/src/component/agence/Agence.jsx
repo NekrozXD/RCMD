@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import '../configuration/Config.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function Agence({ onDetailClick }) {
   const [agences, setAgences] = useState([]);
   const [selectedAgenceId, setSelectedAgenceId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   const [formData, setFormData] = useState({
     Agence_nom: "",
@@ -34,6 +37,7 @@ function Agence({ onDetailClick }) {
           Agence_nom: "",
           Agence_code: "",
         });
+        toast.success('Agence ajoutée avec succès');
         fetchData();
       })
       .catch((err) => {
@@ -41,27 +45,31 @@ function Agence({ onDetailClick }) {
       });
   };
 
+
   useEffect(() => {
     fetchData();
   }, [agences]);
 
   const handleDeleteAgence = (agence) => {
-    if (!agence || !agence.Agence_id) {
+    console.log("Received agence for deletion:", agence);
+  
+    if (!agence || !agence.agence_Id) {
       console.error("Invalid agence object:", agence);
       return;
     }
   
-    console.log("Deleting Agence with ID:", agence.Agence_id);
+    console.log("Deleting Agence with ID:", agence.agence_Id);
   
     axios
-      .delete(`http://localhost:8081/agence/${agence.Agence_id}`)
+      .delete(`http://localhost:8081/agence/${agence.agence_Id}`)
       .then(() => {
-        const updatedAgences = agences.filter((a) => a.Agence_id !== agence.Agence_id);
+        const updatedAgences = agences.filter((a) => a.agence_Id !== agence.agence_Id);
         setAgences(updatedAgences);
+        toast.error('Agence supprimée');
       })
       .catch((err) => console.log("Error deleting agence:", err));
   };
-  
+
   const handleUpdateAgence = () => {
     console.log("Selected Agence Id:", selectedAgenceId);
   
@@ -78,24 +86,33 @@ function Agence({ onDetailClick }) {
           Agence_nom: "",
           Agence_code: "",
         });
+        toast.info('Agence mis à jour');
         setSelectedAgenceId(null);
+        setIsEditing(false); 
       })
       .catch((err) => {
         console.error("Error updating agence:", err);
       });
   };
-  
+
   const handleEditAgence = (agence) => {
     console.log("Editing agence:", agence);
     setFormData({
       Agence_nom: agence.Agence_nom,
       Agence_code: agence.Agence_code,
     });
-  
-    setSelectedAgenceId(agence.Agence_id, () => {
-      console.log("Agence Id after setting:", selectedAgenceId);
-    });
+    setSelectedAgenceId(agence.agence_Id);
+    setIsEditing(true); 
   };
+
+  const handleClear = (e) => {
+    e.preventDefault();
+      setIsEditing(false);
+      setFormData({
+        Agence_nom: "",
+        Agence_code: "",
+      });
+  }
 
   const showDetail = (agence) => {
     onDetailClick(agence);
@@ -105,7 +122,10 @@ function Agence({ onDetailClick }) {
     <div className="main-agence-container">
         <div className="input-agence-container">
             <form>
-            <h1>Nouvelle agence :</h1>
+            <h1>{isEditing ? "Modifier Agence" : "Nouvelle agence"}</h1>
+            <button type="button"  onClick={handleClear}>
+              Clear
+            </button>
             <div>
                 <input
                 placeholder="Nom de l'agence"
@@ -128,14 +148,18 @@ function Agence({ onDetailClick }) {
                 />
             </div>
 
-            <button type="button" className="change" onClick={handleAddAgence}>
-                Ajouter Agence
-            </button>
-            <button type="button" className="change" onClick={handleUpdateAgence}>
+            {isEditing ? (
+              <button type="button" className="change" onClick={handleUpdateAgence}>
                 Mettre à jour Agence
-            </button>
+              </button>
+            ) : (
+              <button type="button" className="change" onClick={handleAddAgence}>
+                Ajouter Agence
+              </button>
+            )}
             </form>
         </div>
+
         
         <div className="agence-list-container">
             <h2>Liste des Agences</h2>
@@ -150,7 +174,7 @@ function Agence({ onDetailClick }) {
             </thead>
             <tbody>
                 {agences.map((agence) => (
-                <tr key={agence.Agence_id}>
+                <tr key={agence.agence_Id}>
                     <td>{agence.Agence_nom}</td>
                     <td>{agence.Agence_code}</td>
                     <td>
@@ -171,7 +195,8 @@ function Agence({ onDetailClick }) {
             </tbody>
             </table>
         </div>
-        </div>
+        <ToastContainer />
+    </div>
   );
 }
 

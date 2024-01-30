@@ -2,11 +2,14 @@
 #dark{}
 
 body {
-  background-image: url('assets/bg-design.png');
+      background-color: rgb(36, 36, 36);
     padding: 0;
     margin: 0;
   }
   
+  body::-webkit-scrollbar{
+    width: 0;
+  }
 
 #dark.container header{
     background-color: #fff;

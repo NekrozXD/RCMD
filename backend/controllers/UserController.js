@@ -9,14 +9,14 @@ const db =  require("../model/db.js");
 }
 
  const CreateUser = (req, res) => {
-    const { Us_nom, Us_matricule, Us_login, Us_mail, Us_pwd, Fo_id, Grp_id } = req.body;
+    const { Us_nom, Us_matricule, Us_login, Us_mail, Us_pwd, Fo_id, Grp_code } = req.body;
 
-    if (!Us_nom || !Us_matricule || !Us_login || !Us_mail || !Us_pwd || !Fo_id || !Grp_id) {
+    if (!Us_nom || !Us_matricule || !Us_login || !Us_mail || !Us_pwd || !Fo_id || !Grp_code) {
       return res.status(400).json({ error: "Missing required fields" });
     }
   
-    const userSql = "INSERT INTO utilisateur (Us_nom, Us_matricule, Us_login, Us_mail, Us_pwd, Fo_id, Grp_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    db.query(userSql, [Us_nom, Us_matricule, Us_login, Us_mail, Us_pwd, Fo_id, Grp_id], (err, result) => {
+    const userSql = "INSERT INTO utilisateur (Us_nom, Us_matricule, Us_login, Us_mail, Us_pwd, Fo_id, Grp_code) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    db.query(userSql, [Us_nom, Us_matricule, Us_login, Us_mail, Us_pwd, Fo_id, Grp_code], (err, result) => {
       if (err) {
         console.error("Error adding user:", err);
         return res.status(500).json({ error: "Internal Server Error" });
@@ -36,10 +36,10 @@ const db =  require("../model/db.js");
 
   const UpdateUser = (req, res) => {
     const userId = req.params.id;
-    const { Us_nom, Us_matricule, Us_login, Us_mail, Us_pwd, Fo_id, Grp_id } = req.body;
+    const { Us_nom, Us_matricule, Us_login, Us_mail, Us_pwd, Fo_id, Grp_code } = req.body;
   
-    const sql = "UPDATE utilisateur SET Us_nom = ?, Us_matricule = ?, Us_login = ?, Us_mail = ?, Us_pwd = ?, Fo_id = ?, Grp_id = ? WHERE Us_id = ?";
-    db.query(sql, [Us_nom, Us_matricule, Us_login, Us_mail, Us_pwd, Fo_id, Grp_id, userId], (err, result) => {
+    const sql = "UPDATE utilisateur SET Us_nom = ?, Us_matricule = ?, Us_login = ?, Us_mail = ?, Us_pwd = ?, Fo_id = ?, Grp_code = ? WHERE Us_id = ?";
+    db.query(sql, [Us_nom, Us_matricule, Us_login, Us_mail, Us_pwd, Fo_id, Grp_code, userId], (err, result) => {
       if (err) {
         console.error("Error updating user:", err);
         return res.status(500).json({ error: "Internal Server Error" });

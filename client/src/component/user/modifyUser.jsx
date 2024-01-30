@@ -22,6 +22,9 @@ const ModifyUser = (props) => {
     Grp_id: 0,
   });
 
+  const back = () => {
+    navigate('/main/:usMatricule')
+  }
   const fetchData = async () => {
     if (loggedInUser) {
       try {
@@ -49,7 +52,7 @@ const ModifyUser = (props) => {
   useEffect(() => {
     fetchData();
     console.log('Local stored user data:', loggedInUser);
-  }, []); // Pass an empty dependency array to run the effect only once when the component mounts
+  }, []); 
   
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -142,6 +145,7 @@ const ModifyUser = (props) => {
       )}
       <br></br>
       <button onClick={redirect}>return to login</button>
+      <button className='back' onClick={back}>🔙</button>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </div>
   );

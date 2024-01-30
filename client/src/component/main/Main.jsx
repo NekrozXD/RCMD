@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import './Main.css';
 import { useNavigate } from 'react-router-dom';
 import Depot from '../depot/Depot';
@@ -149,7 +149,7 @@ const Main = () => {
           return <Depot onHistoryClick={handleHistoryClick} lightMode={lightMode} />;
         case 'En nombre':
           return <Nombre onHistoryClick={handleHistoryClick} lightMode={lightMode} />;
-          case 'F12' :
+          case 'F12' :  
           return <F12 />
         case 'Groupement': 
           return <Configuration onDetailClick={handleShowDetail} lightMode={lightMode} />;

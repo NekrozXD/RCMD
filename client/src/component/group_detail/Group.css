@@ -12,6 +12,7 @@
     padding: 20px;
     margin: 10px;
     border-collapse: collapse;
+    font-size: 20px;
 }
 .detail-div{
   background-color: transparent;
@@ -24,6 +25,11 @@
   padding: 20px;
   margin: 10px;
   border-radius: 20px;
+}
+ul {
+  list-style: none;
+  max-width: 20vw;
+  overflow-x: auto;
 }
 
 .table{
@@ -58,6 +64,43 @@
   }
 }
 
+
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px; 
+}
+
+.page-item {
+  margin: 0 5px;
+  background-color: rgba(129, 129, 129, 0.5); 
+  padding: 8px 12px;
+  border-radius: 5px; 
+  cursor: pointer;
+}
+
+.active {
+  background-color: #484b6a;
+  color: #fff;
+}
+
+
+.pagination > * {
+  margin: 0 10px;
+}
+
+
+
+
 @media only screen and (max-width: 1366px) {
   .detail-div{
     background-color: transparent;
@@ -76,4 +119,5 @@
     top : 11%;
     right: 0;
   }
+  
 }

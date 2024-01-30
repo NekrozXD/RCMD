@@ -291,6 +291,7 @@
 }
 .main-dest table {
   border-collapse: collapse;
+  font-size: 20px;
 }
 .light-mode .main-dest td,th{
   border: 1px solid black;

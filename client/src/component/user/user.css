@@ -8,6 +8,14 @@
     background-color: black;
 }
 
+@keyframes fadinleft {
+  from {
+    transform: translateX(-100%);
+  }
+  to{
+    transform: translateX(0);
+  }
+}
 .user-list{
     padding: 10px;
     margin: 20px;
@@ -79,7 +87,7 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top : -3%;
+    top : 0;
     width: 30vw;
     height: 100vh;
     border: 1px solid black;
@@ -90,22 +98,25 @@
     margin: 20px;
     border-radius: 20px;
     flex-direction: column;
+    animation: fadeinleft 1s ease-in;
+    margin: 0;
+    padding: 0;
   }
 
   .modify-container input{
     border: 1px solid black;
     margin: 10px;
   }
-  
   .user-photo{
     width : 31vw;
     height: 60vh;
     border-radius: 50%;
-    border: 1px solid rgb(255, 255, 255);
+    border: none;
     position: absolute;
     right : 51.8vw;
     background-image: url("../../assets/user-logo.png");
-    background-size: cover; 
+    background-size: 100%;
+    background-repeat: no-repeat; 
     bottom: 25.5%;
   }
 
@@ -127,4 +138,20 @@
     justify-content: center;
     background-image: url('../../assets/+.png');
     padding: 5px;
+  }
+
+  .back{
+    position: absolute;
+    top : 4vh;
+    background-color: rgb(34, 36, 58);
+    right : 98vw;
+    font-size: 35px;
+    color: white;
+    width: min-content;
+  }
+
+  @media screen and (min-width: 1920px) {
+    .add-photo{
+      top : 58%
+    }
   }
