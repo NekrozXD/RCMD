@@ -11,7 +11,9 @@ import Historique from '../historique/Historique';
 import F12 from '../F12/F12';
 import GroupDetail from '../group_detail/GroupDetail';
 import Agence from '../agence/Agence';
-import '../../App.css'
+import '../../App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faInbox, faFileAlt, faListAlt, faCog } from '@fortawesome/free-solid-svg-icons'; 
 
 const Main = () => {
   const navigate = useNavigate();
@@ -118,7 +120,9 @@ const Main = () => {
   const handleHistoryClick = () => {
     setShowHistorique(true);
   };
-
+   const back = () => {
+    setShowHistorique(false);
+   }
   const handleShowDetail = (group) => {
     setSelectedGroup(group);
     setShowDetail(true);
@@ -140,7 +144,7 @@ const Main = () => {
 
   const renderContent = () => {
     if (showHistorique) {
-      return <Historique />;
+      return <Historique onHistoryClose={back}  />;
     } else if (showDetail) {
       return <GroupDetail selectedGroup={selectedGroup} onClose={() => setShowDetail(false)} />;
     } else {
@@ -212,9 +216,11 @@ const Main = () => {
 
       <div className="content-container">
         <aside className={sidebarClass}>
-        <div className = "main-div" onClick={() => handleClickedP('home')} > 🏛️ home</div>
-          <div className = "main-div" onClick={() => handleMouseEnter('depot')} >
-            📩 Depot
+        <div className="main-div" onClick={() => handleClickedP('home')}>
+          <FontAwesomeIcon icon={faHome} /> Home
+        </div>          
+          <div className="main-div" onClick={() => handleMouseEnter('depot')}>
+            <FontAwesomeIcon icon={faInbox} /> Depot
             {clickedDiv === 'depot' && (
               <>
                 <p onClick={() => handleClickedP('Particulier')}>Particulier</p>
@@ -222,11 +228,11 @@ const Main = () => {
               </>
             )}
           </div>
-          <div className = "main-div"  onClick={() => handleMouseEnter('operation')} >
-           📃 Operation
+          <div className="main-div" onClick={() => handleMouseEnter('operation')}>
+            <FontAwesomeIcon icon={faFileAlt} /> Operation
           </div>
-          <div className = "main-div"  onClick={() => handleMouseEnter('edition')} >
-            🗒️ Edition
+          <div className="main-div" onClick={() => handleMouseEnter('edition')}>
+            <FontAwesomeIcon icon={faListAlt} /> Edition
             {clickedDiv === 'edition' && (
               <>
                 <p>Registre</p>
@@ -235,8 +241,8 @@ const Main = () => {
               </>
             )}
           </div>
-          <div className = "main-div"  onClick={() => handleMouseEnter('configuration')} >
-            🪩 Configuration
+          <div className="main-div" onClick={() => handleMouseEnter('configuration')}>
+            <FontAwesomeIcon icon={faCog} /> Configuration
             {clickedDiv === 'configuration' && (
               <>
                 <p onClick={() => handleClickedP('Groupement')}>Groupement</p>
@@ -245,8 +251,8 @@ const Main = () => {
                 <p onClick={() => handleClickedP('Agence')}>Agence</p>
               </>
             )}
-          </div>
-          <div className='sidebarshow'> ☰ </div>
+          </div>          
+      <div className='sidebarshow'> ☰ </div>
           {/* <button onClick={handleCloseApp}>Close App</button> */}
         </aside>
         <div className={contentClass}>{renderContent()}</div>

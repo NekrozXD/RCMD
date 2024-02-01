@@ -4,7 +4,7 @@ import { parse, format } from 'date-fns';
 
 
 
-const Historique = ( { lightMode } ) => {
+const Historique = ( { lightMode , onHistoryClose} ) => {
   const [historiqueData, setHistoriqueData] = useState([]);
   const [beneficiaryData, setBeneficiaryData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,6 +16,10 @@ const Historique = ( { lightMode } ) => {
     fetchHistoriqueData();
     fetchBeneficiaryData();
   }, []);
+
+  const close = () => {
+    onHistoryClose();
+  }
 
   const fetchHistoriqueData = async () => {
     try {
@@ -116,6 +120,7 @@ const Historique = ( { lightMode } ) => {
     <div className={`historique-container ${lightMode ? 'light-mode' : ''}`}>
       <div className='history-header'>
         <div className='sorting metho'>
+          <button className="close-btn" onClick={close}>Fermer</button>
       <h1>Deposit list</h1>
              {/* Group By Dropdown */}
             <div className='group-by-dropdown'>

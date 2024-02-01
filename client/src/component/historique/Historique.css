@@ -286,7 +286,7 @@
   
  }
 
-  @media screen and (max-width: 1360px) {
+  @media screen and (max-width: 1366px) {
     .selected-agence-data{
       background-color: #4b4b4b;
       max-height: 390px;
@@ -298,9 +298,9 @@
       width: 65vw;
       font-size: 10px;
     }
-
+     
     button{
-      font-size: 12px;
+      font-size: 18px;
     }
     .agence-sidebar{
       width: 10vw;

@@ -254,12 +254,89 @@
 
 .label:hover {
   background-color: #ffee01;
+  transform: scale(0.9);
 }
 
 .nombre.light-mode {
   background-color: none;
 }
 
-.send-all{
-  margin-top: 5vh;
+
+.side-nbr{
+  position: absolute;
+  width: 15vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right:0%;
+  flex-direction: column;
+  top: 20%;
 }
+
+.history-list-nbr{
+  background-color: #2d363d;
+  margin : 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.history-list-nbr:hover{
+  transform: scale(0.9);
+  cursor: pointer;
+}
+
+.light-mode .history-list-nbr{
+  background-color:  #484b6a;
+  color: white;
+}
+
+.nbr-list{
+  top : 15%;
+  position: absolute;
+  left: 10%;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 20px;
+}
+.pagination::-webkit-scrollbar {
+  top: 15px;
+  height: 8px; 
+}
+
+.pagination::-webkit-scrollbar-thumb {
+  margin-top: 15px;
+  background-color: #707070; 
+  border-radius: 6px; 
+}
+
+.pagination::-webkit-scrollbar-track {
+  margin-top: 15px;
+  background-color: #f1f1f1;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.pagination-controls div{
+  margin: 0;
+  padding: auto;
+  cursor: pointer;
+}
+
+.pagination-controls button:hover {
+  background-color: #0056b3;
+}
+
+.pagination::-webkit-scrollbar {
+  height: 8px;
+}
+
+.pagination .previous,
+.pagination .next {
+  display: none;
+}
+

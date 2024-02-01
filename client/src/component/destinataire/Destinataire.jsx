@@ -276,6 +276,7 @@ const handleSubmit = async (e) => {
           containerClassName={'pagination'}
           activeClassName={'active'}
           pageClassName={'page-item'} 
+          disableInitialCallback={true}
         />
       </div>
 

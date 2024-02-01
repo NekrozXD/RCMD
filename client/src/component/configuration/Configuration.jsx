@@ -7,6 +7,8 @@ import './Config.css';
 function Configuration(props) {
   const [groups, setGroups] = useState([]);
   const [selectedGroupId, setSelectedGroupId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
 
   const [formData, setFormData] = useState({
     Grp_nom: "",
@@ -37,6 +39,7 @@ function Configuration(props) {
       Grp_mail: "",
     });
     toast.info('cleared')
+    setIsEditing(false)
   }
 
   const fetchData = () => {
@@ -55,11 +58,12 @@ function Configuration(props) {
 
           const userGroups = res.data.filter((group) => {
             console.log('Group Grp_code:', group.Grp_code);
-            return group.Grp_code === userGrpCode.toString();  // Convert to string for consistent comparison
+            return group.Grp_code === userGrpCode.toString();  
           });
 
           console.log('User Groups:', userGroups);
           setGroups(userGroups);
+          setIsEditing(false)
         })
         .catch((err) => console.log("Error fetching data:", err));
     }
@@ -79,7 +83,10 @@ function Configuration(props) {
           Grp_type: "",
           Grp_mail: "",
         });
-        toast.success('group added succesfully')
+        toast.success('group added succesfully');
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       })
       .catch((err) => {
         console.error("Error adding group:", err);
@@ -121,6 +128,8 @@ function Configuration(props) {
           Grp_mail: "",
         });
         setSelectedGroupId(null);
+        toast.info('group info updated');
+
       })
       .catch((err) => {
         console.error("Error updating group:", err);
@@ -137,8 +146,9 @@ function Configuration(props) {
       Grp_type: group.Grp_type,
       Grp_mail: group.Grp_mail,
     });
-    toast.info('group info updated')
+    
     setSelectedGroupId(group.Grp_id);
+    setIsEditing(true)
   };
 
   const showDetail = (group) => {
@@ -149,7 +159,7 @@ function Configuration(props) {
     <div className="custom-config-container">
       <div className="custom-form-container"> 
         <form>
-          <h2>Nouveau groupe</h2>
+        <h2>{isEditing ? "Modifier Groupement" : "Nouveau groupement"}</h2>
           <button className="cls-button" type="button" onClick={handleClear}>clear</button>
           <div className="custom-form-element">
             <label htmlFor="Grp_nom" className="custom-label"></label>
@@ -226,23 +236,29 @@ function Configuration(props) {
           </div>
           <div className="custom-form-element">
             <label htmlFor="Grp_type" className="custom-label"></label>
-            <input
-              placeholder="type"
-              type="text"
-              className="custom-input"
-              id="Grp_type"
-              name="Grp_type"
-              value={formData.Grp_type}
-              onChange={handleInputChange}
-            />
+            <select
+                id="Grp_type"
+                name="Grp_type"
+                value={formData.Grp_type}
+                onChange={handleInputChange}
+                className="custom-select"
+              >
+                <option value= "0">selectioner le type</option>
+                <option value="centri">Centri</option>
+                <option value="Societe">Societe</option>
+                <option value="Agence postale">Agence postale</option>
+              </select>
           </div>
-
-          <button type="button" className="change" onClick={handleAddGroup}>
+          {isEditing ? (
+             <button type="button" className="change" onClick={handleUpdateGroup}>
+             Mettre à jour
+           </button>
+          
+          ):(
+            <button type="button" className="change" onClick={handleAddGroup}>
             Ajouter
           </button>
-          <button type="button" className="change" onClick={handleUpdateGroup}>
-            Mettre à jour
-          </button>
+          )}
         </form>
       </div>
 

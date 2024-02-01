@@ -75,7 +75,7 @@ function User({ lightMode })  {
         progress: undefined,
         theme: "dark",
         style: {
-          background: "green", // Set your desired background color here
+          background: "green",
           color: "black",
           fontWeight: "bold"
         },
@@ -211,7 +211,7 @@ function User({ lightMode })  {
     onChange={handleInputChange}
     className="custom-select"
   >
-    <option value= "0">select Fonction</option>
+    <option value= "0">select Fonction</option>-ta
     <option value="1">admin</option>
     <option value="2">saisie</option>
     <option value="3">verifs</option>

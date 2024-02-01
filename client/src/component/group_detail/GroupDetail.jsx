@@ -77,11 +77,12 @@ const GroupDetail = ({ selectedGroup, onClose }) => {
             containerClassName={'pagination'}
             activeClassName={'active'}
             pageClassName={'page-item'} 
+            disableInitialCallback={true}
           />
         </div>
       )}
       <button className='close-btn' onClick={onClose}>
-        Close
+        Fermer
       </button>
     </div>
   );

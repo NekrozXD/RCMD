@@ -3,34 +3,47 @@ import Papa from 'papaparse';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Depot.css';
+import ReactPaginate from 'react-paginate';
 
-const Nombre = ({ onHistoryClick, lightMode }) => {
+const Nombre = ({ onHistoryClick, lightMode , onHistoryClose}) => {
   const [csvData, setCSVData] = useState([]);
   const [verificationStatus, setVerificationStatus] = useState([]);
   const [envAgenceDepotData, setEnvAgenceDepotData] = useState([]);
+  const [errorCount, setErrorCount] = useState([]);
+  
+  const [currentPage, setCurrentPage] = useState(0);  
+  const itemsPerPage = 20;
 
+  const offset = currentPage * itemsPerPage;
+  const paginatedData = csvData.slice(offset, offset + itemsPerPage);
 
   //import et lecture de fichier sous format csv(comma delimited)
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
-
+  
     Papa.parse(file, {
       header: true,
       dynamicTyping: true,
       skipEmptyLines: true,
       complete: async (result) => {
-        setCSVData(result.data);
-
+        // Filter out rows with missing or empty values in relevant columns
+        const filteredData = result.data.filter(row => (
+          row.Env_num && row.Env_poids && row.Env_taxe && row.Env_exp && row.Env_dest
+        ));
+  
+        setCSVData(filteredData);
+  
         const initialVerificationStatus = await Promise.all(
-          result.data.map(async (row) => {
+          filteredData.map(async (row) => {
             return await verifyBeneficiaire(row);
           })
         );
-
+  
         setVerificationStatus(initialVerificationStatus);
       },
     });
   };
+  
 
   //verification des beneficiare expediteur et destinataire
   const verifyBeneficiaire = async (row) => {
@@ -188,6 +201,10 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
     onHistoryClick();
   };
 
+  const close = () => {
+    onHistoryClose();
+  }
+  
   useEffect(() => {
     if (csvData.length > 0) {
       updateEnvAgenceDepotData();
@@ -197,8 +214,6 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
   const handleCancelButtonClick = async (index) => {
     const updatedCSVData = [...csvData];
     updatedCSVData.splice(index, 1);
-
-    //  statut des beneficiaire (si existe ou !existe)
     const updatedVerificationStatus = await Promise.all(
       updatedCSVData.map(async (row) => {
         return await verifyBeneficiaire(row);
@@ -207,20 +222,66 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
 
     setCSVData(updatedCSVData);
     setVerificationStatus(updatedVerificationStatus);
+
+    
+    const newErrorCount = updatedVerificationStatus.filter(
+      (status) => !status?.expediteurExists || !status?.destinataireExists
+    ).length;
+
+    setErrorCount(newErrorCount);
   };
+  
+  useEffect(() => {
+    if (csvData.length > 0) {
+      updateEnvAgenceDepotData();
+    }
+  }, [csvData]);
+  
+  useEffect(() => {
+    const newErrorCount = verificationStatus.filter(
+      (status) => !status?.expediteurExists || !status?.destinataireExists
+    ).length;
+  
+    setErrorCount(newErrorCount);
+  }, [verificationStatus]);
 
   return (
     <div className={`nombre ${lightMode ? 'light-mode' : ''}`}>
-      <h2 className='history' onClick={handleHistoriqueClick}>
-        Deposit list
+      <div className='side-nbr'>
+      <div style={{ display: csvData.length > 0 ? 'block' : 'none' }}>
+      {errorCount > 0 ? (
+        <>
+          <span role="img" aria-label="Warning" style={{ color: 'red', fontSize: '1.5em' }}>
+            &#9888;
+          </span>
+          <strong style={{ color: 'red', fontSize: '1.2em' }}>
+            Erreur: {errorCount}
+          </strong>
+        </>
+      ) : (
+        <>
+          <span role="img" aria-label="Success" style={{ color: 'green', fontSize: '1.5em' }}>
+            ✔️
+          </span>
+          <strong style={{ color: 'green', fontSize: '1.2em' }}>
+            Verifié!
+          </strong>
+        </>
+      )}
+    </div>
+
+      <h2 className='history-list-nbr' onClick={handleHistoriqueClick}>
+        Liste des dépots
       </h2>
-      <label htmlFor='fileInput' className='label'>
-        Importer un fichier exel
+      <label htmlFor='fileInput' >
+        <div className='label'> Importer un fichier exel</div>    
       </label>
       <input type='file' id='fileInput' accept='.csv' onChange={handleFileUpload} />
       <button className='send-all' onClick={handleSendAllButtonClick}>
-        Send All
+        Déposer
       </button>
+      </div>
+      <div className='nbr-list'>
       <table className='nbr-table'>
         <thead>
           <tr>
@@ -235,7 +296,7 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
           </tr>
         </thead>
         <tbody>
-          {csvData.map((row, index) => (
+        {paginatedData.map((row, index) => (
             <tr key={index}>
               <td>{row.Env_num}</td>
               <td>{row.Env_poids} g</td>
@@ -271,9 +332,9 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
               </td>
               <td className='send-cancel-button'>
                 {verificationStatus[index]?.expediteurExists && verificationStatus[index]?.destinataireExists ? (
-                  <h3>can send</h3>
+                  <h3></h3>
                 ) : (
-                  <span>Cannot send</span>
+                  <span>impossible de deposer</span>
                 )}
                 <button onClick={() => handleCancelButtonClick(index)}>Cancel</button>
               </td>
@@ -281,6 +342,24 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
           ))}
         </tbody>
       </table>
+      <div className="pagination-controls">
+        <div onClick={() => setCurrentPage(currentPage - 1)}>Previous</div>
+        <div className="pagination-container">
+          <ReactPaginate
+            pageCount={Math.ceil(csvData.length / itemsPerPage)}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={({ selected }) => setCurrentPage(selected)}
+            containerClassName={'pagination'}
+            activeClassName={'active'}
+            pageClassName={'page-item'}
+            disableInitialCallback={true}
+          />  
+        </div>
+        <div onClick={() => setCurrentPage(currentPage + 1)}>Next</div>
+      </div>
+
+      </div>
       <ToastContainer />
     </div>
   );

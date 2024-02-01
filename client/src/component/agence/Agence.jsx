@@ -128,7 +128,7 @@ function Agence({ onDetailClick }) {
             </button>
             <div>
                 <input
-                placeholder="Nom de l'agence"
+                placeholder="Nom de l'agence" 
                 type="text"
                 id="Agence_nom"
                 name="Agence_nom"
