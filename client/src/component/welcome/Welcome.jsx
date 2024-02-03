@@ -25,7 +25,7 @@ const Welcome = ({ onWelcomeClick, lightMode, setLastClickedComponent }) => {
   };
 
   const isOperationActive = () => {
-    return hoveredSection === 'operations';
+    return hoveredSection === 'operation';
   };
 
   const isEditionActive = () => {
@@ -58,9 +58,11 @@ const Welcome = ({ onWelcomeClick, lightMode, setLastClickedComponent }) => {
   );
 
   const renderOperation = () => (
-    <div className='operation' onMouseEnter={() => handleMouseEnter('operations')} onMouseLeave={handleMouseLeave}>
+    <div className='operation' onMouseEnter={() => handleMouseEnter('operation')} onMouseLeave={handleMouseLeave}>
       {isOperationActive() ? (
-        <h2>coming soon</h2>
+        <>
+        {renderH2('Operation')}
+        </> 
       ) : (
         <h1>OPERATION</h1>
       )}

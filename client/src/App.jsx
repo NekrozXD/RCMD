@@ -4,6 +4,7 @@ import Login from './component/login/Login';
 import Main from './component/main/Main';
 import Saisie from './component/saisie/Saisie';
 import ModifyUser from './component/user/modifyUser';
+import HistoriqueInput from './component/historique/historiqueInput';
 
 function App() {
   
@@ -20,6 +21,7 @@ function App() {
           <Route path='/' element={<Login />} />
         <Route path='/saisie' element={<Saisie />} />
         <Route  path='/user' element = { <ModifyUser />} />
+        <Route path='/hist' element = {<HistoriqueInput/>} />
       </Routes>
     </Router>
   );

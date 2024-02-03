@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +11,9 @@ const Login = () => {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false)
   const [showInputError, setShowInputError] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loginInProgress, setLoginInProgress] = useState(false);
   const navigate = useNavigate();
+
 
   const handleLogin = async (event) => {
     console.log('Handle Login Clicked');
@@ -22,10 +25,15 @@ const Login = () => {
         return;
       }
   
-      // Check if the Enter key is pressed (key code 13)
-      if (event.key === 'Enter'|| event.type === 'click') {
-        // Prevent the default form submission behavior
+      if (event.key === 'Enter' || event.type === 'click') {
         event.preventDefault();
+  
+        // Check if login is already in progress
+        if (loginInProgress) {
+          return;
+        }
+  
+        setLoginInProgress(true); // Set login in progress
   
         const usersResponse = await fetch('http://localhost:8081/utilisateur');
         const usersData = await usersResponse.json();
@@ -35,33 +43,43 @@ const Login = () => {
         );
   
         if (user) {
-          console.log('User found:', user);
-  
           localStorage.setItem('loggedInUser', JSON.stringify(user));
           setLoggedInUser(user);
   
-          console.log('Login successful! Redirecting...');
-          setShowSuccessPopup(true);
+          toast.success('Login successful', {
+            position: 'top-left',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+          });
   
-          setTimeout(() => {
-            if (user.Fo_id === 1) {
-              console.log('Redirecting to main page for admin');
-              navigate(`/main/${user.Us_matricule}`);
-            } else if (user.Fo_id === 2) {
-              console.log('Redirecting to saisie page for other user');
-              navigate('/saisie');
-            }
-          }, 2000);
+          // Use Promise to wait for the toast to be closed
+          await new Promise(resolve => setTimeout(resolve, 2000));
+  
+          if (user.Fo_id === 1) {
+            navigate(`/main/${user.Us_matricule}`);
+          } else if (user.Fo_id === 2) {
+            navigate('/saisie');
+          }
         } else {
-          console.log('Invalid credentials.');
-          setShowErrorPopup(true);
+          toast.error('Login failed. Please check your credentials or user privileges.', {
+            position: 'top-left',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+          });
         }
       }
     } catch (error) {
       console.error('Error during login:', error);
       setShowErrorPopup(true);
+    } finally {
+      setLoginInProgress(false); 
     }
   };
+  
   
   
   useEffect(() => {
@@ -131,22 +149,7 @@ const Login = () => {
           
         </div>
       </div>
-      {showErrorPopup && (
-        <div className='error'>
-          <div className='popup'>
-            <p>Login failed. Please check your credentials or user privileges.</p>
-          </div>
-        </div>
-      )}
-      {
-        showSuccessPopup && (
-          <div className='success-login'>
-          <div className='success-login-content'>
-            <p>Login successful</p>
-          </div>
-        </div>
-        )
-      }
+      <ToastContainer />
     </div>
   );
 };

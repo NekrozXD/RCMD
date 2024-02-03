@@ -11,6 +11,7 @@ import Historique from '../historique/Historique';
 import F12 from '../F12/F12';
 import GroupDetail from '../group_detail/GroupDetail';
 import Agence from '../agence/Agence';
+import Operation from '../operation/Operation';
 import '../../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faInbox, faFileAlt, faListAlt, faCog } from '@fortawesome/free-solid-svg-icons'; 
@@ -162,7 +163,9 @@ const Main = () => {
         case 'Destinataire':
           return <Destinataire lightMode={lightMode} />;
         case 'Agence':
-          return <Agence onWelcomeClick={handleWelcomeClick} lightMode={lightMode} />
+          return <Agence onWelcomeClick={handleWelcomeClick} lightMode={lightMode} />;
+        case 'Operation':
+        return <Operation lightMode={lightMode} />;
         case 'home':
           return <Welcome onWelcomeClick={handleWelcomeClick} lightMode={lightMode} setLastClickedComponent={setClickedP} />;
         default:
@@ -228,7 +231,7 @@ const Main = () => {
               </>
             )}
           </div>
-          <div className="main-div" onClick={() => handleMouseEnter('operation')}>
+          <div className="main-div" onClick={() => handleClickedP('Operation')}>
             <FontAwesomeIcon icon={faFileAlt} /> Operation
           </div>
           <div className="main-div" onClick={() => handleMouseEnter('edition')}>

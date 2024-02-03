@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Depot.css';
 import ReactPaginate from 'react-paginate';
 
-const Nombre = ({ onHistoryClick, lightMode , onHistoryClose}) => {
+const Nombre = ({ onHistoryClick, lightMode }) => {
   const [csvData, setCSVData] = useState([]);
   const [verificationStatus, setVerificationStatus] = useState([]);
   const [envAgenceDepotData, setEnvAgenceDepotData] = useState([]);
@@ -201,9 +201,7 @@ const Nombre = ({ onHistoryClick, lightMode , onHistoryClose}) => {
     onHistoryClick();
   };
 
-  const close = () => {
-    onHistoryClose();
-  }
+ 
   
   useEffect(() => {
     if (csvData.length > 0) {

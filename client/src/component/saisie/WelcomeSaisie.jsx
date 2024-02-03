@@ -54,7 +54,7 @@ const WelcomeSaisie = ({ onWelcomeClick, lightMode, setLastClickedComponent }) =
         {isConfigurationActive() ? (
           <>
             {renderH2('Groupement')}    
-            {renderH2('Destinataire')}
+            {renderH2('Destinataire')}  
           </>
         ) : (
           <h1>CONFIGURATION</h1>

@@ -15,6 +15,23 @@
   border: 3px solid rgb(0, 0, 0);
   border-radius: 0;
 } */
+.red-text {
+  color: red;
+}
+
+.input-with-warning {
+  position: relative;
+}
+
+.warning-icon-container {
+  position: absolute;
+  left: -20px; 
+  top: 50%; 
+  transform: translateY(-40%);
+  color: red; 
+}
+
+
 
 .light-mode .side-dest{
   top : 5%

@@ -16,6 +16,7 @@ const Destinataire = ({ lightMode }) => {
   const [groupList, setGroupList] = useState([]);
   const [fileName, setFileName] = useState('');
   const [mappedData, setMappedData] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
   const itemsPerPage = 9;
 
@@ -68,16 +69,19 @@ const Destinataire = ({ lightMode }) => {
     setPageNumber(selected);
   };
 
-  const displayMappedData = mappedData
-    .slice(pageNumber * itemsPerPage, (pageNumber + 1) * itemsPerPage)
-    .map((beneficiary) => (
-      <tr key={beneficiary.Ben_id}>
-        <td>{beneficiary.Ben_Nom}</td>
-        <td>{beneficiary.Grp_code}</td>
-        <td>{beneficiary.Ben_Addresse}</td>
-        <td>{beneficiary.Ben_code}</td>
-      </tr>
-    ));
+  const displayMappedData = formData.file
+  ? mappedData
+      .slice(pageNumber * itemsPerPage, (pageNumber + 1) * itemsPerPage)
+      .map((beneficiary) => (
+        <tr key={beneficiary.Ben_id}>
+          <td>{beneficiary.Ben_Nom}</td>
+          <td>{beneficiary.Grp_code}</td>
+          <td>{beneficiary.Ben_Addresse}</td>
+          <td>{beneficiary.Ben_code}</td>
+        </tr>
+      ))
+  : null;
+
 
     const parseCSV = (content) => {
       try {
@@ -151,71 +155,92 @@ const Destinataire = ({ lightMode }) => {
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
-  // ...
-
-// ...
-const handleSendDataButtonClick = async (e) => {
-  e.preventDefault();
-
+const handleSendCSVButtonClick = async () => {
   try {
     if (mappedData.length > 0) {
+      // Sending data from the CSV
       for (const entry of mappedData) {
         const { Grp_code, Ben_Nom, Ben_Addresse, Ben_code } = entry;
         await sendToServer(Grp_code, Ben_Nom, Ben_Addresse, Ben_code);
       }
 
-      toast.success('Data sent successfully'); // Use toast for success message
+      toast.success('Data sent successfully from CSV');
 
       setMappedData([]);
 
       setTimeout(() => {
-        // Reset the success message after 3 seconds
-        toast.dismiss(); // Close the toast manually
+        toast.dismiss();
       }, 3000);
     } else {
       console.log('No data to send from mappedData');
     }
-
-    // Send data from input fields
-    const { Grp_code, Ben_Nom, Ben_Addresse, Ben_code } = formData;
-    if (Grp_code && Ben_Nom && Ben_Addresse && Ben_code) {
-      await sendToServer(Grp_code, Ben_Nom, Ben_Addresse, Ben_code);
-
-      toast.success('Data sent successfully'); // Use toast for success message
-
-      setFormData({
-        Grp_code: '',
-        Ben_Nom: '',
-        Ben_Addresse: '',
-        Ben_code: '',
-      });
-
-      setTimeout(() => {
-        // Reset the success message after 3 seconds
-        toast.dismiss(); // Close the toast manually
-      }, 3000);
-    } else {
-      console.log('No data to send from formData');
-    }
   } catch (error) {
     console.error('Error adding beneficiaries:', error);
 
-    toast.error('Error adding beneficiary'); // Use toast for error message
+    toast.error('Error adding beneficiary');
 
     setTimeout(() => {
-      // Reset the error message after 3 seconds
-      toast.dismiss(); // Close the toast manually
+      toast.dismiss();
     }, 3000);
   }
 };
 
+
+const handleChange = (e) => {
+  setFormSubmitted(false); // Reset the formSubmitted state when any input changes
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
+
+const handleSendFormButtonClick = async (e) => {
+  e.preventDefault();
+
+  try {
+    // Check if any input fields are empty before attempting to send data
+    if (
+      !formData.Grp_code ||
+      !formData.Ben_Nom ||
+      !formData.Ben_Addresse ||
+      !formData.Ben_code
+    ) {
+      setFormSubmitted(true); // Set formSubmitted to true if there are empty fields
+      toast.error('Veuillez remplir tous les champs');
+      return;
+    }
+
+    // Sending data from the form
+    await sendToServer(
+      formData.Grp_code,
+      formData.Ben_Nom,
+      formData.Ben_Addresse,
+      formData.Ben_code
+    );
+
+    toast.success('Data sent successfully from form');
+
+    setFormData({
+      Grp_code: '',
+      Ben_Nom: '',
+      Ben_Addresse: '',
+      Ben_code: '',
+    });
+
+    setTimeout(() => {
+      toast.dismiss();
+    }, 3000);
+  } catch (error) {
+    console.error('Error adding beneficiaries:', error);
+
+    toast.error('Error adding beneficiary');
+
+    setTimeout(() => {
+      toast.dismiss();
+    }, 3000);
+  }
+};
 const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -237,7 +262,6 @@ const handleSubmit = async (e) => {
       console.log('Beneficiary added successfully!');
     }
 
-    toast.success('Beneficiary added succesfully')
   } catch (error) {
     console.error('Error adding beneficiary:', error);
     toast.warning('error sendind data')
@@ -255,30 +279,36 @@ const handleSubmit = async (e) => {
   
   return (
     <div className={`destinataire-container${lightMode ? 'light-mode' : ''}`}>
-      <h1>Destinataire</h1>
-      <div className='main-dest'>
-        <table>
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Group code</th>
-              <th>Addresse</th>
-              <th>Matricule</th>
-            </tr>
-          </thead>
-          <tbody>{displayMappedData}</tbody>
-        </table>
-        <ReactPaginate
-          pageCount={Math.ceil(mappedData.length / itemsPerPage)}
-          pageRangeDisplayed={3}
-          marginPagesDisplayed={1}
-          onPageChange={handlePageChange}
-          containerClassName={'pagination'}
-          activeClassName={'active'}
-          pageClassName={'page-item'} 
-          disableInitialCallback={true}
-        />
-      </div>
+    <h1>Destinataire</h1>
+    <div className='main-dest'>
+      {formData.file ? (
+        <>
+          <table>
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Group code</th>
+                <th>Addresse</th>
+                <th>Matricule</th>
+              </tr>
+            </thead>
+            <tbody>{displayMappedData}</tbody>
+          </table>
+          <ReactPaginate
+            pageCount={Math.ceil(mappedData.length / itemsPerPage)}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={1}
+            onPageChange={handlePageChange}
+            containerClassName={'pagination'}
+            activeClassName={'active'}
+            pageClassName={'page-item'}
+            disableInitialCallback={true}
+          />
+        </>
+      ) : (
+        <p>Inserez un fichier</p>
+      )}
+    </div>
 
   <div className='side-dest'> 
       <div className='input-container'>
@@ -288,59 +318,85 @@ const handleSubmit = async (e) => {
           </label>
           <input type='file' id='fileInput' accept='.csv' onChange={handleFileChange} />
           <div>{fileName && `Fichier selectioné: ${fileName}`}</div>
-          <button className="ajouter-button" type='button' onClick={handleSendDataButtonClick}>
+          <button className="ajouter-button" type='button' onClick={handleSendCSVButtonClick}>
             Ajouter
           </button>
         </div>
-       
-    
         <div className='input-destinataire-group'>
-          <h2>Destinataire unique</h2>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor='groupSelect'>Sélectionner le groupe:</label>
-            <select
-              id='groupSelect'
-              name='Grp_code'
-              value={formData.Grp_code}
-              onChange={handleChange}
-            >
-              <option value=''>Sélectionner un groupe</option>
-              {groupList.map((group) => (
-                <option key={group.Grp_code} value={group.Grp_code}>
-                  {group.Grp_nom}
-                </option>
-              ))}
-            </select>
-  
-            <input
-              type='text'
-              name='Ben_Nom'
-              placeholder='Nom'
-              value={formData.Ben_Nom}
-              onChange={handleChange}
-            />
-            <input
-              type='text'
-              name='Ben_Addresse'
-              placeholder='Addresse'
-              value={formData.Ben_Addresse}
-              onChange={handleChange}
-            />
-            <input
-              type='text'
-              name='Ben_code'
-              placeholder='Matricule'
-              value={formData.Ben_code}
-              onChange={handleChange}
-            />
-  
-            <button className="ajouter-button" onClick={handleSendDataButtonClick} type='submit'>Ajouter</button>
-          </form>
-          
+  <h2>Destinataire unique</h2>
+  <form onSubmit={handleSubmit}>
+    <label htmlFor='groupSelect'>Sélectionner le groupe:</label>
+    <select
+      id='groupSelect'
+      name='Grp_code'
+      value={formData.Grp_code}
+      onChange={handleChange}
+    >
+      <option value=''>Sélectionner un groupe</option>
+      {groupList.map((group) => (
+        <option key={group.Grp_code} value={group.Grp_code}>
+          {group.Grp_nom}
+        </option>
+      ))}
+    </select>
+
+    <div className="input-with-warning">
+      <input
+        type='text'
+        name='Ben_Nom'
+        placeholder='Nom'
+        value={formData.Ben_Nom}
+        onChange={handleChange}
+      />
+      {formSubmitted && !formData.Ben_Nom && (
+        <div className="warning-icon-container">
+          {/* Insert your warning icon here */}
+          <i className="warning-icon">⚠️</i>
         </div>
+      )}
+    </div>
+
+    <div className="input-with-warning">
+      <input
+        type='text'
+        name='Ben_Addresse'
+        placeholder='Addresse'
+        value={formData.Ben_Addresse}
+        onChange={handleChange}
+      />
+      {formSubmitted && !formData.Ben_Addresse && (
+        <div className="warning-icon-container">
+          {/* Insert your warning icon here */}
+          <i className="warning-icon">⚠️</i>
+        </div>
+      )}
+    </div>
+
+    <div className="input-with-warning">
+      <input
+        type='text'
+        name='Ben_code'
+        placeholder='Matricule'
+        value={formData.Ben_code}
+        onChange={handleChange}
+      />
+      {formSubmitted && !formData.Ben_code && (
+        <div className="warning-icon-container">
+          {/* Insert your warning icon here */}
+          <i className="warning-icon">⚠️</i>
+        </div>
+      )}
+    </div>
+
+    <button className="ajouter-button" onClick={handleSendFormButtonClick} type='submit'>Ajouter</button>
+  </form>
+</div>
+
+
       </div>
     </div>
-    <ToastContainer />
+
+            <ToastContainer />
     </div>
   );
   

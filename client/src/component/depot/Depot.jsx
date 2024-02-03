@@ -13,31 +13,27 @@ const Depot = ({ onHistoryClick, lightMode }) => {
   const [montant, setMontant] = useState('');
   const [poids, setPoids] = useState('');
   const [taxes, setTaxes] = useState('');
-  const [successPopup, setSuccessPopup] = useState(false);
-  const [errorPopup, setErrorPopup] = useState(false);
-
   // Envoi des depots vers database
   const handleEnvoiClick = async () => {
     console.log('Handling Envoi Click');
-
     try {
       const expediteurExists = await verifyBeneficiaire(expediteurName, expediteurAddress);
 
       if (!expediteurExists) {
-        alert('Expediteur not found in beneficiaire table');
+        toast.error('expediteur inexistant');
         return;
       }
 
       const destinataireExists = await verifyBeneficiaire(destinataireName, destinataireAddress);
 
       if (!destinataireExists) {
-        alert('Destinataire not found in beneficiaire table');
+        toast.error('Destinataire inexistant');
         return;
       }
       const expediteurGrpCode = await fetchBeneficiaireGroupCode(expediteurName);
 
       if (!expediteurGrpCode) {
-        alert('Group code not found for the expediteur');
+        toast.error('erreur ');
         return;
       }
       
@@ -69,7 +65,6 @@ const Depot = ({ onHistoryClick, lightMode }) => {
       }
 
       console.log('Envoi added successfully!');
-      setSuccessPopup(true);
 
       // Reset state
       setExpediteurName('');
@@ -81,21 +76,12 @@ const Depot = ({ onHistoryClick, lightMode }) => {
       setMontant('');
       setPoids('');
 
-      setTimeout(() => {
-        setSuccessPopup(false);
-      }, 3000);
+      toast.success('Dépôt effectué avec succès')
     } catch (error) {
       console.error('Error handling envoi:', error);
-
-      setErrorPopup(true);
-
-      setTimeout(() => {
-        setErrorPopup(false);
-      }, 3000);
     }
   };
 
-  //verification des baneficiaire expediteur et destinataire
   const fetchBeneficiaireGroupCode = async (name) => {
     try {
       const response = await fetch(`http://localhost:8081/benefs?Ben_Nom=${name}`);
@@ -114,6 +100,8 @@ const Depot = ({ onHistoryClick, lightMode }) => {
       return null;
     }
   };
+
+  //verification des baneficiaire expediteur et destinataire
   const verifyBeneficiaire = async (name) => {
     try {
       const response = await fetch(`http://localhost:8081/benefs?Ben_Nom=${name}`);
@@ -121,13 +109,23 @@ const Depot = ({ onHistoryClick, lightMode }) => {
   
       console.log(`Verifying ${name}:`, beneficiaireData);
   
-      return beneficiaireData.length > 0;
+      const beneficiaireExists = beneficiaireData.some(beneficiaire => beneficiaire.Ben_Nom === name);
+  
+      if (beneficiaireExists) {
+        console.log('Beneficiaire exists!');
+        return true;
+      } else {
+        console.log('Beneficiaire does not exist.');
+        return false;
+      }
     } catch (error) {
-      console.error('Error verifying beneficiaire:', error);
+      console.error('Error fetching beneficiaire data:', error);
+      toast.error('An error occurred while verifying beneficiaire');
       return false;
     }
   };
   
+
 
   const fetchAgenceNom = async (Grp_code) => {
     try {
@@ -155,12 +153,9 @@ const Depot = ({ onHistoryClick, lightMode }) => {
       console.error('Error fetching agence nom:', error);
       return null;
     }
-  };
-  
-  
-
-  const sendEnvoiData = async (envoiData) => {
+  };const sendEnvoiData = async (envoiData) => {
     try {
+      // Step 1: Send the envoi data to the server
       const response = await fetch('http://localhost:8081/envoi', {
         method: 'POST',
         headers: {
@@ -168,23 +163,75 @@ const Depot = ({ onHistoryClick, lightMode }) => {
         },
         body: JSON.stringify(envoiData),
       });
-
+  
+      // Step 2: Parse the response JSON
       const responseData = await response.json();
-
+  
+      // Step 3: Check if the response is not OK (HTTP status other than 2xx)
       if (!response.ok) {
+        console.error('Failed to send envoi data:', responseData.message);
         throw new Error(`Failed to send envoi data: ${responseData.message}`);
-        
       }
-
+  
       console.log('Envoi data sent successfully', responseData);
-      toast.success('data sent succesfully')
-      return responseData;
+      console.log('Env_num:', envoiData.Env_num);
+  
+      // Check if responseData.Env_num is not null
+      if (responseData.Env_num !== null) {
+        // Step 4: Create historique entry using the returned data
+        const historiqueData = {
+          Env_num: envoiData.Env_num || '',
+          HIst_evenement: 'ETA',
+          Hist_date: envoiData.Env_date_depot || new Date().toISOString().slice(0, 19).replace("T", " "),
+          Hist_etat: '1',
+          Hist_agence: envoiData.Env_agence_depot || '',
+        };
+        
+        // Step 5: Send the historique data to the server
+        const historiqueResponse = await fetch('http://localhost:8081/historique', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(historiqueData),
+        });
+  
+        // Step 6: Parse the historique response JSON
+        const parsedHistoriqueResponse = await historiqueResponse.json();
+  
+        // Step 7: Check if the historique response is not OK
+        if (!historiqueResponse.ok) {
+          console.error('Failed to create historique entry:', parsedHistoriqueResponse.message);
+          throw new Error(`Failed to create historique entry: ${parsedHistoriqueResponse.message}`);
+        }
+  
+        console.log('Historique entry created successfully', parsedHistoriqueResponse);
+  
+        // Step 8: Set success popup and reset state
+        setSuccessPopup(true);
+  
+        setExpediteurName('');
+        setExpediteurAddress('');
+        setDestinataireName('');
+        setDestinataireAddress('');
+        setDestinataireTel('');
+        setNumero('');
+        setTaxes('');
+        setPoids('');
+  
+        toast.success('Dépôt effectué avec succès');
+      } else {
+        console.error('Env_num is null in the response');
+        throw new Error('Env_num is null in the response');
+      }
     } catch (error) {
-      console.error('Error sending envoi data', error);
-      throw error;
+      // Step 9: Handle errors and set error popup
+      console.error('Error handling envoi:', error);
     }
   };
-
+  
+  
+  
   const handleHistoriqueClick = () => {
     onHistoryClick();
   };
@@ -196,8 +243,8 @@ const Depot = ({ onHistoryClick, lightMode }) => {
         Deposit list
       </h2>
       <button className ="custom-button" onClick={handleEnvoiClick}>
-      <div class="svg-wrapper-1">
-        <div class="svg-wrapper">
+      <div className="svg-wrapper-1">
+        <div className="svg-wrapper">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -281,15 +328,6 @@ const Depot = ({ onHistoryClick, lightMode }) => {
             onChange={(e) => setPoids(e.target.value)}
           />
         </div>
-        {successPopup && (
-          <span className='success-popup-success'>send successfully!</span>
-        )}
-
-        {errorPopup && (
-          <div className='error-popup'>
-            Error when sending
-          </div>
-        )}
       </div>
       <ToastContainer />
     </div>

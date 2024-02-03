@@ -11,6 +11,7 @@ const benefs_routes = require('./routes/benefs.js')
 const fonction_routes = require('./routes/fonction.js')
 const group_routes = require('./routes/group.js')
 const envoi_routes = require('./routes/envoi.js')
+const historique_routes = require('./routes/Historique.js')
 
 const host = "localhost";
 const port = 8081;
@@ -26,6 +27,7 @@ app.use('/', benefs_routes);
 app.use('/', fonction_routes);
 app.use('/', group_routes);
 app.use('/', envoi_routes);
+app.use('/', historique_routes)
 
 app.listen(port, () => {
   console.log(`serve run on http://${host}:${port}`);

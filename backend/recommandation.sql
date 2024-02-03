@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 10 jan. 2024 à 16:36
+-- Généré le : sam. 03 fév. 2024 à 14:01
 -- Version du serveur : 8.2.0
 -- Version de PHP : 8.2.13
 
@@ -33,16 +33,15 @@ CREATE TABLE IF NOT EXISTS `agence` (
   `Agence_nom` varchar(20) NOT NULL,
   `Agence_code` varchar(20) NOT NULL,
   PRIMARY KEY (`agence_Id`)
-) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `agence`
 --
 
 INSERT INTO `agence` (`agence_Id`, `Agence_nom`, `Agence_code`) VALUES
-(1, 'BOA', '207'),
-(2, 'BFVSG', '206'),
-(39, 'BMOI', '209');
+(44, 'BFV', '209'),
+(43, 'Paositra', '210');
 
 -- --------------------------------------------------------
 
@@ -59,16 +58,34 @@ CREATE TABLE IF NOT EXISTS `béneficiaire` (
   `Ben_code` varchar(40) NOT NULL,
   `Agence_nom` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`Ben_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `béneficiaire`
 --
 
 INSERT INTO `béneficiaire` (`Ben_id`, `Grp_code`, `Ben_Nom`, `Ben_Addresse`, `Ben_code`, `Agence_nom`) VALUES
-(1, '200', 'Veldra', 'Antanimena', '4499', ''),
-(2, '206', 'Fitahina', 'Antanimena', '4499', ''),
-(3, '209', 'Millim', 'Antanimena', '4499', '');
+(1, '210', 'Fitahina', 'Ambohibao', '4499', ''),
+(2, '210', 'Fitahina', 'Ambohibao', '4499', ''),
+(3, '210', 'Fitahina', 'Ambohibao', '4499', ''),
+(4, '210', 'Fitahina', 'Ambohibao', '4499', ''),
+(5, '209', 'fita', 'Moramanga', '2265', ''),
+(6, '209', 'Nekroz', 'Moramena', '2266', ''),
+(7, '209', 'Ariana Grande', 'Moramavo', '2267', ''),
+(8, '209', 'Lil Pump', 'Moramanga', '2268', ''),
+(9, '209', 'Travis Scoot', 'Moramena', '2269', ''),
+(10, '209', 'Bts Juncock', 'Moramavo', '2270', ''),
+(11, '209', 'Lisa', 'Moramanga', '2271', ''),
+(12, '209', 'Jesus', 'Moramena', '2272', ''),
+(13, '209', 'Jenny', 'Moramavo', '2273', ''),
+(14, '209', 'Jenifer ', 'Moramanga', '2274', ''),
+(15, '209', 'Lopez', 'Moramena', '2275', ''),
+(16, '209', 'Dicaprio', 'Moramavo', '2276', ''),
+(17, '209', 'Da vinci', 'Moramanga', '2277', ''),
+(18, '209', 'Mia Khalifa', 'Moramena', '2278', ''),
+(19, '209', 'Jhonny Sins', 'Moramavo', '2279', ''),
+(20, '209', 'Tsisy inspi tsony', 'Moramora', '2280', ''),
+(21, '209', 'Nom de famillle ny prenom lava BE', 'Ivandry', '12354', '');
 
 -- --------------------------------------------------------
 
@@ -87,17 +104,17 @@ CREATE TABLE IF NOT EXISTS `envoi` (
   `Env_exp` varchar(255) NOT NULL,
   `Env_dest` varchar(255) NOT NULL,
   PRIMARY KEY (`Env_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `envoi`
 --
 
 INSERT INTO `envoi` (`Env_id`, `Env_num`, `Env_poids`, `Env_taxe`, `Env_date_depot`, `Env_agence_depot`, `Env_exp`, `Env_dest`) VALUES
-(7, '1', 15, 500, '2024-01-10', 'BOA', 'Veldra', 'Veldra'),
-(8, '', 0, 0, '2024-01-10', 'BOA', 'Veldra', 'Veldra'),
-(9, '20', 15, 1000, '2024-01-10', 'BFVSG', 'Fitahina', 'Veldra'),
-(10, '1', 15, 20, '2024-01-10', 'BMOI', 'Millim', 'Veldra');
+(1, '400', 10, 450, '2024-02-03', 'BFV', 'Jenny', 'Lisa'),
+(2, '100', 15, 10, '2024-02-03', 'BFV', 'Lopez', 'Lisa'),
+(3, '152Bis458', 15, 10, '2024-02-03', 'BFV', 'Lisa', 'Jenny'),
+(4, '200', 15, 1000, '2024-02-03', 'BFV', 'Nom de famillle ny prenom lava BE', 'Jenny');
 
 -- --------------------------------------------------------
 
@@ -138,16 +155,42 @@ CREATE TABLE IF NOT EXISTS `groupement` (
   `Grp_type` varchar(255) NOT NULL,
   `Grp_mail` varchar(45) NOT NULL,
   PRIMARY KEY (`Grp_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `groupement`
 --
 
 INSERT INTO `groupement` (`Grp_id`, `Grp_nom`, `Grp_code`, `Grp_adresse`, `Grp_responsable`, `Grp_contact`, `Grp_type`, `Grp_mail`) VALUES
-(35, 'BOA', '200', 'Antaninarenina', 'DG', '0349559225', 'bank', ''),
-(36, 'BlaBla', '206', 'Ampitatafika', 'DSI', '034656153', 'Bank', ''),
-(37, 'HIaka', '209', 'Ampitatafika', '206', '2602', 'banque', '');
+(35, 'BOA', '210', 'Antaninarenina', 'DG', '0349559225', 'bank', 'boa@contact.mg'),
+(37, 'HIaka', '209', 'Ampitatafika', 'DG hiaka', '2602', 'Societe', 'Hiaka@contact.mg');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `historique`
+--
+
+DROP TABLE IF EXISTS `historique`;
+CREATE TABLE IF NOT EXISTS `historique` (
+  `HIst_id` int NOT NULL AUTO_INCREMENT,
+  `Env_num` varchar(20) NOT NULL,
+  `HIst_evenement` varchar(20) NOT NULL,
+  `HIst_date` varchar(20) NOT NULL,
+  `Hist_etat` varchar(20) NOT NULL,
+  `Hist_agence` varchar(20) NOT NULL,
+  PRIMARY KEY (`HIst_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `historique`
+--
+
+INSERT INTO `historique` (`HIst_id`, `Env_num`, `HIst_evenement`, `HIst_date`, `Hist_etat`, `Hist_agence`) VALUES
+(1, '400', 'EMA', '2024-02-03', '1', 'BFV'),
+(2, '100', 'EMG', '2024-02-03', '1', 'BFV'),
+(3, '152Bis458', 'EMG', '2024-02-03', '1', 'BFV'),
+(4, '200', 'ETA', '2024-02-03', '1', 'BFV');
 
 -- --------------------------------------------------------
 
@@ -164,22 +207,19 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `Us_mail` varchar(255) NOT NULL,
   `Us_pwd` varchar(11) NOT NULL,
   `Fo_id` int NOT NULL,
-  `Grp_id` int NOT NULL,
+  `Grp_code` int NOT NULL,
+  `profile_picture_path` varchar(255) NOT NULL,
   PRIMARY KEY (`Us_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`Us_id`, `Us_nom`, `Us_matricule`, `Us_login`, `Us_mail`, `Us_pwd`, `Fo_id`, `Grp_id`) VALUES
-(12, 'fitahiana', '2265', 'Fitahiana', 'fitahiana@gmail.com', 'admin', 1, 404),
-(15, 'Dimbiniaina', '4499', 'Dimby', 'fitahiana.dimbiniana@gmail.com', '123456', 1, 265),
-(16, 'Razafimahatratra', '4562', 'NekrozX4', 'dimbiniaina.fitahiana@gmail.com', '123456', 1, 205),
-(17, 'Velonarivo', '4562', 'Vony', 'vony', '123456', 2, 256),
-(19, 'mams', '99', 'mams', 'mamsgit', '123556', 2, 206),
-(20, 'Razafimahatratra', '2245', 'Veldra', 'dimbiniaina.fitahiana@gmail.com', 'admin', 1, 206),
-(21, 'Veldra Tempest', '4415', 'Rimuru', 'Millim', 'admin', 1, 2206);
+INSERT INTO `utilisateur` (`Us_id`, `Us_nom`, `Us_matricule`, `Us_login`, `Us_mail`, `Us_pwd`, `Fo_id`, `Grp_code`, `profile_picture_path`) VALUES
+(12, ' Razafimahatratra fitahiana', '2265', 'Fitahiana', 'fitahiana@gmail.com', 'admin', 1, 210, ''),
+(22, 'Millim Nava', '5689', 'Veldra', 'admin beuh', 'admin', 1, 209, ''),
+(23, 'saisie', '449945', 'saisie', 'fitahiana.dimbiniaina@gmail.com', 'saisie', 2, 209, '');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
