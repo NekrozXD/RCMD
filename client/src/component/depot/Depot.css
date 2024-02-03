@@ -60,9 +60,12 @@
   .history{
     background-color: #2C333A;
     color: rgb(255, 255, 255);
+    position: absolute;
+    right:27%;
+    top: 20%;
     width: max-content;
     padding: 10px;
-    border-radius: 30px;
+    border-radius: 10px;
     margin-left: 40vw;
     margin-top: -7vh;
     transition: 0.3s;

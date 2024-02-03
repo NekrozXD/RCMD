@@ -121,7 +121,7 @@ const Historique = ( { lightMode , onHistoryClose} ) => {
       <div className='history-header'>
         <div className='sorting metho'>
           <button className="close-btn" onClick={close}>Fermer</button>
-      <h1>Deposit list</h1>
+            <span className='list-deposit'>Liste des Depots</span>
              {/* Group By Dropdown */}
             <div className='group-by-dropdown'>
           <label htmlFor='groupBy'>Group By:</label>

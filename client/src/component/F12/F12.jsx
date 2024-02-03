@@ -185,7 +185,7 @@ const F12 = ({ lightMode }) => {
   return (
     <div className={`F12-container ${lightMode ? 'light-mode' : ''}`}>
       <div className='history-header'>
-        <h1>Liste des envoi</h1>
+        <h1>Liste des envois</h1>
         <div className='sorting metho'></div>
       </div>
   

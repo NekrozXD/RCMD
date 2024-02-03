@@ -140,6 +140,11 @@
     cursor: pointer;   
     transform: scale(0.9);
     color: rgb(0, 0, 0);
+    color: white;
+  }
+
+  button:active{
+    transform: scale(0.8);
   }
 
   .about-section {

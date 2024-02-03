@@ -3,7 +3,9 @@
     align-items: center;
     justify-content: center;
     width: 100vw;
+    top:0;
     margin: 0;
+    position: absolute;
     text-align: center;
     color: white;
     margin-left: 0vw;
@@ -30,6 +32,47 @@
 
 }
 
+.paginate{
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  height: 5vh;
+  width: max-content;
+  position: absolute;
+  bottom: 0;
+  right : 50%;
+}
+
+.search-bar-container{
+    position: absolute;
+    width: 60vh;
+    display: flex;
+    margin: 5px;
+    align-items: center;
+    flex-direction: row;
+    top : 1%;
+    z-index: 2000;
+}
+
+.search-bar-container button{
+    background-color: rgb(35, 35, 37);
+    width: 5vw;
+    margin-left: 10px;
+}
+.light-mode .search-bar-container button{
+    background-color: #484b6a;
+    color: rgb(255, 255, 255);
+}
+.search-bar-container input{
+    background-color: rgb(0, 0,0,0.5);
+    color: white;
+   
+}
+
+.search-bar-container input::placeholder{
+    color: white;
+}
 .recap div{
     flex-direction: column;
     padding: 10px;
@@ -45,10 +88,11 @@
     box-shadow: 12px 12px 2px 1px 	#917e9b;
 }
 .side-hist{
-    height: 90vh;
+    height: 100vh;
     width: 20vw;
     position: absolute;
     right: 0;
+    top: 4%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -82,11 +126,12 @@
     border: 1px solid grey;
     border-radius: 20px;
     border-top: none;
-   min-height: 85vh;
-   max-height: 85vh;
+   min-height: 82vh;
+   max-height: 82vh;
    overflow-y: auto;
     width : 75vw;
     left: 5%;
+    top: 11%;
 }
 
 .operation-list table{
@@ -105,4 +150,46 @@
 
 .operation-list th{
     border-bottom: 1px solid gray;
+}
+
+.operation-list::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  .operation-list::-webkit-scrollbar-track {
+    background: #747474;
+    border-radius: 10px;
+  }
+  
+  .operation-list::-webkit-scrollbar-thumb {
+    background: #383838;
+    border-radius: 10px;
+  }
+  
+  .operation-list::-webkit-scrollbar-thumb:hover {
+    background: #000000;
+  }
+  
+
+@media only screen and (max-width: 1366px) {
+    .operation-list{
+        height: 50vh;
+        font-size: 15px;
+    }
+    .operation-container td{
+        font-size: 14px;
+    }
+    .side-hist{
+        top:40%;
+        right: -1.5%;
+        height: 30vh;
+        padding: 5px;
+    }
+    .recap div h1{
+        font-size: 35px;
+    }
+    .recap div{
+        padding: auto;
+        margin: 20px;
+    }
 }

@@ -53,12 +53,12 @@ const GroupDetail = ({ selectedGroup, onClose }) => {
         <p>Code: {selectedGroup.Grp_code}</p>
         <p>Address: {selectedGroup.Grp_adresse}</p>
       </div>
-      <h2>Beneficiaries:</h2>
+      <h2 className='benefs'>beneficiaires :</h2>
       {error ? (
         <p className="error-message">{error}</p>
       ) : (
-        <div>
-          <table className='table'>
+        <div className='table'>
+          <table >
             <thead>
               <tr>
                 <th>num</th>
@@ -68,8 +68,10 @@ const GroupDetail = ({ selectedGroup, onClose }) => {
               </tr>
             </thead>
             <tbody>{displayBeneficiaries}</tbody>
-          </table>
-          <ReactPaginate
+          </table>  
+        </div>
+      )}
+      <ReactPaginate
             pageCount={pageCount}
             pageRangeDisplayed={3}
             marginPagesDisplayed={1}
@@ -77,10 +79,8 @@ const GroupDetail = ({ selectedGroup, onClose }) => {
             containerClassName={'pagination'}
             activeClassName={'active'}
             pageClassName={'page-item'} 
-            disableInitialCallback={true}
+            disableInitialCallback = {false}
           />
-        </div>
-      )}
       <button className='close-btn' onClick={onClose}>
         Fermer
       </button>

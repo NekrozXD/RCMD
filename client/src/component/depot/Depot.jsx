@@ -181,7 +181,7 @@ const Depot = ({ onHistoryClick, lightMode }) => {
         // Step 4: Create historique entry using the returned data
         const historiqueData = {
           Env_num: envoiData.Env_num || '',
-          HIst_evenement: 'ETA',
+          HIst_evenement: 'EMA',
           Hist_date: envoiData.Env_date_depot || new Date().toISOString().slice(0, 19).replace("T", " "),
           Hist_etat: '1',
           Hist_agence: envoiData.Env_agence_depot || '',
@@ -240,7 +240,7 @@ const Depot = ({ onHistoryClick, lightMode }) => {
     <div className={`particulier-container ${lightMode ? 'light-mode' : ''}`}>
       <h1>Particulier</h1>
       <h2 className='history' onClick={handleHistoriqueClick}>
-        Deposit list
+        Liste des dépots
       </h2>
       <button className ="custom-button" onClick={handleEnvoiClick}>
       <div className="svg-wrapper-1">

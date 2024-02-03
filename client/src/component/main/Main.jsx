@@ -60,6 +60,9 @@ const Main = () => {
     setClickedDiv((prevClickedDiv) => (prevClickedDiv === section ? null : section));
   };
 
+  const handleMouseLeaveSidebar = () => {
+    setClickedDiv(null);
+  };
 
   const handleClickedP = (p) => {
     console.log('Clicked component:', p);
@@ -218,24 +221,24 @@ const Main = () => {
       </header>
 
       <div className="content-container">
-        <aside className={sidebarClass}>
+      <aside className={sidebarClass} onMouseLeave={handleMouseLeaveSidebar}>
         <div className="main-div" onClick={() => handleClickedP('home')}>
-          <FontAwesomeIcon icon={faHome} /> Home
+          <FontAwesomeIcon icon={faHome} /> <span>&nbsp;</span> Home
         </div>          
           <div className="main-div" onClick={() => handleMouseEnter('depot')}>
-            <FontAwesomeIcon icon={faInbox} /> Depot
+            <FontAwesomeIcon icon={faInbox} /> <span>&nbsp;</span> Depot
             {clickedDiv === 'depot' && (
-              <>
+              <> 
                 <p onClick={() => handleClickedP('Particulier')}>Particulier</p>
                 <p onClick={() => handleClickedP('En nombre')}>En nombre</p>
               </>
             )}
           </div>
           <div className="main-div" onClick={() => handleClickedP('Operation')}>
-            <FontAwesomeIcon icon={faFileAlt} /> Operation
+            <FontAwesomeIcon icon={faFileAlt} />  <span>&nbsp;</span> Operation
           </div>
           <div className="main-div" onClick={() => handleMouseEnter('edition')}>
-            <FontAwesomeIcon icon={faListAlt} /> Edition
+            <FontAwesomeIcon icon={faListAlt} /> <span>&nbsp;</span> Edition
             {clickedDiv === 'edition' && (
               <>
                 <p>Registre</p>
@@ -245,7 +248,7 @@ const Main = () => {
             )}
           </div>
           <div className="main-div" onClick={() => handleMouseEnter('configuration')}>
-            <FontAwesomeIcon icon={faCog} /> Configuration
+            <FontAwesomeIcon icon={faCog} />  <span>&nbsp;</span> Configuration
             {clickedDiv === 'configuration' && (
               <>
                 <p onClick={() => handleClickedP('Groupement')}>Groupement</p>

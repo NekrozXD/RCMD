@@ -7,6 +7,9 @@
     align-items: center;
     justify-content: center;
 }
+.content-container {
+  display: flex;
+}
 
 .container::-webkit-scrollbar{
   height: 0;
@@ -14,7 +17,7 @@
 }
 
 .main-div:hover{
-  background-color: rgb(39, 39, 68);
+  background-color: rgb(58, 58, 58);
 }
 .light-mode .main-div:hover{
   background-color: rgb(39, 39, 68,0.5);
@@ -70,8 +73,9 @@
     display: flex;
     flex: 1;
     margin-top: 8vh; 
-
+    margin: 0;
   }
+  
   .sidebar div p{
     transition: 0.2s ease-in-out;
   }
@@ -79,6 +83,7 @@
     background-color: #313131 ;
     padding: 20px;
     min-width: 10vw;
+    margin: 20px;
     margin-top: 10vh; 
     height: 90%;
     color : rgb(255, 255, 255);
@@ -89,6 +94,13 @@
     font-family:Arial, Helvetica, sans-serif;
     position: fixed;
     top: 0;
+}
+
+.main-div{
+  min-height: 5%;
+  font-size: 20px;
+  border-radius: 10px;
+  padding: 15px;
 }
 
 .light-mode button{
@@ -111,6 +123,7 @@
     margin-right: -10px;
     display: flex;
     align-items: center;
+    height: 100%;
     justify-content: center;
   }
   .content.sidebar{
@@ -136,6 +149,8 @@
   justify-content: center;
   padding: 0;
   margin: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
   height: 3vh;
 }
 
@@ -502,9 +517,19 @@
   transform: translate(2px, 2px);
 }
 
-@media only screen and (max-width: 1360px) {
+@media only screen and (max-width: 1366px) {
   .container{
     font-size: 12px;
+  }
+  .sidebar{
+    transform: translateX(-22%);
+  }
+  .main-div{
+    min-height: 7%;
+  }
+  .sidebar p{
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 }
 

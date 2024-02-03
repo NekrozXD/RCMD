@@ -1,22 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import ReactPaginate from 'react-paginate';
 import './Operation.css';
 
 const Operation = ({ lightMode }) => {
   const [historicalData, setHistoricalData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8081/histEnvoi');
-        setHistoricalData(response.data);
+        const newData = response.data;
+
+        // Check if there is any difference in the data
+        const hasNewData = !arraysEqual(newData, historicalData);
+
+        setHistoricalData(newData);
+
+        // Check sessionStorage to see if the toast has been displayed
+        const toastDisplayed = sessionStorage.getItem('toastDisplayed');
+
+        // If there's new data and the toast hasn't been displayed, show the toast
+        if (hasNewData && !toastDisplayed) {
+          toast.success('New data has been fetched!', { position: toast.POSITION.TOP_RIGHT });
+          // Set the flag in sessionStorage to avoid showing the toast again during this session
+          sessionStorage.setItem('toastDisplayed', 'true');
+        }
       } catch (error) {
         console.error('Error fetching historical data:', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [historicalData]);
+
+  const arraysEqual = (a, b) => {
+    return JSON.stringify(a) === JSON.stringify(b);
+  };
+
+  
+  const itemsPerPage = 20;
+  const pagesVisited = currentPage * itemsPerPage;
+  const displayData = historicalData.slice(pagesVisited, pagesVisited + itemsPerPage);
+
+  const pageCount = Math.ceil(historicalData.length / itemsPerPage);
+
+  const changePage = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+  const handleSearch = (event) => {
+    const searchQuery = event.target.value;
+    console.log('Search Query:', searchQuery);
+    // You can perform your search logic here
+  };
 
   const triData = historicalData.filter(item => item.HIst_evenement === 'ETA');
   const triEnv = historicalData.filter(item => item.HIst_evenement === 'EMA');
@@ -24,25 +61,33 @@ const Operation = ({ lightMode }) => {
 
   return (
     <div className={`operation-container ${lightMode ? 'light-mode' : ''}`}>
-     <div className='operation-list'>
-          <table>
-            <thead>
-              <tr>
-                <th>Env_num</th>
-                <th>Expediteur</th>
-                <th>Destinataire</th>
-                <th>Etat</th>
-                <th>Hist_date</th>
-                <th>Hist_agence</th>
-              </tr>
-            </thead>
-            <tbody>
-              {historicalData.map((item) => (
-                <tr key={item.Env_num}>
-                  <td>{item.Env_num}</td>
-                  <td>{item.Env_exp}</td>
-                  <td>{item.Env_dest}</td>
-                  <td>
+       <div className="search-bar-container">
+      <input
+        type="text"
+        placeholder="Search..."
+        onChange={handleSearch}
+      />
+      <button onClick={() => console.log('Search button clicked')}>Search</button>
+    </div>
+      <div className='operation-list'>
+        <table>
+          <thead>
+            <tr>
+              <th>Numero d'envoi</th>
+              <th>Expediteur</th>
+              <th>Destinataire</th>
+              <th>Etat</th>
+              <th>Date</th>
+              <th>Agence</th>
+            </tr>
+          </thead>
+          <tbody>
+            {displayData.map((item) => (
+              <tr key={item.Env_num}>
+                <td>{item.Env_num}</td>
+                <td>{item.Env_exp}</td>
+                <td>{item.Env_dest}</td>
+                <td>
                   {item.HIst_evenement === 'EMA'
                     ? 'Agence Postale'
                     : item.HIst_evenement === 'ETA'
@@ -50,15 +95,26 @@ const Operation = ({ lightMode }) => {
                     : item.HIst_evenement === 'EMG'
                     ? 'Centre de distribution'
                     : 'Unknown'}
-                  </td>
-                  <td>{item.Hist_date}</td>
-                  <td>{item.Hist_agence}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                </td>
+                <td>{item.Hist_date}</td>
+                <td>{item.Hist_agence}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div>
+      <ReactPaginate
+          pageCount={pageCount}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={1}
+          onPageChange={changePage}
+          containerClassName={'paginate'}
+          activeClassName={'active'}
+          pageClassName={'page-item'} 
+          disableInitialCallback = {false}
+        />       
         </div>
-
       <div className='side-hist'>
         <div className='recap'>
           <div className='nbr-envoi'>
