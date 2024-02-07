@@ -5,6 +5,7 @@ body {
   position: fixed;
     padding: 0;
     margin: 0;
+    background-color: #202020;
   }
   
   body::-webkit-scrollbar{
@@ -12,5 +13,5 @@ body {
   }
 
 #dark.container header{
-    background-color: #fff;
+    background-color: #303030;
 }
