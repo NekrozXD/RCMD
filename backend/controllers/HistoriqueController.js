@@ -1,4 +1,5 @@
 const db =  require("../model/db.js");
+const util = require('util');
 
 const getHistorique = (req, res) => {
     const sql = "SELECT * FROM historique";
@@ -44,10 +45,12 @@ const getHistorique = (req, res) => {
           console.error('Error executing SQL query:', err);
           return res.status(500).json({ error: "Internal Server Error" });
         }
-        console.log('Query results:', data);
+        console.log('Query results:', util.inspect(data, { maxDepth: 3 }));
         return res.json(data);
     });
 };
+
+
   
     
   module.exports= { getHistorique, createHistorique ,getHistEnvoi}

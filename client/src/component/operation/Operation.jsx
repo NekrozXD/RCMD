@@ -6,38 +6,21 @@ import './Operation.css';
 const Operation = ({ lightMode }) => {
   const [historicalData, setHistoricalData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8081/histEnvoi');
         const newData = response.data;
-
-        // Check if there is any difference in the data
-        const hasNewData = !arraysEqual(newData, historicalData);
-
         setHistoricalData(newData);
-
-        // Check sessionStorage to see if the toast has been displayed
-        const toastDisplayed = sessionStorage.getItem('toastDisplayed');
-
-        // If there's new data and the toast hasn't been displayed, show the toast
-        if (hasNewData && !toastDisplayed) {
-          toast.success('New data has been fetched!', { position: toast.POSITION.TOP_RIGHT });
-          // Set the flag in sessionStorage to avoid showing the toast again during this session
-          sessionStorage.setItem('toastDisplayed', 'true');
-        }
       } catch (error) {
         console.error('Error fetching historical data:', error);
       }
     };
-
+  
     fetchData();
-  }, [historicalData]);
+  }, []); // Empty dependency array ensures the effect runs only once
+  
 
-  const arraysEqual = (a, b) => {
-    return JSON.stringify(a) === JSON.stringify(b);
-  };
 
   
   const itemsPerPage = 20;

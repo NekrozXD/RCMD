@@ -1,4 +1,3 @@
-// main.mjs (or update main.js)
 import { app, BrowserWindow, Menu } from 'electron';
 
 let mainWindow;
@@ -8,13 +7,10 @@ function createWindow() {
     width: 1960,
     height: 1080,
     webPreferences: {
-      nodeIntegration: true,
-      closable: true,
+      nodeIntegration: true
     },
-    fullscreen: true, 
-    closable: true,
+    closable: true // There's no 'closable' option in BrowserWindow, remove if not needed
   });
-  
 
   mainWindow.loadURL('http://localhost:5173');
 
@@ -25,19 +21,10 @@ function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
-
-  app.on('before-quit', function () {
-    app.quit();
-  });
-  
-  app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') app.quit();
-  });
-  
 });
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
 });
 
-Menu.setApplicationMenu(null)
+Menu.setApplicationMenu(null);

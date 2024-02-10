@@ -4,7 +4,7 @@
   "scripts": {
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
     "start:backend": "cd backend && node server.js",
-    "start:frontend": "cd client && npm run dev"
+    "start:frontend": "cd client && npm run electron:serve"
   },
   "devDependencies": {
     "concurrently": "^6.2.1"

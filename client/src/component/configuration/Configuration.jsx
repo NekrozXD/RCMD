@@ -20,6 +20,32 @@ function Configuration(props) {
     Grp_mail: "",
   }); 
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault(); 
+
+        const focusableElements = document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const currentIndex = Array.from(focusableElements).findIndex(element => element === document.activeElement);
+
+        let nextIndex;
+        if (event.key === 'ArrowDown') {
+          nextIndex = currentIndex === focusableElements.length - 1 ? 0 : currentIndex + 1;
+        } else {
+          nextIndex = currentIndex === 0 ? focusableElements.length - 1 : currentIndex - 1;
+        }
+
+
+        focusableElements[nextIndex].focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -38,7 +64,11 @@ function Configuration(props) {
       Grp_type: "",
       Grp_mail: "",
     });
-    toast.info('cleared')
+    toast.info('cleared',{
+      closeButton: false,
+      closeOnClick: false,
+      autoClose: 3000, 
+    });
     setIsEditing(false)
   }
 

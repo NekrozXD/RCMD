@@ -226,7 +226,7 @@ const Main = () => {
           <FontAwesomeIcon icon={faHome} /> <span>&nbsp;</span> Home
         </div>          
           <div className="main-div" onClick={() => handleMouseEnter('depot')}>
-            <FontAwesomeIcon icon={faInbox} /> <span>&nbsp;</span> Depot
+            <FontAwesomeIcon icon={faInbox} /> <span>&nbsp;</span> Dépôt
             {clickedDiv === 'depot' && (
               <> 
                 <p onClick={() => handleClickedP('Particulier')}>Particulier</p>
