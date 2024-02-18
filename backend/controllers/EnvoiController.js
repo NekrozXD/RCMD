@@ -100,4 +100,14 @@ const db =  require("../model/db");
       });
 }
 
-module.exports= { createEnvoi, getCombinedData, getEnvoi, createEnvoiUpload }
+
+const getLast5Envoi = (req, res) => {
+  const envoisql = "SELECT * FROM envoi ORDER BY Env_id DESC LIMIT 10";
+  
+  db.query(envoisql, (err, data) => {
+    if (err) return res.status(500).json({ error: "Internal Server Error" });
+    return res.json(data);
+  });
+};
+
+module.exports = { createEnvoi, getCombinedData, getEnvoi, createEnvoiUpload, getLast5Envoi };

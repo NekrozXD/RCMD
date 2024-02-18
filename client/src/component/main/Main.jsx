@@ -258,7 +258,7 @@ const Main = () => {
               </>
             )}
           </div>          
-      <div className='sidebarshow'> ☰ </div>
+      <div className='sidebarshow' > ☰ </div>
           {/* <button onClick={handleCloseApp}>Close App</button> */}
         </aside>
         <div className={contentClass}>{renderContent()}</div>

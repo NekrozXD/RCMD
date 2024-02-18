@@ -11,7 +11,7 @@ const F12 = ({ lightMode }) => {
   const [showPdfPreview, setShowPdfPreview] = useState(false);
   const [pdfContent, setPdfContent] = useState('');
   const [selectedAgence, setSelectedAgence] = useState(null);
-
+  
   useEffect(() => {
     fetchHistoriqueData();
     fetchBeneficiaryData();
@@ -184,14 +184,14 @@ const F12 = ({ lightMode }) => {
   
   return (
     <div className={`F12-container ${lightMode ? 'light-mode' : ''}`}>
-      <div className='history-header'>
-        <h1>Liste des envois</h1>
+        <div className='history-header'>
+        <span className='envoilist'>LISTE DES ENVOIS</span>
         <div className='sorting metho'></div>
       </div>
-  
+
       <div className='main-history-container'>
         <div className='agence-sidebar'>
-        <h3>liste des agences: </h3>
+          <h3>liste des agences: </h3>
           {Object.keys(organizedData).map((groupKey) => (
             <div key={groupKey} className='agence-item'>    
               <div className='agence-menu' onClick={() => setSelectedAgence(groupKey)}>
@@ -204,85 +204,101 @@ const F12 = ({ lightMode }) => {
             </div>
           ))}
         </div>
-  
-        {selectedAgence ? (
-          <div className='historique-list'>
-            <h2 className='agenceH2'>{`Agence: ${selectedAgence} (${
-              organizedData[selectedAgence].length !== 1
-                ? `nombre de depots: ${organizedData[selectedAgence].length}`
-                : 'nombre de depot: 1'
-            })`}</h2>
-            <button className = 'pdf-generation' onClick={() => handlePreviewPDF(selectedAgence)}>Generer liste F12</button>
-  
-            <div className='grouping'>
-              {organizedData[selectedAgence].map((envoi) => (
-                <div key={envoi.Env_id} className='historique-item'>
-                  <p>
-                    <strong>Expediteur</strong> {envoi.Env_exp}
-                    <span className='separator'> | </span>
-                    <strong>Destinataire</strong> {envoi.Env_dest}
-                  </p>
-                  <span>&nbsp;</span>
-                  <p>
-                    <strong>Details:</strong> {`Num: ${envoi.Env_num}, Poids: ${envoi.Env_poids}g , Taxe: ${envoi.Env_taxe} Ar `}
-                  </p>
-                  <span>&nbsp;</span>
-                  <p>
-                    <strong>Date:</strong>{' '}
-                    {envoi.Env_date_depot &&
-                      new Date(envoi.Env_date_depot).toLocaleDateString('en-US', {
-                        timeZone: 'Africa/Nairobi',
-                      })}
-                    <span className='separator'> | </span>
-                    <strong>{groupBy === 'address' ? 'Agence' : 'Address'}:</strong>{' '}
-                    {groupBy === 'address' ? envoi.Env_agence_depot : getBeneficiaryAddress(envoi.Env_dest)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className='historique-list'>
-            {Object.keys(organizedData).map((groupKey) => (
-              <div key={groupKey} className='grouping'>
-                <h2>
-                  {`${groupBy === 'address' ? 'Address' : 'Agence'}: ${groupKey} (${
-                    organizedData[groupKey].length !== 1
-                      ? `nombre de depots: ${organizedData[groupKey].length}`
-                      : 'nombre de depot: 1'
-                  })`}
-                </h2>
-                <button className = 'F12-btn' onClick={() => handlePreviewPDF(groupKey)}>Generer liste F12</button>
-                {organizedData[groupKey].map((envoi) => (
-                  <div key={envoi.Env_id} className='historique-item'>
-                    <p>
-                      <strong>Expediteur</strong> {envoi.Env_exp}
-                      <span className='separator'> | </span>
-                      <strong>Destinataire</strong> {envoi.Env_dest}
-                    </p>
-                    <span>&nbsp;</span>
-                    <p>
-                      <strong>Details:</strong> {`Num: ${envoi.Env_num}, Poids: ${envoi.Env_poids}g , Taxe: ${envoi.Env_taxe} Ar `}
-                    </p>
-                    <span>&nbsp;</span>
-                    <p>
-                      <strong>Date:</strong>{' '}
+{selectedAgence && (
+  <div className='F12-hist'>
+    <h2 className='agenceH2'>{`Agence: ${selectedAgence} (${
+      organizedData[selectedAgence].length !== 1
+        ? `nombre de depots: ${organizedData[selectedAgence].length}`
+        : 'nombre de depot: 1'
+    })`}</h2>
+    <button className='pdf-generation' onClick={() => handlePreviewPDF(selectedAgence)}>Génerer liste F12</button>
+
+    <div className='groupement'>
+      <table className='custom-table-list'>
+        <thead>
+          <tr>
+            <th>Expediteur</th>
+            <th>Destinataire</th>
+            <th>Details</th>
+            <th>Date</th>
+            <th>{groupBy === 'address' ? 'Agence' : 'Address'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {organizedData[selectedAgence]
+            .sort((a, b) => new Date(a.Env_date_depot) - new Date(b.Env_date_depot))
+            .map((envoi, index) => (
+              <tr key={index}>
+                <td>{envoi.Env_exp}</td>
+                <td>{envoi.Env_dest}</td>
+                <td>{`N°: ${envoi.Env_num}, Poids: ${envoi.Env_poids}g , Taxe: ${envoi.Env_taxe} Ar`}</td>
+                <td>
+                  {envoi.Env_date_depot &&
+                    new Date(envoi.Env_date_depot).toLocaleDateString('en-US', {
+                      timeZone: 'Africa/Nairobi',
+                    })}
+                </td>
+                <td>{groupBy === 'address' ? envoi.Env_agence_depot : getBeneficiaryAddress(envoi.Env_dest)}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
+
+{!selectedAgence && (
+  <div className='F12-hist'>
+    {Object.keys(organizedData).map((groupKey) => (
+      
+      <div key={groupKey} className='grouping'>
+        <div className='header-f12'>
+        <h2>
+          {`${groupBy === 'address' ? 'Address' : 'Agence'}: ${groupKey} (${
+            organizedData[groupKey].length !== 1
+              ? `nombre de depots: ${organizedData[groupKey].length}`
+              : 'nombre de depot: 1'
+          })`}
+        </h2>
+        <button className='F12-btn' onClick={() => handlePreviewPDF(groupKey)}>Generer liste F12</button>
+        </div>
+        <div className='historique-table'>
+          <table className='custom-table'>
+            <thead>
+              <tr>
+                <th>Expediteur</th>
+                <th>Destinataire</th>
+                <th>Details</th>
+                <th>Date</th>
+                <th>{groupBy === 'address' ? 'Agence' : 'Address'}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {organizedData[groupKey]
+                .sort((a, b) => new Date(a.Env_date_depot) - new Date(b.Env_date_depot))
+                .map((envoi, index) => (
+                  <tr key={index}>
+                    <td>{envoi.Env_exp}</td>
+                    <td>{envoi.Env_dest}</td>
+                    <td>{`N°: ${envoi.Env_num}, Poids: ${envoi.Env_poids}g , Taxe: ${envoi.Env_taxe} Ar`}</td>
+                    <td>
                       {envoi.Env_date_depot &&
                         new Date(envoi.Env_date_depot).toLocaleDateString('en-US', {
                           timeZone: 'Africa/Nairobi',
                         })}
-                      <span className='separator'> | </span>
-                      <strong>{groupBy === 'address' ? 'Agence' : 'Address'}:</strong>{' '}
-                      {groupBy === 'address' ? envoi.Env_agence_depot : getBeneficiaryAddress(envoi.Env_dest)}
-                    </p>
-                  </div>
+                    </td>
+                    <td>{groupBy === 'address' ? envoi.Env_agence_depot : getBeneficiaryAddress(envoi.Env_dest)}</td>
+                  </tr>
                 ))}
-              </div>
-            ))}
-          </div>
-        )}
+            </tbody>
+          </table>
+        </div>
       </div>
-  
+    ))}
+  </div>
+)}
+      </div>
+
       {showPdfPreview && (
         <div className="pdf-preview-section">
           <iframe title="PDF Preview" src={pdfContent} width="100%" height="600px" />
@@ -291,7 +307,7 @@ const F12 = ({ lightMode }) => {
       )}
     </div>
   );
-  
+
 };
 
 export default F12;

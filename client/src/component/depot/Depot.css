@@ -7,9 +7,66 @@
 
   
 .particulier-container{
-
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid rgb(114, 114, 114);
 }
-  
+.light-mode .particulier-container {
+  border-bottom: 2px solid black;
+}
+.last-deposit{
+  position: absolute;
+  bottom: 1.5%;
+  width: 95%;
+  background-color: transparent;
+  max-height: 390px;
+  overflow-y: auto;
+}
+.last-deposit table{
+  width: 100%;
+  border-collapse: collapse;
+  align-items: center;
+  justify-content: center;
+}
+.last-deposit table ,td,th{
+  border-collapse: collapse;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+  .depot-head{
+    position: absolute;
+    z-index: 2000;
+    top:1%;
+    right : 50%;
+  }
+ .light-mode .depot-head{
+  color: white;
+ }
+  .deposit-header{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    top : 20%;
+    left: 20%;
+  }
+
+  .particulier-container p{
+    position: absolute;
+    top : 10%;
+    font-size:40px;
+    font-weight: bolder;
+  }
+
+  .light-mode .particulier-container .deposit-header{
+    position: absolute;
+    top : 20%;
+    left: 20%;
+  }
   .particulier-container.light-mode .input-container div {
     background-color: transparent;
     border: 2px solid rgb(19, 19, 19);
@@ -24,6 +81,18 @@
   background-color: rgb(255, 255, 255);
  
 }
+.inpu-ar{
+  margin: 0;
+  
+}
+.particulier-container::-webkit-scrollbar {
+  display: none;
+}
+
+.light-mode .particulier-container::-webkit-scrollbar {
+  display: none;
+}
+
   .input-group {
     flex: 1;
     display: flex;
@@ -31,11 +100,17 @@
     gap: 10px;
     align-items: center;
     justify-content: space-evenly;
-    padding: 10px;
+    padding: 0px;
     margin: 10px;
+    padding: 13px;
     border-radius: 10px;
-    padding: 10px;
     border: 1px solid white;
+  }
+
+  .input-group input {
+    padding: 10px;
+    margin: 0px;
+    margin-bottom: 20px;
   }
   
   .input-group.lightmode{
@@ -61,8 +136,8 @@
     background-color: #2C333A;
     color: rgb(255, 255, 255);
     position: absolute;
-    right:27%;
-    top: 20%;
+    right:1%;
+    top: 100%;
     width: max-content;
     padding: 10px;
     border-radius: 10px;
@@ -141,6 +216,11 @@
     border-bottom-color: rgb(255, 0, 0);  
     transform: translateX(-20.5vw); 
   }
+  .custom-button{
+    position: absolute;
+    top : 13%;
+    right: 69.5%;
+  }
   .custom-button svg {
     display: block;
     transform-origin: center center;
@@ -204,8 +284,8 @@
 }
 
 .particulier-container {
-  margin-top: 2vh;
-  max-height: 90vh;
+  margin-top: -20vh;
+  max-height: 50vh;
   overflow-y: auto;
 }
 

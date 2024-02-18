@@ -120,6 +120,7 @@
     background: #1D2125;
     color : rgb(243, 238, 238);
     width: 100vw;
+    position: absolute;
     margin-right: -10px;
     display: flex;
     align-items: center;

@@ -129,10 +129,12 @@ function User({ lightMode })  {
   return (
     <div className={`custom-config-container ${lightMode ? 'light-mode' : ''}`}>
       <div className="custom-form-container">
+        <h1 className="user-head">Utilisateur</h1>
         <form>
           <div className="custom-form-element">
+            <h1>Creer un utilisateur</h1>
             <label htmlFor="Us_nom" className="custom-label">
-              User Name
+              Nom
             </label>
             <input
               type="text"

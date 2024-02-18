@@ -7,6 +7,13 @@
     margin-top: -25vh;
     background-color: black;
 }
+.user-head{
+  color: white;
+  position: absolute;
+  top: -20%;
+  left: 130%;
+  z-index: 2000;
+}
 
 .user-list{
     padding: 10px;

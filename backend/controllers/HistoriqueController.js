@@ -41,11 +41,11 @@ const getHistorique = (req, res) => {
     `;
     
     db.query(sql, (err, data) => {
-        if (err) {
+        if (err) {  
           console.error('Error executing SQL query:', err);
           return res.status(500).json({ error: "Internal Server Error" });
         }
-        console.log('Query results:', util.inspect(data, { maxDepth: 3 }));
+  
         return res.json(data);
     });
 };

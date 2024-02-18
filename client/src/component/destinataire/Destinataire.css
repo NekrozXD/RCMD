@@ -300,13 +300,6 @@
   flex-direction: column;
 }
 
-.light-mode .main-dest{
-  margin-left : -45vw;
-}
-
-.light-mode h1{
-  margin-left : -45vw;
-}
 .main-dest table {
   border-collapse: collapse;
   font-size: 20px;
@@ -327,4 +320,8 @@
   border-top: none;
   border-right: none ;
   margin: 0;
+}
+
+.light-mode .main-dest{
+ position: absolute;
 }

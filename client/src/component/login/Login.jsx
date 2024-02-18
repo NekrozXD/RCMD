@@ -46,30 +46,35 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     try {
-      event.preventDefault(); // Prevent form submission
-
-      // Disable login button to prevent multiple submissions
-      if (loginInProgress) {
-        return;
-      }
-
+      console.log('Attempting login...');
+      event.preventDefault();
+  
+      // Disable the login button to prevent multiple login attempts
+      setLoginInProgress(true);
+  
       setShowInputError(false);
-
+  
       if (!email || !password) {
         setShowInputError(true);
+        console.log('Empty email or password, returning...');
+        // Re-enable the login button before returning
+        setLoginInProgress(false);
         return;
       }
-
-      setLoginInProgress(true); // Set login in progress
-
+  
+      console.log('Fetching user data...');
+  
       const usersResponse = await fetch('http://localhost:8081/utilisateur');
       const usersData = await usersResponse.json();
-
+  
+      console.log('Users data:', usersData);
+  
       const user = usersData.find(
         (user) => user.Us_login === email && user.Us_pwd === password
       );
-
+  
       if (user) {
+        console.log('Login successful:', user);
         localStorage.setItem('loggedInUser', JSON.stringify(user));
         toast.success('Login successful', {
           position: 'top-left',
@@ -77,7 +82,7 @@ const Login = () => {
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
-          onClose: () => { // Navigate after toast is closed
+          onClose: () => {
             if (user.Fo_id === 1) {
               navigate(`/main/${user.Us_matricule}`);
             } else if (user.Fo_id === 2) {
@@ -86,6 +91,7 @@ const Login = () => {
           }
         });
       } else {
+        console.log('Login failed. User not found.');
         toast.error('Login failed. Please check your credentials or user privileges.', {
           position: 'top-left',
           autoClose: 5000,
@@ -97,9 +103,14 @@ const Login = () => {
     } catch (error) {
       console.error('Error during login:', error);
     } finally {
-      setLoginInProgress(false); 
+      setTimeout(() => {
+        setLoginInProgress(false);
+        console.log('Login process completed.');
+      }, 4000); 
     }
   };
+  
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

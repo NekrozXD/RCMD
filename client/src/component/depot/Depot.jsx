@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Depot.css';
@@ -13,6 +13,29 @@ const Depot = ({ onHistoryClick, lightMode }) => {
   const [montant, setMontant] = useState('');
   const [poids, setPoids] = useState('');
   const [taxes, setTaxes] = useState('');
+  const [lastDeposits, setLastDeposits] = useState([]);
+
+  useEffect(() => {
+    const fetchLastDeposits = async () => {
+      try {
+        const response = await fetch('http://localhost:8081/envoi/last5');
+        const data = await response.json();
+        setLastDeposits(data);
+      } catch (error) {
+        console.error('Error fetching last deposits:', error);
+      }
+    };
+  
+    fetchLastDeposits(); // Fetch data initially
+  
+    const intervalId = setInterval(() => {
+      fetchLastDeposits(); // Fetch data every 500ms
+    }, 500);
+  
+    // Clear interval when component is unmounted
+    return () => clearInterval(intervalId);
+  }, []);
+  
   // Envoi des depots vers database
   const handleEnvoiClick = async () => {
     console.log('Handling Envoi Click');
@@ -67,14 +90,14 @@ const Depot = ({ onHistoryClick, lightMode }) => {
       console.log('Envoi added successfully!');
 
       // Reset state
-      setExpediteurName('');
-      setExpediteurAddress('');
-      setDestinataireName('');
-      setDestinataireAddress('');
+      setExpediteurName('fita');
+      setExpediteurAddress('moramanga');
+      setDestinataireName('Jenny');
+      setDestinataireAddress('moramanga');
       setDestinataireTel('');
       setNumero('');
-      setMontant('');
-      setPoids('');
+      setTaxes('200');
+      setPoids('500');
 
       toast.success('Dépôt effectué avec succès')
     } catch (error) {
@@ -153,7 +176,8 @@ const Depot = ({ onHistoryClick, lightMode }) => {
       console.error('Error fetching agence nom:', error);
       return null;
     }
-  };const sendEnvoiData = async (envoiData) => {
+  };
+  const sendEnvoiData = async (envoiData) => {
     try {
       // Step 1: Send the envoi data to the server
       const response = await fetch('http://localhost:8081/envoi', {
@@ -210,14 +234,14 @@ const Depot = ({ onHistoryClick, lightMode }) => {
         // Step 8: Set success popup and reset state
         setSuccessPopup(true);
   
-        setExpediteurName('');
-        setExpediteurAddress('');
-        setDestinataireName('');
-        setDestinataireAddress('');
+        setExpediteurName('fita');
+        setExpediteurAddress('moramanga');
+        setDestinataireName('Jenny');
+        setDestinataireAddress('moramanga');
         setDestinataireTel('');
         setNumero('');
-        setTaxes('');
-        setPoids('');
+        setTaxes('200');
+        setPoids('500');
   
         toast.success('Dépôt effectué avec succès');
       } else {
@@ -238,10 +262,13 @@ const Depot = ({ onHistoryClick, lightMode }) => {
 
   return (
     <div className={`particulier-container ${lightMode ? 'light-mode' : ''}`}>
-      <h1>Particulier</h1>
+      <h1 className='depot-head'> Dépot </h1>
+      <p>Particulier</p>
+      <div className='deposit-header'>  
       <h2 className='history' onClick={handleHistoriqueClick}>
         Liste des dépots
       </h2>
+      </div>
       <button className ="custom-button" onClick={handleEnvoiClick}>
       <div className="svg-wrapper-1">
         <div className="svg-wrapper">
@@ -328,6 +355,48 @@ const Depot = ({ onHistoryClick, lightMode }) => {
             onChange={(e) => setPoids(e.target.value)}
           />
         </div>
+        <div className="input-group">
+          <h2>AR</h2>
+          <input
+            className='inpu-ar'
+            type="text"
+            placeholder="Name"
+          />
+          <input
+          className='inpu-ar'
+            type="text"
+            placeholder="Address"
+          />
+        </div>
+      </div>
+      <div className='last-deposit'>
+      <table>
+  <thead>
+    <tr>
+      <th>Env_num</th>
+      <th>Env_poids</th>
+      <th>Env_exp</th>
+      <th>Env_dest</th>
+      <th>Env_taxe</th>
+      <th>Env_date_depot</th>
+      <th>Env_agence_depot</th>
+    </tr>
+  </thead>
+  <tbody>
+    {lastDeposits.map((deposit) => (
+      <tr key={deposit.Env_num}>
+        <td>{deposit.Env_num}</td>
+        <td>{deposit.Env_poids}</td>
+        <td>{deposit.Env_exp}</td>
+        <td>{deposit.Env_dest}</td>
+        <td>{deposit.Env_taxe}</td>
+        <td>{deposit.Env_date_depot}</td>
+        <td>{deposit.Env_agence_depot}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
       </div>
       <ToastContainer />
     </div>

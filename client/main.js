@@ -9,7 +9,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    closable: true // There's no 'closable' option in BrowserWindow, remove if not needed
+    closable: true 
   });
 
   mainWindow.loadURL('http://localhost:5173');

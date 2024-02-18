@@ -1,7 +1,13 @@
 .historique-container {
     overflow-y: hidden;
 }
-
+.DATE{
+  position: absolute;
+  top : 0.5%;
+  right: 25%;
+  z-index: 2000;
+  color: white;
+}
 .historique-container.light-mode {
   background-color: #ffffff;
   color: #333;
@@ -11,7 +17,21 @@
   background-color: rgb(0, 0, 0,0.1);
   color: black;
 }
-
+.envoilist{
+ position: absolute;
+ top : 3%;
+ right: 50%;
+ z-index: 2000;
+ font-size: 35px;
+ color: white;
+ font-size: bolder;
+}
+.groupement table{
+  padding: 0px;
+}
+.groupement table ,.groupement td,.groupement th {
+  padding: 20px;
+} 
 .historique-list {
     overflow-y: auto;
     margin-left: 5vw;
@@ -28,12 +48,7 @@
 .container-history{
   margin-top: 5vh;
 }
-.agenceH2{
-  position: fixed;
-  top  : 15%;
-  margin: 16px; 
-  z-index: 999; 
-}
+
 
 .pdf-generation {
   position: fixed;
@@ -81,33 +96,8 @@
 .dropdown-container{
   position: fixed;
 }
-.selected-agence-data {
-  margin-top: 15vh;
-  
-}
-.light-mode .selected-agence-data{
-  background-color: rgb(0, 0, 0,0.1);
-  font-size: 13px;
-  width : 50vw;
-}
-.selected-agence-data{
-  background-color: rgba(255, 255, 255, 0.1);
-  max-height: 450px;
-  overflow-y: auto;
-  border-radius: 10px;
-  width: 50vw;
-  font-size: 13px;
-  position: inherit;
-}
-.selected-agence-data::-webkit-scrollbar{
-  background-color: rgb(66, 66, 66);
-  border-radius: 10px;
-}
-.selected-agence-data::-webkit-scrollbar-thumb {
-  background-color: rgb(150, 150, 150);
-  border-radius: 5px;
-  cursor: pointer;
-}
+
+
 .envoi-btn{
   position: fixed;
   margin-top: -20vh;
@@ -138,7 +128,22 @@
     border-radius: 5px;
     cursor: pointer;
 }
-  
+  .header-f12{
+    background-color: #484b6a;
+    color: white;
+    width: 100%;
+    border-radius: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5px;
+  }
+  .header-f12 button{
+    background-color: #0b2f4b;
+    margin-bottom: 10px;
+  }
   .main-history-container::-webkit-scrollbar-thumb {
     background-color: #505050;
     border-radius: 6px; 
@@ -150,10 +155,10 @@
     cursor: pointer;
   }
   
-
 .history-header{
     background-color: none;
-    animation : identifier 0.5s ease-in
+    animation : identifier 0.5s ease-in;
+    background-color: blue;
 }
 
 .group-by-dropdown {
@@ -176,7 +181,11 @@
 .group-by-dropdown option{
     cursor: pointer;
 }
-
+.groupement {
+  min-height: 80vh;
+  max-height: 80vh;
+  overflow: auto;
+}
   .sorting {
     background-color:none;
     display: flex;
@@ -186,23 +195,35 @@
     margin-bottom: -5vh;
   }
   
+  .historique-container strong {
+    font-size: 15px;
+  }
+  .historique-container p {
+    font-size: 15px;
+  }
+
   .grouping{
-    background-color:  rgba(255, 255, 255, 0.1);
     font-size: 15px;
     padding: 10px;
-    margin: 10px;
-    border-radius: 20px;
-    width: fit-content;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 75vw;
     text-align: center;
+    margin: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
   }
 
-  .table-F12{
+ .grouping table {
+  width: 100%;
+ }
 
-  }
+ .grouping td, .grouping th{
+  padding: 20px;
+ }
+
   .grouping.light-mode {
     background-color: rgb(0, 0, 0,0.1);
   }
@@ -228,8 +249,22 @@
   }
 
  }
+.F12-hist{
+  background-color: transparent;
+  position: absolute;
+  left: 5%;
+  top : 10%;
+  max-height : 80%;
+  margin: 0;
+  min-height: 80%; 
+  overflow-y: auto;
+}
+.light-mode .F12-hist {
+  background-color: transparent;
+}
  .pdf-preview-section{
   margin-top: -50%;
+
  }
  .list-deposit{
   font-weight: bolder;
@@ -247,6 +282,7 @@
   .F12-container {
     display: flex;
     width: 100vw;
+    height: 100%;
     flex-direction: column;
   }
 

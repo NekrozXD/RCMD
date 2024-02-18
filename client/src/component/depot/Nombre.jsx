@@ -132,6 +132,7 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
 
   const sendEnvoiData = async (envoiData) => {
     try {
+      // Step 1: Send the envoi data to the server
       const response = await fetch('http://localhost:8081/envoi', {
         method: 'POST',
         headers: {
@@ -139,20 +140,60 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
         },
         body: JSON.stringify(envoiData),
       });
-
+  
+      // Step 2: Parse the response JSON
       const responseData = await response.json();
-
+  
+      // Step 3: Check if the response is not OK (HTTP status other than 2xx)
       if (!response.ok) {
+        console.error('Failed to send envoi data:', responseData.message);
         throw new Error(`Failed to send envoi data: ${responseData.message}`);
       }
-
+  
       console.log('Envoi data sent successfully', responseData);
-      return responseData;
+      console.log('Env_num:', envoiData.Env_num);
+  
+      // Check if responseData.Env_num is not null
+      if (responseData.Env_num !== null) {
+        // Step 4: Create historique entry using the returned data
+        const historiqueData = {
+          Env_num: envoiData.Env_num || '',
+          HIst_evenement: 'EMA',
+          Hist_date: envoiData.Env_date_depot || new Date().toISOString().slice(0, 19).replace("T", " "),
+          Hist_etat: '1',
+          Hist_agence: envoiData.Env_agence_depot || '',
+        };
+        
+        // Step 5: Send the historique data to the server
+        const historiqueResponse = await fetch('http://localhost:8081/historique', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(historiqueData),
+        });
+  
+        // Step 6: Parse the historique response JSON
+        const parsedHistoriqueResponse = await historiqueResponse.json();
+  
+        // Step 7: Check if the historique response is not OK
+        if (!historiqueResponse.ok) {
+          console.error('Failed to create historique entry:', parsedHistoriqueResponse.message);
+          throw new Error(`Failed to create historique entry: ${parsedHistoriqueResponse.message}`);
+        }
+  
+        console.log('Historique entry created successfully', parsedHistoriqueResponse);      
+        toast.success('Dépôt effectué avec succès');
+      } else {
+        console.error('Env_num is null in the response');
+        throw new Error('Env_num is null in the response');
+      }
     } catch (error) {
-      console.error('Error sending envoi data', error); 
-      throw error;
+      // Step 9: Handle errors and set error popup
+      console.error('Error handling envoi:', error);
     }
   };
+  
 
   //envoi des donnees vers database
   const handleSendAllButtonClick = async () => {
