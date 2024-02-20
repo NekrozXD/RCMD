@@ -17,6 +17,35 @@ function User({ lightMode })  {
     Fo_id: 0,
     Grp_code: 0,
   });
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault(); // Prevent default scroll behavior
+
+        // Find all focusable elements in the document
+        const focusableElements = document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const currentIndex = Array.from(focusableElements).findIndex(element => element === document.activeElement);
+
+        let nextIndex;
+        if (event.key === 'ArrowDown') {
+          nextIndex = currentIndex === focusableElements.length - 1 ? 0 : currentIndex + 1;
+        } else {
+          nextIndex = currentIndex === 0 ? focusableElements.length - 1 : currentIndex - 1;
+        }
+
+        // Shift focus to the next or previous focusable element
+        focusableElements[nextIndex].focus();
+      }
+    };
+
+    // Add event listener for keydown
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup function to remove event listener
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const fetchData = () => {
     axios
@@ -129,7 +158,6 @@ function User({ lightMode })  {
   return (
     <div className={`custom-config-container ${lightMode ? 'light-mode' : ''}`}>
       <div className="custom-form-container">
-        <h1 className="user-head">Utilisateur</h1>
         <form>
           <div className="custom-form-element">
             <h1>Creer un utilisateur</h1>
@@ -213,13 +241,12 @@ function User({ lightMode })  {
     onChange={handleInputChange}
     className="custom-select"
   >
-    <option value= "0">select Fonction</option>-ta
+    <option value= "0">select Fonction</option>
     <option value="1">admin</option>
     <option value="2">saisie</option>
     <option value="3">verifs</option>
   </select>
 </div>
-
 </div>
 
 <div className="custom-form-element">
@@ -238,14 +265,14 @@ function User({ lightMode })  {
 
 
           <button type="button" className="custom-primary-button" onClick={handleAddUser}>
-            Add User
+            Ajouter
           </button>
         </form>
       </div>
 
-      <div className="custom-list-container">
+      <div className="custom-user-list-container">
         <h2>Liste des Utilisateurs</h2>
-        <table className="custom-table">
+        <table>
           <thead>
             <tr>
               <th>Nom</th>

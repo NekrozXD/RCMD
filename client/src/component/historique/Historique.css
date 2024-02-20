@@ -28,6 +28,7 @@
 }
 .groupement table{
   padding: 0px;
+  width: 90%;
 }
 .groupement table ,.groupement td,.groupement th {
   padding: 20px;
@@ -128,7 +129,7 @@
     border-radius: 5px;
     cursor: pointer;
 }
-  .header-f12{
+  .light-mode .header-f12{
     background-color: #484b6a;
     color: white;
     width: 100%;
@@ -140,8 +141,24 @@
     flex-direction: column;
     padding: 5px;
   }
+  .header-f12{
+    background-color: #2d363d;
+    color: white;
+    width: 100%;
+    border-radius: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5px; 
+  }
+  .light-mode .header-f12 button{
+    background-color: #172c3d;
+    margin-bottom: 10px;
+  }
   .header-f12 button{
-    background-color: #0b2f4b;
+    background-color: #282935;
     margin-bottom: 10px;
   }
   .main-history-container::-webkit-scrollbar-thumb {
@@ -214,6 +231,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    background-color: rgb(0, 0, 0,0.2);
   }
 
  .grouping table {
@@ -221,7 +239,11 @@
  }
 
  .grouping td, .grouping th{
-  padding: 20px;
+  padding: 0;
+  height: 70px;
+  width: 15vw;
+  border-top: none;
+  white-space: normal; 
  }
 
   .grouping.light-mode {
@@ -343,44 +365,54 @@
   
  }
 
-  @media screen and (max-width: 1366px) {
-    .selected-agence-data{
-      background-color: #4b4b4b;
-      max-height: 390px;
-      overflow-y: auto;
-      border-radius: 10px;
-      position: inherit;
-    }
-    .grouping{
-      width: max-content;
-      font-size: 10px;
-    }
-
-    .historique-list{
-      margin-left: 2.5vw;
-    }
-
-     
-    button{
-      font-size: 18px;
-    }
-    .agence-sidebar{
-      width: 10vw;
-    }
-    .historique-item{
-      font-size: 10px;
-    }
-
-    .F12-btn{
-      right : -2%;  
-    }
-    .pdf-generation{
-      right: 0%;
-    }
-    .agence-sidebar{
-      width: 12vw;
-      right: -2%;
-    }
+ @media screen and (max-width: 1366px) {
+  .selected-agence-data {
+    background-color: #4b4b4b;
+    max-height: 390px;
+    overflow-y: auto;
+    border-radius: 10px;
+    position: inherit;
   }
- 
- 
+  .grouping {
+    width: 78vw;
+    font-size: 10px;
+  }
+  .grouping table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  .grouping td,
+  .grouping th {
+    padding: 10px;
+    height: 70px;
+    font-size: 18px;
+    overflow: hidden;
+    white-space: normal; 
+  }
+  
+  
+  .historique-list {
+    margin-left: 2.5vw;
+  }
+  button {
+    font-size: 18px;
+  }
+  .agence-sidebar {
+    width: 10vw;
+  }
+  .historique-item {
+    font-size: 10px;
+  }
+  .F12-
+ {
+    right: -2%;
+  }
+  .pdf-generation {
+    right: 0%;
+  }
+  .agence-sidebar {
+    width: 12vw;
+    right: -2%;
+  }
+}

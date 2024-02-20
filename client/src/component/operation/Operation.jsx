@@ -122,7 +122,7 @@ const triDist = historicalData.filter(item => item.HIst_evenement === 'EMG');
       </div>
       <div className='operation-list'>
         <table>
-          <thead>
+        <thead style={{ position: 'sticky', top: 0, zIndex: 1}}>
             <tr>
               <th>Numero d'envoi</th>
               <th>Expediteur</th>
@@ -175,7 +175,7 @@ const triDist = historicalData.filter(item => item.HIst_evenement === 'EMG');
             <h1>{historicalData.length}</h1>
           </div>
           <div className='nbr-env'>
-            <p>àl'agence postale</p>
+            <p>à l' agence postale</p>
             <h1>{triEnv.length}</h1>
           </div>
           <div className='nbr-tri'>

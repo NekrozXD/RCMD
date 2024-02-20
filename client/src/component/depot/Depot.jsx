@@ -179,7 +179,6 @@ const Depot = ({ onHistoryClick, lightMode }) => {
   };
   const sendEnvoiData = async (envoiData) => {
     try {
-      // Step 1: Send the envoi data to the server
       const response = await fetch('http://localhost:8081/envoi', {
         method: 'POST',
         headers: {
@@ -188,10 +187,9 @@ const Depot = ({ onHistoryClick, lightMode }) => {
         body: JSON.stringify(envoiData),
       });
   
-      // Step 2: Parse the response JSON
       const responseData = await response.json();
   
-      // Step 3: Check if the response is not OK (HTTP status other than 2xx)
+ 
       if (!response.ok) {
         console.error('Failed to send envoi data:', responseData.message);
         throw new Error(`Failed to send envoi data: ${responseData.message}`);
@@ -200,9 +198,9 @@ const Depot = ({ onHistoryClick, lightMode }) => {
       console.log('Envoi data sent successfully', responseData);
       console.log('Env_num:', envoiData.Env_num);
   
-      // Check if responseData.Env_num is not null
+    
       if (responseData.Env_num !== null) {
-        // Step 4: Create historique entry using the returned data
+
         const historiqueData = {
           Env_num: envoiData.Env_num || '',
           HIst_evenement: 'EMA',
@@ -211,7 +209,7 @@ const Depot = ({ onHistoryClick, lightMode }) => {
           Hist_agence: envoiData.Env_agence_depot || '',
         };
         
-        // Step 5: Send the historique data to the server
+
         const historiqueResponse = await fetch('http://localhost:8081/historique', {
           method: 'POST',
           headers: {
@@ -220,10 +218,8 @@ const Depot = ({ onHistoryClick, lightMode }) => {
           body: JSON.stringify(historiqueData),
         });
   
-        // Step 6: Parse the historique response JSON
         const parsedHistoriqueResponse = await historiqueResponse.json();
   
-        // Step 7: Check if the historique response is not OK
         if (!historiqueResponse.ok) {
           console.error('Failed to create historique entry:', parsedHistoriqueResponse.message);
           throw new Error(`Failed to create historique entry: ${parsedHistoriqueResponse.message}`);
@@ -231,7 +227,6 @@ const Depot = ({ onHistoryClick, lightMode }) => {
   
         console.log('Historique entry created successfully', parsedHistoriqueResponse);
   
-        // Step 8: Set success popup and reset state
         setSuccessPopup(true);
   
         setExpediteurName('fita');
@@ -249,7 +244,7 @@ const Depot = ({ onHistoryClick, lightMode }) => {
         throw new Error('Env_num is null in the response');
       }
     } catch (error) {
-      // Step 9: Handle errors and set error popup
+  
       console.error('Error handling envoi:', error);
     }
   };
@@ -269,25 +264,26 @@ const Depot = ({ onHistoryClick, lightMode }) => {
         Liste des dépots
       </h2>
       </div>
-      <button className ="custom-button" onClick={handleEnvoiClick}>
-      <div className="svg-wrapper-1">
-        <div className="svg-wrapper">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-          >
-            <path fill="none" d="M0 0h24v24H0z"></path>
-            <path
-              fill="currentColor"
-              d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
-            ></path>
-          </svg>
-        </div>
-      </div>
-      <span>Submit</span>
-    </button>
+      <button className="custom-button" onClick={handleEnvoiClick}>
+  <div className="svg-wrapper-1">
+    <div className="svg-wrapper">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+      >
+        <path fill="none" d="M0 0h24v24H0z"></path>
+        <path
+          fill="currentColor"
+          d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+        ></path>
+      </svg>
+    </div>
+  </div>
+  <span>Deposer</span>
+</button>
+
 
       <div className="input-container">
         <div className="input-group">
@@ -332,9 +328,9 @@ const Depot = ({ onHistoryClick, lightMode }) => {
       </div>
       <div className="input-container">
         <div className="input-group">
-          <h1 className='depot-butt' onClick={handleEnvoiClick}>
+          <h2 className='depot-ibutt'>
             Envoi
-          </h1>
+          </h2>
           <input
             type='text'
             placeholder='Numero'
@@ -370,6 +366,7 @@ const Depot = ({ onHistoryClick, lightMode }) => {
         </div>
       </div>
       <div className='last-deposit'>
+        <h1>Dernier dépôts</h1>
       <table>
   <thead>
     <tr>
@@ -377,7 +374,6 @@ const Depot = ({ onHistoryClick, lightMode }) => {
       <th>Env_poids</th>
       <th>Env_exp</th>
       <th>Env_dest</th>
-      <th>Env_taxe</th>
       <th>Env_date_depot</th>
       <th>Env_agence_depot</th>
     </tr>
@@ -389,7 +385,6 @@ const Depot = ({ onHistoryClick, lightMode }) => {
         <td>{deposit.Env_poids}</td>
         <td>{deposit.Env_exp}</td>
         <td>{deposit.Env_dest}</td>
-        <td>{deposit.Env_taxe}</td>
         <td>{deposit.Env_date_depot}</td>
         <td>{deposit.Env_agence_depot}</td>
       </tr>

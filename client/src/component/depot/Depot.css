@@ -4,7 +4,20 @@
     background-color: transparent;
     animation: entry 0.2s ease-in;
   }
+.last-deposit h1{
+  width: 98%;
+  margin-left: 0.5vw;
+  justify-content: center;
+  background-color: #2d363d;
+  padding: 5px;
+  text-align: center;
+  border-radius: 10px;
+}
 
+.light-mode .last-deposit h1 {
+  background-color: #484b6a;
+  color: white;
+}
   
 .particulier-container{
     width: 95%;
@@ -18,17 +31,30 @@
 }
 .last-deposit{
   position: absolute;
-  bottom: 1.5%;
-  width: 95%;
+  bottom: 2%;
+  width: 90%;
   background-color: transparent;
-  max-height: 390px;
+  max-height: 490px;
   overflow-y: auto;
+  border: 1px solid grey;
+  border-radius:  10px;
+}
+.last-deposit h1 {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px; /* Add padding to separate the h1 from the table */
+}
+
+.last-deposit::-webkit-scrollbar{
+  width: 12px;
 }
 .last-deposit table{
   width: 100%;
   border-collapse: collapse;
   align-items: center;
   justify-content: center;
+  margin-top: -2vh;
 }
 .last-deposit table ,td,th{
   border-collapse: collapse;
@@ -95,8 +121,9 @@
 
   .input-group {
     flex: 1;
-    display: flex;
+    justify-content: center;
     flex-direction: column;
+    align-items: center;
     gap: 10px;
     align-items: center;
     justify-content: space-evenly;
@@ -105,12 +132,27 @@
     padding: 13px;
     border-radius: 10px;
     border: 1px solid white;
+    margin-bottom: 35px;
   }
-
+.input-container h2{
+  background-color: #2d363d;
+  width: 100%;
+  height: 15%;
+  text-align: center;
+  padding: 5px;
+  margin-top: -5px;
+  align-items: center0Ii;
+  justify-content: center;
+  border-radius: 10px;
+}
+.light-mode .input-container h2 {
+  background-color: #484b6a;
+  color: white;
+}
   .input-group input {
-    padding: 10px;
-    margin: 0px;
-    margin-bottom: 20px;
+    padding: 1px;
+    margin: 10px;
+
   }
   
   .input-group.lightmode{
@@ -141,11 +183,13 @@
     width: max-content;
     padding: 10px;
     border-radius: 10px;
-    margin-left: 40vw;
+    left: -17vw;
     margin-top: -7vh;
     transition: 0.3s;
   }
-
+.light-mode .history{
+  background-color: #484b6a;
+}
   .history:hover{
     cursor: pointer;
     transform: scale(0.9);
@@ -219,7 +263,9 @@
   .custom-button{
     position: absolute;
     top : 13%;
-    right: 69.5%;
+    right: 77%;
+    height: 47px;
+    border-radius: 10px;
   }
   .custom-button svg {
     display: block;
@@ -284,7 +330,7 @@
 }
 
 .particulier-container {
-  margin-top: -20vh;
+  margin-top: -30vh;
   max-height: 50vh;
   overflow-y: auto;
 }
@@ -423,3 +469,23 @@
   display: none;
 }
 
+@media screen and (max-height: 1000px) {
+  .last-deposit{
+    max-height: 475px;
+  }
+}
+@media screen and (max-height: 768px) {
+  .last-deposit{
+    max-height: 365px;
+  }
+  .input-group{
+    margin: 5px;
+    margin-bottom: 20px;
+  }
+  .input-group input{
+    width: 250px;
+  }
+  .particulier-container p {
+    top: 6.5%;
+  }
+}

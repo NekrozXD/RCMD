@@ -168,16 +168,25 @@
 
 }
 
+.operation-list thead{
+    background-color: #2d363d;
+    z-index: 200;
+}
+.light-mode .operation-list thead{
+    background-color: #484b6a;
+    color : white
+}
+
 .operation-list th{
-    border-bottom: 1px solid gray;
+    border-bottom: none;
 }
 
 .operation-list::-webkit-scrollbar {
-    width: 12px;
+    width: 5px;
   }
   
   .operation-list::-webkit-scrollbar-track {
-    background: #747474;
+    background: #ffffff;
     border-radius: 10px;
   }
   

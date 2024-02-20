@@ -246,7 +246,6 @@ const F12 = ({ lightMode }) => {
     </div>
   </div>
 )}
-
 {!selectedAgence && (
   <div className='F12-hist'>
     {Object.keys(organizedData).map((groupKey) => (
@@ -266,7 +265,7 @@ const F12 = ({ lightMode }) => {
           <table className='custom-table'>
             <thead>
               <tr>
-                <th>Expediteur</th>
+                <th>Exipediteur</th>
                 <th>Destinataire</th>
                 <th>Details</th>
                 <th>Date</th>
@@ -280,14 +279,17 @@ const F12 = ({ lightMode }) => {
                   <tr key={index}>
                     <td>{envoi.Env_exp}</td>
                     <td>{envoi.Env_dest}</td>
-                    <td>{`N°: ${envoi.Env_num}, Poids: ${envoi.Env_poids}g , Taxe: ${envoi.Env_taxe} Ar`}</td>
-                    <td>
+                    <td style={{ paddingLeft: '80px', width : "30vw" }}>
+                      {`N°: ${envoi.Env_num}, Poids: ${envoi.Env_poids}g , Taxe: ${envoi.Env_taxe} Ar`}
+                    </td>
+                    <td style={{  width : "5px" }}>
                       {envoi.Env_date_depot &&
                         new Date(envoi.Env_date_depot).toLocaleDateString('en-US', {
                           timeZone: 'Africa/Nairobi',
                         })}
                     </td>
-                    <td>{groupBy === 'address' ? envoi.Env_agence_depot : getBeneficiaryAddress(envoi.Env_dest)}</td>
+                    <td style={{  width: "50px"}} >{groupBy === 'address' ? envoi.Env_agence_depot : getBeneficiaryAddress(envoi.Env_dest)}</td>
+
                   </tr>
                 ))}
             </tbody>
