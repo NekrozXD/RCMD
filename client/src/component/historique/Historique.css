@@ -174,8 +174,7 @@
   
 .history-header{
     background-color: none;
-    animation : identifier 0.5s ease-in;
-    background-color: blue;
+    animation : identifier 0.5s ease-in
 }
 
 .group-by-dropdown {

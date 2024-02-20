@@ -190,7 +190,7 @@ function Configuration(props) {
       <div className="custom-form-container"> 
         <form>
         <h2>{isEditing ? "Modifier Groupement" : "Nouveau groupement"}</h2>
-          <button className="cls-button" type="button" onClick={handleClear}>clear</button>
+        <button  type="button" onClick={handleClear}>clear</button>
           <div className="custom-form-element">
             <label htmlFor="Grp_nom" className="custom-label"></label>
             <input
@@ -293,7 +293,7 @@ function Configuration(props) {
       </div>
 
       <div className="custom-list-container">
-        <h2 className="title">Liste des Groupements</h2>
+        <h2>Liste des Groupements</h2>
         <table className="custom-table"> 
           <thead>
             <tr>

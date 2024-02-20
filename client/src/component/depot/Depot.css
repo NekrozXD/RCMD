@@ -471,7 +471,8 @@
 
 @media screen and (max-height: 1000px) {
   .last-deposit{
-    max-height: 475px;
+    max-height: 455px;
+    border-top: none;
   }
 }
 @media screen and (max-height: 768px) {
