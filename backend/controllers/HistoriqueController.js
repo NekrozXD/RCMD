@@ -50,7 +50,31 @@ const getHistorique = (req, res) => {
     });
 };
 
-
+const updateHistorique = (req, res) => {
+  const { Env_num, HIst_evenement, Hist_date, Hist_etat, Hist_agence } = req.body;
+  const sql = `
+      UPDATE historique 
+      SET 
+          HIst_evenement = ?,
+          Hist_date = ?,
+          Hist_etat = ?,
+          Hist_agence = ?
+      WHERE
+          Env_num = ?
+  `;
   
-    
-  module.exports= { getHistorique, createHistorique ,getHistEnvoi}
+  db.query(sql, [HIst_evenement, Hist_date, Hist_etat, Hist_agence, Env_num], (err, result) => {
+      if (err) {
+          console.error("Error updating historique:", err);
+          return res.status(500).json({ error: "Internal Server Error", details: err });
+      }
+
+      if (result.affectedRows === 0) {
+          return res.status(404).json({ error: "Historique not found" });
+      }
+
+      return res.status(200).json({ message: "Historique updated successfully" });
+  });
+};
+
+module.exports = { getHistorique, createHistorique, getHistEnvoi, updateHistorique };

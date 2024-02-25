@@ -12,6 +12,7 @@ import F12 from '../F12/F12';
 import GroupDetail from '../group_detail/GroupDetail';
 import Agence from '../agence/Agence';
 import Operation from '../operation/Operation';
+import Status from '../Status/Status';
 import '../../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faInbox, faFileAlt, faListAlt, faCog } from '@fortawesome/free-solid-svg-icons'; 
@@ -165,6 +166,8 @@ const Main = () => {
           return <User lightMode={lightMode} />;
         case 'Destinataire':
           return <Destinataire lightMode={lightMode} />;
+        case 'status' :
+        return <Status lightMode={lightMode} />;
         case 'Agence':
           return <Agence onWelcomeClick={handleWelcomeClick} lightMode={lightMode} />;
         case 'Operation':
@@ -243,7 +246,7 @@ const Main = () => {
               <>
                 <p>Registre</p>
                 <p onClick={() => handleClickedP('F12')}>F12</p>
-                <p>Etats</p>
+                <p onClick={() => handleClickedP('status')}>Etats</p>
               </>
             )}
           </div>

@@ -70,7 +70,11 @@ ul {
 .close-btn{
   position: absolute;
   top : 10%;
+  background-color: #a77e0d;
   right: 2%;
+}
+.light-mode .close-btn{
+  background-color: #b40000;
 }
 @keyframes detail {
   from {

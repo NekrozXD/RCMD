@@ -231,40 +231,40 @@ function User({ lightMode })  {
           </div>
           <div className="custom-form-element">
           <div className="custom-form-element">
-  <label htmlFor="Fo_id" className="custom-label">
-    Fonction
-  </label>
-  <select
-    id="Fo_id"
-    name="Fo_id"
-    value={formData.Fo_id}
-    onChange={handleInputChange}
-    className="custom-select"
-  >
-    <option value= "0">select Fonction</option>
-    <option value="1">admin</option>
-    <option value="2">saisie</option>
-    <option value="3">verifs</option>
-  </select>
-</div>
-</div>
+            <label htmlFor="Fo_id" className="custom-label">
+              Fonction
+            </label>
+            <select
+              id="Fo_id"
+              name="Fo_id"
+              value={formData.Fo_id}
+              onChange={handleInputChange}
+              className="custom-select"
+            >
+              <option value= "0">select Fonction</option>
+              <option value="1">admin</option>
+              <option value="2">saisie</option>
+              <option value="3">verifs</option>
+            </select>
+          </div>
+          </div>
 
-<div className="custom-form-element">
-  <label htmlFor="Grp_code" className="custom-label">
-    Group_code
-  </label>
-  <input
-    type="text"
-    className="custom-input"
-    id="Grp_code"
-    name="Grp_code"
-    value={formData.Grp_code}
-    onChange={handleInputChange}
-  />
-</div>
+          <div className="custom-form-element">
+            <label htmlFor="Grp_code" className="custom-label">
+              Group_code
+            </label>
+            <input
+              type="text"
+              className="custom-input"
+              id="Grp_code"
+              name="Grp_code"
+              value={formData.Grp_code}
+              onChange={handleInputChange}
+            />
+          </div>
 
 
-          <button type="button" className="custom-primary-button" onClick={handleAddUser}>
+          <button type="button" className= "change" onClick={handleAddUser}>
             Ajouter
           </button>
         </form>

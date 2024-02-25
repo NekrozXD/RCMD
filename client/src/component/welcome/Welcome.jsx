@@ -75,7 +75,7 @@ const Welcome = ({ onWelcomeClick, lightMode, setLastClickedComponent }) => {
         <>
           {renderH2('Registre')}
           {renderH2('F12')}
-          {renderH2('Etats')}
+          {renderH2('status')}
         </>
       ) : (
         <h1>EDITION</h1>

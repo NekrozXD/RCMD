@@ -14,7 +14,9 @@
   left: 130%;
   z-index: 2000;
 }
-
+ .custom-primary-button{
+  background-color: #fff;
+ }
 .user-list{
     padding: 10px;
     margin: 20px;
@@ -49,13 +51,14 @@
     color: #333333; 
 
   }
+
 .light-mode .custom-user-list-container {
   border: none;
   box-shadow: 0px 0px 10px rgb(2, 2, 2);
 }
   .custom-user-list-container{
     position: absolute;
-    width: min-content;
+    width: 57.5%;
     top: 10%;
     right: 2%;
     border-radius: 10px;
@@ -73,7 +76,7 @@
 
   .custom-user-list-container h2{
     background-color: #2d363d;
-    color: white;
+    color: beige;
     text-align: center;
     padding: 20px;
     margin-top: -1vh;
@@ -82,7 +85,7 @@
   }
 
   .light-mode .custom-user-list-container h2 {
-    background-color: #484b6a;
+    background-color: #003d82;
   }
 
 .custom-user-list-container td, .custom-user-list-container th {
@@ -195,7 +198,34 @@
 
   @media screen and (max-height: 1000px) {
    .custom-user-list-container {
-    min-height: 82%;
-    max-width: 82%;
+    min-height: 83%;
+    max-width: 83%;
    }
+  }
+
+  @media screen and (max-width : 1400px) {
+    .custom-user-list-container{
+      max-height: 80%;
+      min-height: 80%;
+      width:55%;
+      background-color: #fff;
+    }
+    .custom-form-container{
+      max-height: 80%;
+      min-height: 80%;
+      overflow-y: auto;
+    }
+
+    .custom-form-container h1{
+      position: sticky;
+      top:1%;
+      margin-top: 10px;
+      z-index: 2;
+    }
+
+    .custom-form-container input{
+      padding: 0;
+      margin: 0;
+    }
+
   }

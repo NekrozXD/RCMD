@@ -17,6 +17,8 @@ const Operation = ({ lightMode }) => {
   // Debounce the update function with a delay of 200ms
   const delayedSetHistoricalData = _.debounce(setHistoricalData, 200);
 
+  
+
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8082');
     ws.onopen = () => {
@@ -81,48 +83,50 @@ const Operation = ({ lightMode }) => {
 const triEnv = historicalData.filter(item => item.HIst_evenement === 'EMA');
 const triDist = historicalData.filter(item => item.HIst_evenement === 'EMG');
 
+return (
+  <div className={`operation-container ${lightMode ? 'light-mode' : ''}`}>
+    <h1 className='operation-head'>Opération</h1>
+    <div className="search-bar-container">
+      <label>Jour:</label>
+      <span>&nbsp;</span>
+      <input
+        type="text"
+        placeholder="..."
+        value={searchDay}
+        onChange={(e) => { setSearchDay(e.target.value); resetPagination(); }}
+      />
+      <label>Mois:</label>
+      <span>&nbsp;</span>
+      <input
+        type="text"
+        placeholder="..."
+        value={searchMonth}
+        onChange={(e) => { setSearchMonth(e.target.value); resetPagination(); }}
+      />
+      <label>Année:</label>
+      <span>&nbsp;</span>
+      <input
+        type="text"
+        placeholder="..."
+        value={searchYear}
+        onChange={(e) => { setSearchYear(e.target.value); resetPagination(); }}
+      />
+      <input
+        type="text"
+        placeholder="..."
+        value={searchQuery}
+        onChange={(e) => { setSearchQuery(e.target.value); resetPagination(); }}
+        className="large-input"
+      />
 
-  return (
-    <div className={`operation-container ${lightMode ? 'light-mode' : ''}`}>
-      <h1 className='operation-head'>Opération</h1>
-      <div className="search-bar-container">
-        <label>Jour:</label>
-        <span>&nbsp;</span>
-        <input
-          type="text"
-          placeholder="..."
-          value={searchDay}
-          onChange={(e) => { setSearchDay(e.target.value); resetPagination(); }}
-        />
-        <label>Mois:</label>
-        <span>&nbsp;</span>
-        <input
-          type="text"
-          placeholder="..."
-          value={searchMonth}
-          onChange={(e) => { setSearchMonth(e.target.value); resetPagination(); }}
-        />
-        <label>Année:</label>
-        <span>&nbsp;</span>
-        <input
-          type="text"
-          placeholder="..."
-          value={searchYear}
-          onChange={(e) => { setSearchYear(e.target.value); resetPagination(); }}
-        />
-        <input
-          type="text"
-          placeholder="..."
-          value={searchQuery}
-          onChange={(e) => { setSearchQuery(e.target.value); resetPagination(); }}
-          className="large-input"
-        />
-
-        <button onClick={() => console.log('Search button clicked')}>Search</button>
-      </div>
+      <button onClick={() => console.log('Search button clicked')}>Search</button>
+    </div>
+    {displayData.length === 0 ? (
+      <p>Loading...</p>
+    ) : (
       <div className='operation-list'>
         <table>
-        <thead style={{ position: 'sticky', top: 0, zIndex: 1}}>
+          <thead style={{ position: 'sticky', top: 0, zIndex: 1}}>
             <tr>
               <th>Numero d'envoi</th>
               <th>Expediteur</th>
@@ -133,7 +137,7 @@ const triDist = historicalData.filter(item => item.HIst_evenement === 'EMG');
             </tr>
           </thead>
           <tbody>
-          {displayData.map((item) => (
+            {displayData.map((item) => (
               <tr key={item.Env_num}>
                 <td>{item.Env_num}</td>
                 <td>{item.Env_exp}</td>
@@ -153,9 +157,10 @@ const triDist = historicalData.filter(item => item.HIst_evenement === 'EMG');
             ))}
           </tbody>
         </table>
+        
       </div>
-      <div>
-        <ReactPaginate
+    )}
+    <ReactPaginate
           pageCount={pageCount}
           pageRangeDisplayed={3}
           marginPagesDisplayed={1}
@@ -165,32 +170,29 @@ const triDist = historicalData.filter(item => item.HIst_evenement === 'EMG');
           pageClassName={'page-item'} 
           disableInitialCallback={false}
         />
-      </div>
-
-      <div className='side-hist'>
-        <div className='recap'>
-          <h2>Colis : </h2>
-          <div className='nbr-envoi'>
-            <p>Nombre d'envoi</p>
-            <h1>{historicalData.length}</h1>
-          </div>
-          <div className='nbr-env'>
-            <p>à l' agence postale</p>
-            <h1>{triEnv.length}</h1>
-          </div>
-          <div className='nbr-tri'>
-            <p>au centre de tri</p>
-            <h1>{triData.length}</h1>
-          </div>
-          <div className='nbr-dist'>
-            <p>centre de distribution</p>
-            <h1>{triDist.length}</h1>
-          </div>
+    <div className='side-hist'>
+      <div className='recap'>
+        <h2>Colis : </h2>
+        <div className='nbr-envoi'>
+          <p>Nombre d'envoi</p>
+          <h1>{historicalData.length}</h1>
+        </div>
+        <div className='nbr-env'>
+          <p>à l' agence postale</p>
+          <h1>{triEnv.length}</h1>
+        </div>
+        <div className='nbr-tri'>
+          <p>au centre de tri</p>
+          <h1>{triData.length}</h1>
+        </div>
+        <div className='nbr-dist'>
+          <p>centre de distribution</p>
+          <h1>{triDist.length}</h1>
         </div>
       </div>
-      <ToastContainer />
     </div>
-  );
-};
-
+    <ToastContainer />
+  </div>
+);
+            };
 export default Operation;

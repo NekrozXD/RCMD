@@ -112,9 +112,6 @@ const Historique = ( { lightMode , onHistoryClose} ) => {
     setShowSearchResults(false);
   };
   
-   
-
-  
   
   return (
     <div className={`historique-container ${lightMode ? 'light-mode' : ''}`}>

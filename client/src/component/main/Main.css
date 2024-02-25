@@ -65,8 +65,9 @@
 }
 
 .header.light-mode {
-  background : #484b6a;
+  /* background : #484b6a; */
   color: #ffffff;
+  background: #292929;
 }
 
   .content-container {
