@@ -13,6 +13,7 @@ const Operation = ({ lightMode }) => {
   const [searchMonth, setSearchMonth] = useState('');
   const [searchYear, setSearchYear] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [, setFilteredData] = useState([]);
 
   // Debounce the update function with a delay of 200ms
   const delayedSetHistoricalData = _.debounce(setHistoricalData, 200);
@@ -20,30 +21,23 @@ const Operation = ({ lightMode }) => {
   
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8082');
-    ws.onopen = () => {
-      console.log('Connected to WebSocket server');
+    const fetchData = () => {
+      fetch('http://localhost:8081/histenvoi')
+        .then(response => response.json())
+        .then(data => setHistoricalData(data))
+        .catch(error => console.error('Error fetching data:', error));
     };
 
-    ws.onmessage = (event) => {
-      console.log('Received data from server:', event.data);
+    fetchData(); // Fetch data initially
 
-      delayedSetHistoricalData(JSON.parse(event.data));
-    };
+    const intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds
 
-    ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-
-    ws.onclose = () => {
-      console.log('Connection to WebSocket server closed');
-    };
-
-    return () => {
-      ws.close();
-    };
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
   }, []);
 
+  useEffect(() => {
+    setFilteredData(historicalData); // Initially set filteredData to historicalData
+  }, [historicalData]);
   
   
   

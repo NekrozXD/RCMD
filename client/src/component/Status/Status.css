@@ -12,12 +12,37 @@
     right: 2%;
     top: 15%;
 }
+.light-mode .selected-item button{
+    background-color: #007bff;
+}
+
+.select-item{
+    margin-top: -190px;
+    max-width: 200px;
+    overflow-y: auto
+}
+.state-update{
+   
+}
+.light-mode .state-update.delivered {
+    background-color: red;
+  }
+  
+
+.light-mode .btn {
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    margin-top: -20px;
+    margin-left: 9.5vw;
+    position: absolute;
+}
 .status-container{
     position: absolute;
     top:15%;
     left: 5%;
     width: 30vw;
-    height: 40vh;
+    height: 42.7vh;
     border-radius: 20px;
     border: 1px solid grey;
     display: flex;
@@ -26,8 +51,26 @@
     flex-direction: column;
 }
 
+.status-container label{
+    position: absolute;
+    top :3%
+}
+.selected-item{
+    position: absolute;
+    top: 26%;
+    left: 5%;
+    width: 29.2%;
+    padding: 5px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
 .status-container input{
     border: 1px solid grey;
+    top: 10%;
+    position: absolute;
 }
 
 .status-table table{
@@ -56,9 +99,58 @@
   .paginate-status ul {
     list-style: none;
     display: flex;
-    gap: 10px;
+    gap: 10px;  
+  }
+  .step-chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
   }
   
+  .step-item {
+    margin: 0 10px;
+    color: #555; /* Default color */
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .step-item.active {
+    color: white; /* Active color */
+  }
+  
+  .progress-bar {
+    flex-grow: 1;
+    height: 3px; /* Height of the progress bar */
+    background-color: rgba(128, 128, 128, 0.3); /* Transparent progress bar */
+    margin: 0 5px;
+  }
+  
+  
+  .state-ETA {
+    background-color: purple; /* Color for ETA state */
+  }
+  
+  .state-EMA {
+    background-color: purple; /* Color for EMA state */
+  }
+  
+  .state-EMG {
+    background-color: purple; /* Color for EMG state */
+  }
+
+.step-chart {
+    position: absolute;
+    bottom: 35%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 20vw;
+    margin: 0;
+    justify-content: space-evenly;
+    left: 5%;
+}
+
   .paginate-status li {
     padding: 5px 10px;
     border: 1px solid #ccc;
@@ -69,4 +161,40 @@
     background-color: #007bff;
     color: white;
   }
+  
+  @media screen and (max-width: 1366px) {
+    .status-table {
+      width: 63vw; /* Set the width to 63vw */
+      overflow-x: auto; /* Enable horizontal scrolling */
+      font-size: 15px;
+    }
+  
+    .status-table table {
+      width: 100%; /* Ensure the table takes full width */
+      table-layout: fixed; /* Use a fixed table layout */
+      border-collapse: collapse;
+    }
+  
+    /* Set a specific width for the expediteur column */
+    .status-table th:nth-child(2),
+    .status-table td:nth-child(2) {
+      width: 200px; /* Adjust this value based on your layout */
+    }
+    .status-table th:nth-child(3),
+    .status-table td:nth-child(3) {
+      width: 200px; /* Adjust this value based on your layout */
+    }
+    .status-table th:nth-child(6),
+    .status-table td:nth-child(6) {
+      display: none; /* Hide the Agence column */
+    }
+    .status-table td{
+        font-size: 12px;
+    }
+  }
+  
+  
+  
+  
+  
   

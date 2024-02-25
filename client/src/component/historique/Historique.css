@@ -130,7 +130,7 @@
     cursor: pointer;
 }
   .light-mode .header-f12{
-    background-color: #484b6a;
+    background-color: GREY;
     color: white;
     width: 100%;
     border-radius: 10px;
@@ -154,7 +154,7 @@
     padding: 5px; 
   }
   .light-mode .header-f12 button{
-    background-color: #172c3d;
+    background-color: #114169;
     margin-bottom: 10px;
   }
   .header-f12 button{

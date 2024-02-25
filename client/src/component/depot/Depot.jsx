@@ -416,14 +416,21 @@
           <div className="input-group">
             <h2>AR</h2>
             <input
-              className='inpu-ar'
-              type="text"
-              placeholder="Name"
+                type="text"
+                placeholder="Destinataire"
+                value={selectedInput === 'destinataire' && selectedSuggestion ? selectedSuggestion.Ben_Nom : destinataireName}
+                onChange={(e) => {
+                  setDestinataireName(e.target.value);
+                  setSelectedSuggestion(null);
+                  fetchBeneficiaireSuggestions(e.target.value);
+                  setSelectedInput('destinataire');
+                }}
             />
             <input
-            className='inpu-ar'
               type="text"
               placeholder="Address"
+              value={destinataireAddress}
+              onChange={(e) => setDestinataireAddress(e.target.value)}
             />
           </div>
         </div>

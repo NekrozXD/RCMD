@@ -73,31 +73,16 @@ function Configuration(props) {
   }
 
   const fetchData = () => {
-    const userFromStorage = localStorage.getItem('loggedInUser');
-    if (userFromStorage) {
-      const loggedInUser = JSON.parse(userFromStorage);
-      console.log('Logged In User:', loggedInUser);
-
-      const userGrpCode = loggedInUser.Grp_code;
-      console.log('User Grp_code:', userGrpCode);
-
-      axios
-        .get("http://localhost:8081/groupement")
-        .then((res) => {
-          console.log('All Groups:', res.data);
-
-          const userGroups = res.data.filter((group) => {
-            console.log('Group Grp_code:', group.Grp_code);
-            return group.Grp_code === userGrpCode.toString();  
-          });
-
-          console.log('User Groups:', userGroups);
-          setGroups(userGroups);
-          setIsEditing(false)
-        })
-        .catch((err) => console.log("Error fetching data:", err));
-    }
+    axios
+      .get("http://localhost:8081/groupement")
+      .then((res) => {
+        console.log('All Groups:', res.data);
+        setGroups(res.data);
+        setIsEditing(false)
+      })
+      .catch((err) => console.log("Error fetching data:", err));
   };
+  
 
   const handleAddGroup = () => {
     axios.post("http://localhost:8081/groupement", formData)

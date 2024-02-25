@@ -23,22 +23,24 @@ const getHistorique = (req, res) => {
   }
 
   const getHistEnvoi = (req, res) => {
-    const sql = `
-        SELECT 
-          e.Env_num,
-          e.Env_poids,
-          e.Env_exp,
-          e.Env_dest,
-          e.Env_taxe,
-          e.Env_date_depot,
-          e.Env_agence_depot,
-          h.HIst_evenement,
-          h.Hist_date,
-          h.Hist_etat,
-          h.Hist_agence
-        FROM envoi e
-        LEFT JOIN historique h ON e.Env_num = h.Env_num;
-    `;
+      const sql = `
+      SELECT 
+        e.Env_num,
+        e.Env_poids,
+        e.Env_exp,
+        e.Env_dest,
+        e.Env_taxe,
+        e.Env_date_depot,
+        e.Env_agence_depot,
+        h.HIst_evenement,
+        h.Hist_date,
+        h.Hist_etat,
+        h.Hist_agence
+      FROM envoi e
+      LEFT JOIN historique h ON e.Env_num = h.Env_num
+      ORDER BY h.Hist_id DESC;
+  `;
+
     
     db.query(sql, (err, data) => {
         if (err) {  
