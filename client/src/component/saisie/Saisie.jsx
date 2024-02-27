@@ -14,6 +14,13 @@ import '../../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faInbox, faFileAlt, faListAlt, faCog } from '@fortawesome/free-solid-svg-icons'; 
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; // Assuming backend is always on port 8081
+};
+
+const API_URL = getBaseUrl();
+
 const Saisie = () => {
   const navigate = useNavigate();
   const [clickedDiv, setClickedDiv] = useState(null);
@@ -37,7 +44,7 @@ const Saisie = () => {
 
   const fetchGroupList = async () => {
     try {
-      const response = await fetch('http://localhost:8081/groupement');
+      const response = await fetch(`${API_URL}groupement`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

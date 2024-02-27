@@ -5,6 +5,14 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import './Login.css';
 import { toast, ToastContainer } from 'react-toastify';
 
+  
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; 
+};
+
+const API_URL = getBaseUrl();
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,9 +24,8 @@ const Login = () => {
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-        event.preventDefault(); // Prevent default scroll behavior
+        event.preventDefault(); 
 
-        // Find all focusable elements in the document
         const focusableElements = document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
         const currentIndex = Array.from(focusableElements).findIndex(element => element === document.activeElement);
 
@@ -29,19 +36,17 @@ const Login = () => {
           nextIndex = currentIndex === 0 ? focusableElements.length - 1 : currentIndex - 1;
         }
 
-        // Shift focus to the next or previous focusable element
         focusableElements[nextIndex].focus();
       }
     };
 
-    // Add event listener for keydown
+  
     document.addEventListener('keydown', handleKeyDown);
 
-    // Cleanup function to remove event listener
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []); // Empty dependency array ensures the effect runs only once on mount
+  }, []); 
 
 
   const handleLogin = async (event) => {
@@ -49,7 +54,6 @@ const Login = () => {
       console.log('Attempting login...');
       event.preventDefault();
   
-      // Disable the login button to prevent multiple login attempts
       setLoginInProgress(true);
   
       setShowInputError(false);
@@ -57,20 +61,20 @@ const Login = () => {
       if (!email || !password) {
         setShowInputError(true);
         console.log('Empty email or password, returning...');
-        // Re-enable the login button before returning
         setLoginInProgress(false);
         return;
       }
   
       console.log('Fetching user data...');
   
-      const usersResponse = await fetch('http://localhost:8081/utilisateur');
+      const apiUrl = `${API_URL}utilisateur`;
+      const usersResponse = await fetch(apiUrl);
       const usersData = await usersResponse.json();
   
       console.log('Users data:', usersData);
   
       const user = usersData.find(
-        (user) => user.Us_login === email && user.Us_pwd === password
+        (user) => user.Us_mail === email && user.Us_pwd === password
       );
   
       if (user) {
@@ -112,9 +116,11 @@ const Login = () => {
   
   
 
-  const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault(); // Prevent default button behavior
     setShowPassword(!showPassword);
   };
+  
 
   return (
     <div className='main-container'>

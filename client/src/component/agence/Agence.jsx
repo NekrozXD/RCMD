@@ -3,6 +3,13 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; 
+};
+
+const API_URL = getBaseUrl();
+
 function Agence({ onDetailClick }) {
   const [agences, setAgences] = useState([]);
   const [selectedAgenceId, setSelectedAgenceId] = useState(null);
@@ -23,13 +30,13 @@ function Agence({ onDetailClick }) {
 
   const fetchData = () => {
     axios
-      .get("http://localhost:8081/agence")
+      .get(`${API_URL}agence`) 
       .then((res) => setAgences(res.data))
       .catch((err) => console.log("Error fetching data:", err));
   };
 
   const handleAddAgence = () => {
-    axios.post("http://localhost:8081/agence", formData)
+    axios.post(`${API_URL}agence`, formData) 
       .then((res) => {
         console.log("Agence added successfully:", res.data);
         setAgences([...agences, res.data]);
@@ -61,7 +68,7 @@ function Agence({ onDetailClick }) {
     console.log("Deleting Agence with ID:", agence.agence_Id);
   
     axios
-      .delete(`http://localhost:8081/agence/${agence.agence_Id}`)
+      .delete(`${API_URL}agence/${agence.agence_Id}`) 
       .then(() => {
         const updatedAgences = agences.filter((a) => a.agence_Id !== agence.agence_Id);
         setAgences(updatedAgences);
@@ -78,7 +85,7 @@ function Agence({ onDetailClick }) {
       return;
     }
   
-    axios.put(`http://localhost:8081/agence/${selectedAgenceId}`, formData)
+    axios.put(`${API_URL}agence/${selectedAgenceId}`, formData) 
       .then((res) => {
         console.log("Agence updated successfully:", res.data);
         fetchData();
@@ -117,7 +124,6 @@ function Agence({ onDetailClick }) {
   const showDetail = (agence) => {
     onDetailClick(agence);
   };
-
   return (
     <div className="main-agence-container">
         <div className="input-agence-container">

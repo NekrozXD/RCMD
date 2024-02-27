@@ -4,6 +4,13 @@ import './user.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`;
+};
+
+const API_URL = getBaseUrl();
+
 
 function User({ lightMode })  {
   const [users, setUsers] = useState([]);
@@ -49,7 +56,7 @@ function User({ lightMode })  {
 
   const fetchData = () => {
     axios
-      .get("http://localhost:8081/utilisateur")
+      .get(`${API_URL}utilisateur`)
       .then((res) => setUsers(res.data))
       .catch((err) => console.log("Error fetching data:", err));
   };
@@ -78,7 +85,7 @@ function User({ lightMode })  {
 
   const handleAddUser = async () => {
     try {
-      const res = await axios.post("http://localhost:8081/utilisateur", formData);
+      const res = await axios.post(`${API_URL}utilisateur`, formData);
       console.log("User added successfully:", res.data);
       
       setUsers([...users, res.data]);
@@ -119,7 +126,7 @@ function User({ lightMode })  {
   }, [users]);
 
   const handleDeleteUser = (id) => {
-    const deleteUserUrl = `http://localhost:8081/utilisateur/${id}`;
+    const deleteUserUrl = `${API_URL}utilisateur/${id}`;
     console.log('Deleting user at:', deleteUserUrl);
   
     axios

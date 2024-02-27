@@ -333,4 +333,25 @@
   scale: 0.95;
 }
 
+@media screen and (max-width : 414px ) {
+ .main-container{
+  
+ }
+ .login-container {
+  width: 70%;
+  height: 51%;
+ }
 
+ .login-section input{
+  width: 90%;
+ }
+
+ .login-btn{
+  width: max-content;
+  padding: 10px;
+ }
+ 
+ .login-section{
+  width: 70%;
+ }
+}

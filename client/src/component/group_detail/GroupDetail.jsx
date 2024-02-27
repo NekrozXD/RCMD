@@ -3,6 +3,13 @@ import axios from 'axios';
 import './Group.css';
 import ReactPaginate from 'react-paginate';
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; // Assuming backend is always on port 8081
+};
+
+const API_URL = getBaseUrl();
+
 const GroupDetail = ({ selectedGroup, onClose }) => {
   const [beneficiaries, setBeneficiaries] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
@@ -14,7 +21,7 @@ const GroupDetail = ({ selectedGroup, onClose }) => {
   useEffect(() => {
     if (selectedGroup) {
       axios
-        .get(`http://localhost:8081/benefs`)
+        .get(`${API_URL}benefs`)
         .then((response) => {
           const filteredBeneficiaries = response.data.filter(
             (beneficiary) => beneficiary.Grp_code === selectedGroup.Grp_code

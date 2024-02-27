@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './Historique.css';
 import { parse, format } from 'date-fns';
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; 
+};
 
+const API_URL = getBaseUrl();
 
 const Historique = ( { lightMode , onHistoryClose} ) => {
   const [historiqueData, setHistoriqueData] = useState([]);
@@ -23,7 +28,7 @@ const Historique = ( { lightMode , onHistoryClose} ) => {
 
   const fetchHistoriqueData = async () => {
     try {
-      const response = await fetch('http://localhost:8081/envoi');
+      const response = await fetch(`${API_URL}envoi`);
       const data = await response.json();
       setHistoriqueData(data);
     } catch (error) {
@@ -33,7 +38,7 @@ const Historique = ( { lightMode , onHistoryClose} ) => {
 
   const fetchBeneficiaryData = async () => {
     try {
-      const response = await fetch('http://localhost:8081/benefs');
+      const response = await fetch(`${API_URL}benefs`);
       const data = await response.json();
       setBeneficiaryData(data);
     } catch (error) {

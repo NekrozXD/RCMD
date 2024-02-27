@@ -163,3 +163,15 @@ background-position: 45% 50%;
 }
 }
 
+@media screen and (max-width: 414px) {
+  .welcome.light-mode div{
+    display: none;
+  }
+  .welcome{
+    overflow-x: auto ;
+    width: 1500vw;
+  }
+
+
+}
+

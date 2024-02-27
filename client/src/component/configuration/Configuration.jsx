@@ -4,6 +4,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import './Config.css'; 
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; // Assuming backend is always on port 8081
+};
+
+const API_URL = getBaseUrl();
+
 function Configuration(props) {
   const [groups, setGroups] = useState([]);
   const [selectedGroupId, setSelectedGroupId] = useState(null);
@@ -74,7 +81,7 @@ function Configuration(props) {
 
   const fetchData = () => {
     axios
-      .get("http://localhost:8081/groupement")
+      .get(`${API_URL}groupement`)
       .then((res) => {
         console.log('All Groups:', res.data);
         setGroups(res.data);
@@ -85,7 +92,7 @@ function Configuration(props) {
   
 
   const handleAddGroup = () => {
-    axios.post("http://localhost:8081/groupement", formData)
+    axios.post(`${API_URL}groupement`, formData)
       .then((res) => {
         console.log("Group added successfully:", res.data);
         setGroups((prevGroups) => [...prevGroups, res.data]);
@@ -114,7 +121,7 @@ function Configuration(props) {
   
   const handleDeleteGroup = (id) => {
     axios
-      .delete(`http://localhost:8081/groupement/${id}`)
+      .delete(`${API_URL}groupement/${id}`)
       .then(() => {
         const updatedGroups = groups.filter((group) => group.Grp_id !== id);
         setGroups(updatedGroups);
@@ -129,7 +136,7 @@ function Configuration(props) {
       return;
     }
 
-    axios.put(`http://localhost:8081/groupement/${selectedGroupId}`, formData)
+    axios.put(`${API_URL}groupement/${selectedGroupId}`, formData)
       .then((res) => {
         console.log("Group updated successfully:", res.data);
         fetchData();
@@ -285,7 +292,6 @@ function Configuration(props) {
               <th>Nom</th>
               <th>Code</th>
               <th>Adresse</th>
-              <th>Responsable</th>
               <th>type</th>
               <th>Action</th>
               <th>Details</th>
@@ -297,7 +303,6 @@ function Configuration(props) {
                 <td>{group.Grp_nom}</td>
                 <td>{group.Grp_code}</td>
                 <td>{group.Grp_adresse}</td>
-                <td>{group.Grp_responsable}</td>
                 <td>{group.Grp_type}</td>
                 <td>
                   <div className="button-container">

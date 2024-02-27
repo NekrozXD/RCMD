@@ -17,6 +17,13 @@ import '../../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faInbox, faFileAlt, faListAlt, faCog } from '@fortawesome/free-solid-svg-icons'; 
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; // Assuming backend is always on port 8081
+};
+
+const API_URL = getBaseUrl();
+
 const Main = () => {
   const navigate = useNavigate();
   const [clickedDiv, setClickedDiv] = useState(null);
@@ -29,8 +36,9 @@ const Main = () => {
   
   const [lightMode, setLightMode] = useState(() => {
     const storedMode = localStorage.getItem('lightMode');
-    return storedMode === 'true';
-  });
+    return storedMode === 'true' || storedMode === null; // Default to true if storedMode is null
+});
+
   const [groupList, setGroupList] = useState([]); 
 
   useEffect(() => {
@@ -40,7 +48,7 @@ const Main = () => {
 
   const fetchGroupList = async () => {
     try {
-      const response = await fetch('http://localhost:8081/groupement');
+      const response = await fetch(`${API_URL}groupement`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -249,6 +257,7 @@ const Main = () => {
                 <p onClick={() => handleClickedP('status')}>Etats</p>
               </>
             )}
+        
           </div>
           <div className="main-div" onClick={() => handleMouseEnter('configuration')}>
             <FontAwesomeIcon icon={faCog} />  <span>&nbsp;</span> Configuration

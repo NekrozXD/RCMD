@@ -5,6 +5,13 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactPaginate from 'react-paginate';
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; // Assuming backend is always on port 8081
+};
+
+const API_URL = getBaseUrl();
+
 const Destinataire = ({ lightMode }) => {
   const [formData, setFormData] = useState({
     Grp_code: '',
@@ -26,7 +33,7 @@ const Destinataire = ({ lightMode }) => {
 
   const fetchGroupList = async () => {
     try {
-      const response = await fetch('http://localhost:8081/groupement');
+      const response = await fetch(`${API_URL}groupement`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -39,7 +46,7 @@ const Destinataire = ({ lightMode }) => {
 
   const fetchBenefs = async () => {
     try {
-      const response = await fetch('http://localhost:8081/benefs');
+      const response = await fetch(`${API_URL}benefs`);
       if (!response.ok) {
         throw new Error(`HTTP error Status: ${response.status}`);
       }
@@ -137,7 +144,7 @@ const Destinataire = ({ lightMode }) => {
   
   const sendToServer = async (Grp_code, Ben_Nom, Ben_Addresse, Ben_code) => {
     try {
-      const response = await fetch('http://localhost:8081/benefs', {
+      const response = await fetch(`${API_URL}benefs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -248,7 +255,7 @@ const handleSubmit = async (e) => {
     for (const data of mappedData) {
       const { Grp_code, Ben_Nom, Ben_Addresse, Ben_code } = data;
 
-      const response = await fetch('http://localhost:8081/benefs', {
+      const response = await fetch(`${API_URL}benefs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -5,6 +5,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Depot.css';
 import ReactPaginate from 'react-paginate';
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; // Assuming backend is always on port 8081
+};
+
+const API_URL = getBaseUrl();
+
 const Nombre = ({ onHistoryClick, lightMode }) => {
   const [csvData, setCSVData] = useState([]);
   const [verificationStatus, setVerificationStatus] = useState([]);
@@ -48,7 +55,7 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
   //verification des beneficiare expediteur et destinataire
   const verifyBeneficiaire = async (row) => {
     try {
-      const response = await fetch('http://localhost:8081/benefs');
+      const response = await fetch(`${API_URL}benefs`);
       const beneficiaireData = await response.json();
 
       const expediteurExists = beneficiaireData.some((beneficiaire) => {
@@ -72,7 +79,7 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
 
   const fetchAgenceNom = async (Grp_code) => {
     try {
-      const agenceResponse = await fetch(`http://localhost:8081/agence`);
+      const agenceResponse = await fetch(`${U}agence`);
       const agenceData = await agenceResponse.json();
 
       console.log(`Agence data:`, agenceData);
@@ -103,7 +110,7 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
       const newEnvAgenceDepotData = await Promise.all(
         csvData.map(async (row) => {
           const expediteurName = (row.Env_exp || '').trim();
-          const beneficiaireResponse = await fetch(`http://localhost:8081/benefs?Ben_Nom=${expediteurName}`);
+          const beneficiaireResponse = await fetch(`${API_URL}benefs?Ben_Nom=${expediteurName}`);
           const beneficiaireData = await beneficiaireResponse.json();
 
           if (beneficiaireData.length > 0) {
@@ -133,7 +140,7 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
   const sendEnvoiData = async (envoiData) => {
     try {
       // Step 1: Send the envoi data to the server
-      const response = await fetch('http://localhost:8081/envoi', {
+      const response = await fetch('${U}envoi', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,7 +172,7 @@ const Nombre = ({ onHistoryClick, lightMode }) => {
         };
         
         // Step 5: Send the historique data to the server
-        const historiqueResponse = await fetch('http://localhost:8081/historique', {
+        const historiqueResponse = await fetch('${U}historique', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

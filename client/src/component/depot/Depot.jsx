@@ -3,6 +3,14 @@
   import 'react-toastify/dist/ReactToastify.css';
   import './Depot.css';
 
+  
+  const getBaseUrl = () => {
+    const { hostname, protocol } = window.location;
+    return `${protocol}//${hostname}:8081/`; // Assuming backend is always on port 8081
+  };
+  
+  const API_URL = getBaseUrl();
+
   const Depot = ({ onHistoryClick, lightMode }) => {
     const [expediteurName, setExpediteurName] = useState('');
     const [expediteurAddress, setExpediteurAddress] = useState('');
@@ -20,7 +28,7 @@
 
     const fetchBeneficiaireSuggestions = async (inputValue) => {
       try {
-        const response = await fetch(`http://localhost:8081/benefs?Ben_Nom=${inputValue}`);
+        const response = await fetch(`${API_URL}benefs?Ben_Nom=${inputValue}`);
         const beneficiaireData = await response.json();
 
         // Filter suggestions based on input value
@@ -52,7 +60,7 @@
     useEffect(() => {
       const fetchLastDeposits = async () => {
         try {
-          const response = await fetch('http://localhost:8081/envoi/last5');
+          const response = await fetch(`${API_URL}envoi/last5`);
           const data = await response.json();
           setLastDeposits(data);
         } catch (error) {
@@ -141,7 +149,7 @@
 
     const fetchBeneficiaireGroupCode = async (name) => {
       try {
-        const response = await fetch(`http://localhost:8081/benefs?Ben_Nom=${name}`);
+        const response = await fetch(`${API_URL}benefs?Ben_Nom=${name}`);
         const beneficiaireData = await response.json();
 
         console.log(`Beneficiaire data for ${name}:`, beneficiaireData);
@@ -161,7 +169,7 @@
     //verification des baneficiaire expediteur et destinataire
     const verifyBeneficiaire = async (name) => {
       try {
-        const response = await fetch(`http://localhost:8081/benefs?Ben_Nom=${name}`);
+        const response = await fetch(`${API_URL}benefs?Ben_Nom=${name}`);
         const beneficiaireData = await response.json();
     
         console.log(`Verifying ${name}:`, beneficiaireData);
@@ -186,7 +194,7 @@
 
     const fetchAgenceNom = async (Grp_code) => {
       try {
-        const agenceResponse = await fetch(`http://localhost:8081/agence`);
+        const agenceResponse = await fetch(`${API_URL}agence`);
         const agenceData = await agenceResponse.json();
     
         console.log(`Agence data:`, agenceData);
@@ -213,7 +221,7 @@
     };
     const sendEnvoiData = async (envoiData) => {
       try {
-        const response = await fetch('http://localhost:8081/envoi', {
+        const response = await fetch(`${API_URL}envoi`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -244,7 +252,7 @@
           };
           
 
-          const historiqueResponse = await fetch('http://localhost:8081/historique', {
+          const historiqueResponse = await fetch(`${API_URL}historique`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -439,19 +447,19 @@
         <table>
     <thead>
       <tr>
-        <th>Env_num</th>
-        <th>Env_poids</th>
-        <th>Env_exp</th>
-        <th>Env_dest</th>
-        <th>Env_date_depot</th>
-        <th>Env_agence_depot</th>
+        <th>Numéro d'envoi</th>
+        <th>Poids</th>
+        <th>éxpediteur</th>
+        <th>Destinataire</th>
+        <th>Date de dépôt</th>
+        <th>Agence</th>
       </tr>
     </thead>
     <tbody>
       {lastDeposits.map((deposit) => (
         <tr key={deposit.Env_num}>
           <td>{deposit.Env_num}</td>
-          <td>{deposit.Env_poids}</td>
+          <td>{deposit.Env_poids} g </td>
           <td>{deposit.Env_exp}</td>
           <td>{deposit.Env_dest}</td>
           <td>{deposit.Env_date_depot}</td>

@@ -5,6 +5,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Status.css';
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; 
+};
+
+const API_URL = getBaseUrl();
+
 const Status = () => {
   const [historicalData, setHistoricalData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -19,7 +26,7 @@ const Status = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('http://localhost:8081/histenvoi')
+      fetch(`${API_URL}histenvoi`)
         .then(response => response.json())
         .then(data => setHistoricalData(data))
         .catch(error => console.error('Error fetching data:', error));
@@ -46,25 +53,10 @@ const Status = () => {
       setSelectedEnvStatus(null);
     }
   }, [selectedItem]);
-  
-
-  const handleSearch = (value) => {
-    const searchResults = historicalData.filter(item => item.Env_num.toString() === value);
-    setFilteredData(searchResults);
-    setIsInputTouched(true);
-    setShowSuggestions(true);
-  };
-  
-  
-  
-  
-  const hideSuggestions = () => {
-    setShowSuggestions(false);
-  };
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('http://localhost:8081/histenvoi')
+      fetch(`${API_URL}histenvoi`)
         .then(response => response.json())
         .then(data => setHistoricalData(data))
         .catch(error => console.error('Error fetching data:', error));
@@ -117,7 +109,7 @@ const Status = () => {
     setHistoricalData(updatedData);
     setSelectedItem(updatedItem);
   
-    fetch(`http://localhost:8081/historique/${updatedItem.Env_num}`, {
+    fetch(`${API_URL}historique/${updatedItem.Env_num}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -159,7 +151,7 @@ const Status = () => {
   return (
     <div>
        <div className='status-container'>
-        <label>Numéro d'envoi</label>
+        <label>Numéro d'envoi :</label>
         <input type="text" value={inputValue} onChange={handleInputChange} />
         {isInputTouched && showSuggestions && inputValue.trim() !== '' && (
           <div className='select-item'>
@@ -179,7 +171,7 @@ const Status = () => {
       {selectedItem && (
   <div className='selected-item'>
       <p>
-      <strong>Numero d'envoi:</strong> {selectedItem.Env_num}
+      <strong>Numero d'envoi :</strong> {selectedItem.Env_num}
       </p>
       <p>
       <strong>Expediteur:</strong> {selectedItem.Env_exp}
@@ -194,11 +186,12 @@ const Status = () => {
       <strong>Next Etat:</strong> {getNextHIst_evenement(selectedItem.HIst_evenement)}
       </p>
       <button className={selectedItem.HIst_evenement === 'EMG' ? 'state-update delivered' : 'state-update'} onClick={handleUpdate} disabled={selectedItem.HIst_evenement === 'EMG'}>
-        {selectedItem.HIst_evenement === 'EMG' ? 'Distribué' : 'Update'}
+        {selectedItem.HIst_evenement === 'EMG' ? 'Distribué' : 'Mettre à jour'}
       </button>
   </div>
 )}
       {selectedItem && (
+
   <div className='step-chart'>
     <div className={`step-item ${selectedEnvStatus === 'EMA' || selectedEnvStatus === 'ETA' || selectedEnvStatus === 'EMG' ? 'active' : ''}`}>Départ</div>
     <div className='progress-bar' style={{ backgroundColor: selectedEnvStatus === 'ETA' || selectedEnvStatus === 'EMG' ? 'purple' : 'transparent' }}></div>

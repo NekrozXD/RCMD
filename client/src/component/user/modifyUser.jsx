@@ -4,6 +4,13 @@ import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './user.css'
 import axios from 'axios';
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; 
+};
+
+const API_URL = getBaseUrl();
+
 
 const ModifyUser = (props) => {
   const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -29,7 +36,7 @@ const ModifyUser = (props) => {
     if (loggedInUser) {
       try {
         // Fetch all user data from the database
-        const allUserData = await axios.get('http://localhost:8081/utilisateur');
+        const allUserData = await axios.get(`${API_URL}utilisateur`);
         console.log('Fetched all user data from the database:', allUserData.data);
 
         // Find the user with the same Us_matricule
@@ -66,7 +73,7 @@ const ModifyUser = (props) => {
     const loggedInUserId = loggedInUser?.Us_id;
   
     try {
-      const response = await axios.put(`http://localhost:8081/utilisateur/${loggedInUserId}`, userData);
+      const response = await axios.put(`${API_URL}utilisateur/${loggedInUserId}`, userData);
       console.log('User information updated successfully:', response.data);
   
       // Update local storage with the new user data

@@ -4,6 +4,13 @@ import jsPDF from 'jspdf';
 import { format } from 'date-fns';
 import 'jspdf-autotable';
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; // Assuming backend is always on port 8081
+};
+
+const API_URL = getBaseUrl();
+
 const F12 = ({ lightMode }) => {
   const [historiqueData, setHistoriqueData] = useState([]);
   const [beneficiaryData, setBeneficiaryData] = useState([]);
@@ -19,7 +26,7 @@ const F12 = ({ lightMode }) => {
 
   const fetchHistoriqueData = async () => {
     try {
-      const response = await fetch('http://localhost:8081/envoi');
+      const response = await fetch(`${API_URL}envoi`);
       const data = await response.json();
       setHistoriqueData(data);
     } catch (error) {
@@ -29,7 +36,7 @@ const F12 = ({ lightMode }) => {
 
   const fetchBeneficiaryData = async () => {
     try {
-      const response = await fetch('http://localhost:8081/benefs');
+      const response = await fetch(`${API_URL}benefs`);
       const data = await response.json();
       setBeneficiaryData(data);
     } catch (error) {

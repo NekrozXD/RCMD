@@ -65,6 +65,7 @@
     padding: 20px;
     max-height: 80%;
     min-height: 80%;
+    font-size: 20px;
     overflow-y: auto;
     border: 1px solid rgb(156, 156, 156);
   }
@@ -208,6 +209,7 @@
       max-height: 80%;
       min-height: 80%;
       width:55%;
+      font-size: 15px;
       background-color: #fff;
     }
     .custom-form-container{
@@ -216,6 +218,31 @@
       overflow-y: auto;
     }
 
+    .custom-user-list-container table{
+      padding: 0;
+      max-width: 50vw;
+      font-size: 15px;
+    }
+
+    .custom-user-list-container td{
+      padding: 5px;
+      margin: 0;
+      font-size: 15px;
+      max-width: fit-content
+    }
+
+    .custom-user-list-container td:nth-child(7) {
+      max-width:100px;
+    }
+    .custom-user-list-container td:nth-child(4){
+      max-width: 250px;
+      overflow-x: auto;
+    }
+
+    .custom-user-list-container button{
+      width: 100px;
+    }
+    
     .custom-form-container h1{
       position: sticky;
       top:1%;

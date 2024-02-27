@@ -57,7 +57,7 @@
     max-width: 59%;
     min-width: 59%;
     max-height: 70vh;
-    min-height: 75%;
+    min-height: 77.5%;
     position: absolute;
     border: 1px solid grey;
 
@@ -124,8 +124,8 @@
     border-left: none;
     border-right: none;
     overflow-y: scroll;
-    margin: 10px;
-    padding: 15px;
+    margin: 0px;
+    padding: 0px;
     overflow: hidden; 
     text-overflow: ellipsis;
     white-space: nowrap; 
@@ -302,15 +302,39 @@
     margin: 0 10px;
   }
   
-  @media only screen and (max-width: 1366px) {
+  @media screen and (max-width: 1366px) {
     .cls-button {
         margin-left: 17vw;
     }
+    .custom-list-container td{
+      font-size: 15px;
+    }
+
+    .custom-table th,
+  .custom-table td {
+    border: 1px solid grey;
+    border-left: none;
+    border-right: none;
+    overflow-y: scroll;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    word-wrap: break-word;
+    max-width :15vw;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    white-space: nowrap;
   }
-   .custom-table td,tbody{
-    font-size: 20px;
-    padding: 2px;
-   }
+  .custom-list-container{
+    max-height: 85.5%;
+    min-height: 85.5%;
+  }
+  }
+   
   .search-container{
     position: absolute;
     top:10%

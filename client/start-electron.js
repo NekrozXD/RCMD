@@ -1,5 +1,4 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { execSync } from 'child_process';
 import os from 'os';
 
 function getLocalIPv4() {
@@ -17,16 +16,4 @@ function getLocalIPv4() {
 
 const localIPv4 = getLocalIPv4();
 
-
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: localIPv4, 
-    port: 5173,
-  },
-  resolve: {
-    alias: {
-      'csv-parse/lib/sync': 'csv-parse/lib/sync',
-    },
-  },
-});
+execSync(`wait-on tcp:${localIPv4}:5173 && electron main.js`, { stdio: 'inherit' });

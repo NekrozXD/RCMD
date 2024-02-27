@@ -6,6 +6,13 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Operation.css';
 
+const getBaseUrl = () => {
+  const { hostname, protocol } = window.location;
+  return `${protocol}//${hostname}:8081/`; // Assuming backend is always on port 8081
+};
+
+const API_URL = getBaseUrl();
+
 const Operation = ({ lightMode }) => {
   const [historicalData, setHistoricalData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -22,7 +29,7 @@ const Operation = ({ lightMode }) => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('http://localhost:8081/histenvoi')
+      fetch(`${API_URL}histenvoi`)
         .then(response => response.json())
         .then(data => setHistoricalData(data))
         .catch(error => console.error('Error fetching data:', error));

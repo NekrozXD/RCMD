@@ -539,3 +539,25 @@
 .user-dropdown{
   background-size: cover;
 }
+@media screen and (max-width: 414px) {
+  .sidebar {
+    transform: translateX(-150px);
+  }
+  .user-name{
+    display: none;
+  }
+  .user-dropdown{
+    width: 10vw;
+  }
+
+  .dropdown-content{
+    width: fit-content;
+  }
+}
+
+@media screen and (min-width: 415px) and (max-width: 1366px) {
+  .sidebar {
+    transform: translateX(-60px);
+  }
+  
+}
